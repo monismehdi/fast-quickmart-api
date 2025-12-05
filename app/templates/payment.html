@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickmart | Payment</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <a href="/shop" class="logo" aria-label="Quickmart home">
+        <span class="logo-mark"></span>
+        <span class="logo-text">quickmart</span>
+      </a>
+      <p>Select a safe payment option</p>
+    </div>
+    <div class="top-actions">
+      <span class="profile-pill">{{ user.email }}</span>
+      <a href="/profile" class="ghost-link">Profile</a>
+      <form action="/logout" method="post"><button type="submit" class="ghost">Logout</button></form>
+    </div>
+  </header>
+
+  <main class="payment-layout">
+    <section class="payment-card">
+      <h2>Choose how you want to pay</h2>
+      <form id="payment-form" action="/checkout" method="post">
+        <div class="payment-methods">
+          {% for method in payment_methods %}
+          <label class="payment-option">
+            <input type="radio" name="payment_mode" value="{{ method.id }}" {% if loop.first %}checked{% endif %} />
+            <div class="payment-option-body">
+              <strong>{{ method.label }}</strong>
+              <p>{{ method.discount_text }}</p>
+              <small>{{ method.description }}</small>
+            </div>
+          </label>
+          {% endfor %}
+        </div>
+
+        <div class="form-row align">
+          <label>
+            <span>Coupon code</span>
+            <input id="coupon-code" name="coupon_code" type="text" placeholder="WELCOME50" />
+          </label>
+          <button type="button" class="ghost" id="apply-coupon">Apply</button>
+        </div>
+        <input type="hidden" id="payment-pin" name="pin_code" />
+        <p id="pin-helper" class="muted"></p>
+        <p id="coupon-message" class="muted"></p>
+
+        <div class="summary-block">
+          <div class="summary-item">
+            <span>Subtotal</span>
+            <strong id="summary-subtotal">INR 0.00</strong>
+          </div>
+          <div class="summary-item">
+            <span>Coupon discount</span>
+            <strong id="summary-coupon">-INR 0.00</strong>
+          </div>
+          <div class="summary-item">
+            <span>Payment rebate</span>
+            <strong id="summary-payment">-INR 0.00</strong>
+          </div>
+          <div class="summary-item">
+            <span>Handling charge</span>
+            <strong id="summary-handling">INR 0.00</strong>
+          </div>
+          <div class="summary-item">
+            <span>Delivery fee</span>
+            <strong id="summary-delivery">INR 0.00</strong>
+          </div>
+          <div class="summary-item">
+            <span>Surge charge</span>
+            <strong id="summary-surge">INR 0.00</strong>
+          </div>
+          <div class="summary-item total">
+            <span>Final payment</span>
+            <strong id="final-amount">INR 0.00</strong>
+          </div>
+        </div>
+        <p id="delivery-note" class="muted"></p>
+        <p id="surge-note" class="muted"></p>
+        <button type="submit" class="checkout" id="confirm-payment">Confirm payment</button>
+      </form>
+    </section>
+
+    <section class="payment-info-card">
+      <article class="card promo-card">
+        <h3>Cart items</h3>
+        <ul class="cart-preview">
+          {% for item in cart_items %}
+          <li>
+            <img src="{{ item.image_url }}" alt="{{ item.name }}" />
+            <div>
+              <strong>{{ item.name }}</strong>
+              <p>{{ item.brand }}</p>
+              <small>{{ item.qty }} × INR {{ '%.2f'|format(item.price) }}</small>
+            </div>
+            <strong>INR {{ '%.2f'|format(item.subtotal) }}</strong>
+          </li>
+          {% endfor %}
+        </ul>
+      </article>
+
+      <article class="card promo-card">
+        <h3>Available coupons</h3>
+        <ul class="promo-list">
+          {% for coupon in coupons %}
+          <li>
+            <strong>{{ coupon.code }}</strong>
+            <span>{{ coupon.description }}</span>
+            <small>Min spend ₹{{ coupon.min_total }}</small>
+          </li>
+          {% endfor %}
+        </ul>
+      </article>
+
+      <article class="card promo-card">
+        <h3>Payment perks</h3>
+        <div class="perk-grid">
+          {% for method in payment_methods %}
+          <article class="perk-card">
+            <strong>{{ method.label }}</strong>
+            <p>{{ method.discount_text }}</p>
+            <small>{{ method.description }}</small>
+          </article>
+          {% endfor %}
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    window.CART_SUMMARY = {{ cart_payload | tojson }};
+    window.PAYMENT_CONFIG = {{ payment_payload | tojson }};
+  </script>
+  <script src="/static/js/payment.js"></script>
+</body>
+</html>

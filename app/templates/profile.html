@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickmart | Profile</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <a href="/shop" class="logo" aria-label="Quickmart home">
+        <span class="logo-mark"></span>
+        <span class="logo-text">quickmart</span>
+      </a>
+      <p>User profile and order history</p>
+    </div>
+    <div class="top-actions">
+      <a href="/shop" class="ghost-link">Shop</a>
+      <form action="/logout" method="post"><button type="submit" class="ghost">Logout</button></form>
+    </div>
+  </header>
+
+  <main class="profile-wrap">
+    <section class="profile-grid">
+      <article class="profile-card">
+        <h2 class="title-with-svg"><img src="/static/images/ui/profile.svg" alt="" class="ui-svg xs" /> Profile</h2>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Phone:</strong> {{ user.phone }}</p>
+        <p><strong>Age Group:</strong> {{ user.age_group }}</p>
+        <p><strong>Lifestyle:</strong> {{ user.lifestyle }}</p>
+        <p><strong>Personality:</strong> {{ user.personality }}</p>
+        <p><strong>App Usage:</strong> {{ user.app_usage }}</p>
+      </article>
+
+      <article class="profile-card">
+        <h2>Live Orders</h2>
+        <p class="muted">Statuses auto-refresh every 4 seconds. Use “Track” for detailed live updates.</p>
+        <div id="active-orders"></div>
+      </article>
+    </section>
+
+    <section class="profile-card">
+      <h2>Order History</h2>
+      <table class="history-table" id="orders-table">
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Placed At (UTC)</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Track</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for o in orders %}
+          <tr data-order-id="{{ o.id }}">
+            <td>{{ o.id }}</td>
+            <td>{{ o.created_at }}</td>
+            <td>{{ o["items"]|length }}</td>
+            <td>INR {{ '%.2f'|format(o.total) }}</td>
+            <td><span class="status-inline {{ o.status }}">{{ o.status }}</span></td>
+            <td><a href="/order/{{ o.id }}" class="ghost-link">Track</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="/static/js/profile.js"></script>
+</body>
+</html>

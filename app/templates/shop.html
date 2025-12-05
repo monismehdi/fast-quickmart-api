@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickmart | Shop</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <a href="/shop" class="logo" aria-label="Quickmart home">
+        <span class="logo-mark"></span>
+        <span class="logo-text">quickmart</span>
+      </a>
+      <p>Delivery in 30 minutes</p>
+    </div>
+    <div class="top-actions">
+      <span class="profile-pill">{{ user.email }}</span>
+      <a href="/profile" class="ghost-link">Profile</a>
+      <form action="/logout" method="post"><button type="submit" class="ghost">Logout</button></form>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="catalog">
+      <div>
+        <h2>Recommended for you</h2>
+        <div class="grid compact">
+          {% for p in recommendations %}
+          <article class="card rec">
+            <div class="product-media">
+              <a href="/product/{{ p.id }}" class="product-link-overlay" aria-label="View {{ p.name }} details"></a>
+              <img src="{{ p.image_url }}" alt="{{ p.name }}" class="product-image" loading="lazy" onload="handleImageLoad(this)" onerror="handleImageError(this)" />
+              <div class="product-fallback">
+                <strong>{{ p.name }}</strong>
+                <span>{{ p.brand }}</span>
+              </div>
+            </div>
+            <h3>{{ p.name }}</h3>
+            <p class="muted">{{ p.brand }}</p>
+            <p>INR {{ '%.2f'|format(p.price) }}</p>
+            <div class="card-actions">
+              <a href="/product/{{ p.id }}" class="ghost-link">Details</a>
+              <button onclick="addToCart('{{ p.id }}')">Add</button>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="search-filter-bar">
+        <div class="search-wrap">
+          <input id="search-input" type="search" placeholder="Search by product, brand, category..." autocomplete="off" />
+          <div id="search-suggestions" class="suggestion-box" hidden></div>
+        </div>
+        <label class="filter-select">
+          <span>Filter by brand</span>
+          <select id="brand-select">
+            <option value="all">All brands</option>
+          </select>
+        </label>
+        <label class="sort-wrap">
+          <span>Sort by</span>
+          <select id="sort-select">
+            <option value="relevance">Relevance</option>
+            <option value="price_low_high">Price: Low to High</option>
+            <option value="price_high_low">Price: High to Low</option>
+            <option value="discount_high_low">Discount: High to Low</option>
+            <option value="name_a_z">Name: A to Z</option>
+          </select>
+        </label>
+        <label class="stock-toggle">
+          <input id="in-stock-only" type="checkbox" />
+          <span>In stock only</span>
+        </label>
+      </div>
+      <div class="pin-row">
+        <label>
+          <span>Delivery PIN code (used for surge checks)</span>
+          <input id="home-pin" type="text" maxlength="6" pattern="[0-9]*" placeholder="560001" />
+        </label>
+        <small id="pin-feedback" class="muted">Set a PIN code to preview surge pricing.</small>
+        <div class="pin-hint">
+          Hot pins: {% for code, amt in surge_info.items() %}<strong>{{ code }}</strong> (+₹{{ amt }}){% if not loop.last %}, {% endif %}{% endfor %}. Surge waived on totals above ₹{{ surge_waiver_threshold }}.
+        </div>
+      </div>
+
+      <div class="filter-row">
+        <span class="filter-label">Categories</span>
+        <button class="chip active" data-filter="all" onclick="filterProducts('all', this)">All</button>
+        {% for c in categories %}
+        <button class="chip" data-filter="{{ c }}" onclick="filterProducts('{{ c }}', this)">{{ c }}</button>
+        {% endfor %}
+      </div>
+
+      <h2>All Products</h2>
+      <div class="grid" id="product-grid">
+        {% for p in products %}
+        <article class="card product-card" data-category="{{ p.category }}" data-name="{{ p.name|lower }}" data-brand="{{ p.brand|lower }}" data-brand-name="{{ p.brand }}" data-price="{{ p.price }}" data-stock="{{ p.stock }}" data-discount="{{ p.discount_pct or 0 }}">
+          <div class="product-media">
+            <a href="/product/{{ p.id }}" class="product-link-overlay" aria-label="View {{ p.name }} details"></a>
+            <img src="{{ p.image_url }}" alt="{{ p.name }}" class="product-image" loading="lazy" onload="handleImageLoad(this)" onerror="handleImageError(this)" />
+            <div class="product-fallback">
+              <strong>{{ p.name }}</strong>
+              <span>{{ p.brand }}</span>
+            </div>
+          </div>
+          <h3>{{ p.name }}</h3>
+          <p>{{ p.brand }} | {{ p.category }} | Stock: {{ p.stock }}</p>
+          <p>INR {{ '%.2f'|format(p.price) }} {% if p.discount_pct %}<small class="discount-badge">{{ p.discount_pct }}% off</small>{% endif %}</p>
+          <div class="card-actions">
+            <a href="/product/{{ p.id }}" class="ghost-link">Details</a>
+            <button onclick="addToCart('{{ p.id }}')">Add to cart</button>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      <div class="load-more-row">
+        <button id="load-more" type="button">Load more products</button>
+      </div>
+
+      <div class="bottom-recommendations">
+        <h2>Users like you ordered</h2>
+        <div class="grid compact">
+          {% for p in peer_recommendations %}
+          <article class="card rec other-user-rec">
+            <div class="product-media">
+              <a href="/product/{{ p.id }}" class="product-link-overlay" aria-label="View {{ p.name }} details"></a>
+              <img src="{{ p.image_url }}" alt="{{ p.name }}" class="product-image" loading="lazy" onload="handleImageLoad(this)" onerror="handleImageError(this)" />
+              <div class="product-fallback">
+                <strong>{{ p.name }}</strong>
+                <span>{{ p.brand }}</span>
+              </div>
+            </div>
+            <h3>{{ p.name }}</h3>
+            <p class="muted">{{ p.brand }}</p>
+            <p>INR {{ '%.2f'|format(p.price) }}</p>
+            <div class="card-actions">
+              <a href="/product/{{ p.id }}" class="ghost-link">Details</a>
+              <button onclick="addToCart('{{ p.id }}')">Add</button>
+            </div>
+          </article>
+          {% else %}
+          <article class="card rec other-user-rec">
+            <h3>More data coming soon</h3>
+            <p>Order a few items to unlock profile-based peer picks.</p>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <aside class="cart-panel">
+      <h2 class="title-with-svg"><img src="/static/images/ui/cart.svg" alt="" class="ui-svg xs" /> Your Cart</h2>
+      <div id="cart-items"></div>
+      <p id="cart-total">Total: INR 0.00</p>
+      <button id="checkout-btn" class="checkout">Checkout</button>
+      <p class="meta">If any item is missing, your order pauses for 2 minutes so you can decide.</p>
+    </aside>
+  </main>
+
+  <script>
+    window.SURGE_INFO = {{ surge_info | tojson }};
+    window.SURGE_WAIVER_THRESHOLD = {{ surge_waiver_threshold }};
+  </script>
+  <script src="/static/js/shop.js"></script>
+</body>
+</html>

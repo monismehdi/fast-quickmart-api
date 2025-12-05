@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickmart | {{ product.name }}</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <a href="/shop" class="logo" aria-label="Quickmart home">
+        <span class="logo-mark"></span>
+        <span class="logo-text">quickmart</span>
+      </a>
+      <p>Product details</p>
+    </div>
+    <div class="top-actions">
+      <span class="profile-pill">{{ user.email }}</span>
+      <a href="/shop" class="ghost-link">Back to shop</a>
+      <a href="/" class="ghost-link">Back to home</a>
+      <a href="/profile" class="ghost-link">Profile</a>
+    </div>
+  </header>
+
+  <main class="product-page">
+    <section class="product-gallery card">
+      <img id="main-image" src="{{ product.gallery_images[0] }}" alt="{{ product.name }}" class="product-main-image" />
+      <div class="thumb-row">
+        {% for img in product.gallery_images %}
+        <button class="thumb-btn{% if loop.index0 == 0 %} active{% endif %}" onclick="setMainImage('{{ img }}', this)">
+          <img src="{{ img }}" alt="{{ product.name }} image {{ loop.index }}" />
+        </button>
+        {% endfor %}
+      </div>
+      {% if product.image_credits %}
+      <details class="credit-box">
+        <summary>Image credits</summary>
+        <ul>
+          {% for c in product.image_credits %}
+          <li><a href="{{ c.attribution_url }}" target="_blank" rel="noopener">{{ c.title }}</a> by {{ c.creator }} ({{ c.license }})</li>
+          {% endfor %}
+        </ul>
+      </details>
+      {% endif %}
+    </section>
+
+    <section class="product-info card">
+      <p class="muted">{{ product.category }} | {{ product.brand }}</p>
+      <h1>{{ product.name }}</h1>
+      <p class="price-line">
+        <strong>INR {{ '%.2f'|format(product.price) }}</strong>
+        <span class="mrp">MRP INR {{ '%.2f'|format(product.mrp) }}</span>
+        <span class="discount">{{ product.discount_pct }}% OFF</span>
+      </p>
+      <p>{{ product.description }}</p>
+
+      <ul class="highlight-list">
+        {% for h in product.highlights %}
+        <li>{{ h }}</li>
+        {% endfor %}
+      </ul>
+
+      <div class="meta-grid">
+        <div><span>Unit</span><strong>{{ product.unit }}</strong></div>
+        <div><span>Shelf life</span><strong>{{ product.shelf_life }}</strong></div>
+        <div><span>Stock</span><strong>{{ product.stock }}</strong></div>
+        <div><span>Category</span><strong>{{ product.category }}</strong></div>
+      </div>
+
+      <div class="action-row">
+        <button onclick="addToCart('{{ product.id }}')">Add to cart</button>
+        <a href="/shop" class="ghost-link">Continue shopping</a>
+      </div>
+
+      {% if product.variants|length > 1 %}
+      <div class="variant-block">
+        <h3>Other variants available</h3>
+        <div class="variant-grid">
+          {% for v in product.variants %}
+          <a href="/product/{{ v.id }}" class="variant-card{% if v.id == product.id %} active{% endif %}">
+            <img src="{{ v.image_url }}" alt="{{ v.name }}" />
+            <div>
+              <strong>{{ v.brand }}</strong>
+              <small>INR {{ '%.2f'|format(v.price) }}</small>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </section>
+  </main>
+
+  <script>
+    function setMainImage(url, btn) {
+      document.getElementById('main-image').src = url;
+      document.querySelectorAll('.thumb-btn').forEach((el) => el.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    async function addToCart(productId) {
+      const fd = new FormData();
+      fd.append('product_id', productId);
+      fd.append('qty', '1');
+      const res = await fetch('/cart/add', { method: 'POST', body: fd });
+      if (!res.ok) {
+        alert('Unable to add product right now.');
+        return;
+      }
+      alert('Added to cart');
+    }
+  </script>
+</body>
+</html>

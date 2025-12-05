@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickmart | Login</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body class="auth-page">
+  <main class="auth-wrap">
+    <section class="brand-panel">
+      <a href="/" class="logo" aria-label="Quickmart home">
+        <span class="logo-mark"></span>
+        <span class="logo-text">quickmart</span>
+      </a>
+      <p>Groceries in 30 minutes. Live packing updates. Smart replacements.</p>
+      <img src="/static/images/ui/hero.svg" alt="Quickmart delivery illustration" class="hero-svg" />
+    </section>
+
+    <section class="auth-panel">
+      <div class="tabs">
+        <button class="tab active" data-target="login-form">Login</button>
+        <button class="tab" data-target="signup-form">Create Account</button>
+      </div>
+
+      <form id="login-form" class="auth-form active">
+        <h2>Welcome back</h2>
+        <input name="email" type="email" placeholder="Email" required />
+        <input name="password" type="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+
+      <form id="signup-form" class="auth-form">
+        <h2>Create account</h2>
+        <input name="email" type="email" placeholder="Email" required />
+        <input name="phone" type="tel" placeholder="Phone" required />
+        <input name="password" type="password" placeholder="Password" required />
+        <select name="age_group" required>
+          <option value="">Age Group</option>
+          <option>18-25</option><option>26-35</option><option>36-50</option><option>50+</option>
+        </select>
+        <select name="lifestyle" required>
+          <option value="">Lifestyle</option>
+          <option>Fitness</option><option>Family</option><option>Busy Professional</option><option>Student</option>
+        </select>
+        <select name="personality" required>
+          <option value="">Personality</option>
+          <option>Planner</option><option>Spontaneous</option><option>Value Seeker</option><option>Premium Buyer</option>
+        </select>
+        <select name="app_usage" required>
+          <option value="">App Usage</option>
+          <option>Daily</option><option>Weekly</option><option>Weekend</option>
+        </select>
+        <button type="submit">Create account</button>
+      </form>
+      <p id="auth-error" class="error"></p>
+    </section>
+  </main>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const forms = document.querySelectorAll('.auth-form');
+    const err = document.getElementById('auth-error');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        forms.forEach(f => f.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.target).classList.add('active');
+        err.textContent = '';
+      });
+    });
+
+    async function submitForm(form, endpoint) {
+      const fd = new FormData(form);
+      const res = await fetch(endpoint, { method: 'POST', body: fd });
+      const data = await res.json();
+      if (!res.ok) {
+        err.textContent = data.error || 'Something went wrong';
+        return;
+      }
+      location.href = '/shop';
+    }
+
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitForm(e.target, '/login');
+    });
+
+    document.getElementById('signup-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitForm(e.target, '/signup');
+    });
+  </script>
+</body>
+</html>

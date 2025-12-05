@@ -1,0 +1,2410 @@
+[
+  {
+    "id": "p1",
+    "name": "Organic Bananas",
+    "brand": "FreshFarm",
+    "product_key": "bananas",
+    "category": "Fruits",
+    "price": 49.0,
+    "stock": 50,
+    "image_url": "/static/images/products/p1.svg",
+    "mrp": 59.78,
+    "discount_pct": 18,
+    "shelf_life": "3-7 days (refrigerated after cutting)",
+    "unit": "500 g pack",
+    "description": "Organic Bananas by FreshFarm is sourced for reliable quality and value. Ideal for everyday fruits needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Freshly sourced",
+      "Handpicked quality",
+      "No artificial polish"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?bananas&sig=p1-1",
+      "https://source.unsplash.com/1200x900/?bananas&sig=p1-2",
+      "https://source.unsplash.com/1200x900/?bananas&sig=p1-3",
+      "https://source.unsplash.com/1200x900/?bananas&sig=p1-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Organic Bananas photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Organic Bananas photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Organic Bananas photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Organic Bananas photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p2",
+    "name": "Organic Bananas",
+    "brand": "NatureNest",
+    "product_key": "bananas",
+    "category": "Fruits",
+    "price": 54.0,
+    "stock": 44,
+    "image_url": "/static/images/products/p2.svg",
+    "mrp": 65.88,
+    "discount_pct": 18,
+    "shelf_life": "3-7 days (refrigerated after cutting)",
+    "unit": "500 g pack",
+    "description": "Organic Bananas by NatureNest is sourced for reliable quality and value. Ideal for everyday fruits needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Freshly sourced",
+      "Handpicked quality",
+      "No artificial polish"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?bananas&sig=p2-1",
+      "https://source.unsplash.com/1200x900/?bananas&sig=p2-2",
+      "https://source.unsplash.com/1200x900/?bananas&sig=p2-3",
+      "https://source.unsplash.com/1200x900/?bananas&sig=p2-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Organic Bananas photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Organic Bananas photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Organic Bananas photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Organic Bananas photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p3",
+    "name": "Avocado",
+    "brand": "GreenValley",
+    "product_key": "avocado",
+    "category": "Fruits",
+    "price": 129.0,
+    "stock": 40,
+    "image_url": "/static/images/products/p3.svg",
+    "mrp": 157.38,
+    "discount_pct": 18,
+    "shelf_life": "3-7 days (refrigerated after cutting)",
+    "unit": "500 g pack",
+    "description": "Avocado by GreenValley is sourced for reliable quality and value. Ideal for everyday fruits needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Freshly sourced",
+      "Handpicked quality",
+      "No artificial polish"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?avocado&sig=p3-1",
+      "https://source.unsplash.com/1200x900/?avocado&sig=p3-2",
+      "https://source.unsplash.com/1200x900/?avocado&sig=p3-3",
+      "https://source.unsplash.com/1200x900/?avocado&sig=p3-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Avocado photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Avocado photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Avocado photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Avocado photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p4",
+    "name": "Avocado",
+    "brand": "FarmGold",
+    "product_key": "avocado",
+    "category": "Fruits",
+    "price": 124.0,
+    "stock": 35,
+    "image_url": "/static/images/products/p4.svg",
+    "mrp": 151.28,
+    "discount_pct": 18,
+    "shelf_life": "3-7 days (refrigerated after cutting)",
+    "unit": "500 g pack",
+    "description": "Avocado by FarmGold is sourced for reliable quality and value. Ideal for everyday fruits needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Freshly sourced",
+      "Handpicked quality",
+      "No artificial polish"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?avocado&sig=p4-1",
+      "https://source.unsplash.com/1200x900/?avocado&sig=p4-2",
+      "https://source.unsplash.com/1200x900/?avocado&sig=p4-3",
+      "https://source.unsplash.com/1200x900/?avocado&sig=p4-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Avocado photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Avocado photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Avocado photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Avocado photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p5",
+    "name": "Greek Yogurt",
+    "brand": "MilkyWay",
+    "product_key": "greek_yogurt",
+    "category": "Dairy",
+    "price": 95.0,
+    "stock": 35,
+    "image_url": "/static/images/products/p5.svg",
+    "mrp": 115.9,
+    "discount_pct": 18,
+    "shelf_life": "5-10 days (keep refrigerated)",
+    "unit": "400-500 g pack",
+    "description": "Greek Yogurt by MilkyWay is sourced for reliable quality and value. Ideal for everyday dairy needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Cold-chain maintained",
+      "Fresh lot dispatch",
+      "High protein value"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?greek+yogurt&sig=p5-1",
+      "https://source.unsplash.com/1200x900/?greek+yogurt&sig=p5-2",
+      "https://source.unsplash.com/1200x900/?greek+yogurt&sig=p5-3",
+      "https://source.unsplash.com/1200x900/?greek+yogurt&sig=p5-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Greek Yogurt photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Greek Yogurt photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Greek Yogurt photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Greek Yogurt photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p6",
+    "name": "Greek Yogurt",
+    "brand": "DailyDairy",
+    "product_key": "greek_yogurt",
+    "category": "Dairy",
+    "price": 89.0,
+    "stock": 28,
+    "image_url": "/static/images/products/p6.svg",
+    "mrp": 108.58,
+    "discount_pct": 18,
+    "shelf_life": "5-10 days (keep refrigerated)",
+    "unit": "400-500 g pack",
+    "description": "Greek Yogurt by DailyDairy is sourced for reliable quality and value. Ideal for everyday dairy needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Cold-chain maintained",
+      "Fresh lot dispatch",
+      "High protein value"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?greek+yogurt&sig=p6-1",
+      "https://source.unsplash.com/1200x900/?greek+yogurt&sig=p6-2",
+      "https://source.unsplash.com/1200x900/?greek+yogurt&sig=p6-3",
+      "https://source.unsplash.com/1200x900/?greek+yogurt&sig=p6-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Greek Yogurt photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Greek Yogurt photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Greek Yogurt photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Greek Yogurt photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p7",
+    "name": "Almond Milk",
+    "brand": "NutriSip",
+    "product_key": "almond_milk",
+    "category": "Dairy",
+    "price": 240.0,
+    "stock": 25,
+    "image_url": "/static/images/products/p7.svg",
+    "mrp": 292.8,
+    "discount_pct": 18,
+    "shelf_life": "5-10 days (keep refrigerated)",
+    "unit": "400-500 g pack",
+    "description": "Almond Milk by NutriSip is sourced for reliable quality and value. Ideal for everyday dairy needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Cold-chain maintained",
+      "Fresh lot dispatch",
+      "High protein value"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?almond+milk&sig=p7-1",
+      "https://source.unsplash.com/1200x900/?almond+milk&sig=p7-2",
+      "https://source.unsplash.com/1200x900/?almond+milk&sig=p7-3",
+      "https://source.unsplash.com/1200x900/?almond+milk&sig=p7-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Almond Milk photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Almond Milk photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Almond Milk photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Almond Milk photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p8",
+    "name": "Almond Milk",
+    "brand": "PureNut",
+    "product_key": "almond_milk",
+    "category": "Dairy",
+    "price": 228.0,
+    "stock": 31,
+    "image_url": "/static/images/products/p8.svg",
+    "mrp": 278.16,
+    "discount_pct": 18,
+    "shelf_life": "5-10 days (keep refrigerated)",
+    "unit": "400-500 g pack",
+    "description": "Almond Milk by PureNut is sourced for reliable quality and value. Ideal for everyday dairy needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Cold-chain maintained",
+      "Fresh lot dispatch",
+      "High protein value"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?almond+milk&sig=p8-1",
+      "https://source.unsplash.com/1200x900/?almond+milk&sig=p8-2",
+      "https://source.unsplash.com/1200x900/?almond+milk&sig=p8-3",
+      "https://source.unsplash.com/1200x900/?almond+milk&sig=p8-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Almond Milk photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Almond Milk photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Almond Milk photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Almond Milk photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p9",
+    "name": "Whole Wheat Bread",
+    "brand": "OvenFresh",
+    "product_key": "whole_wheat_bread",
+    "category": "Bakery",
+    "price": 65.0,
+    "stock": 30,
+    "image_url": "/static/images/products/p9.svg",
+    "mrp": 79.3,
+    "discount_pct": 18,
+    "shelf_life": "2-5 days (airtight)",
+    "unit": "1 loaf / 400 g",
+    "description": "Whole Wheat Bread by OvenFresh is sourced for reliable quality and value. Ideal for everyday bakery needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Baked in small batches",
+      "Soft texture",
+      "Ready to serve"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?whole+wheat+bread&sig=p9-1",
+      "https://source.unsplash.com/1200x900/?whole+wheat+bread&sig=p9-2",
+      "https://source.unsplash.com/1200x900/?whole+wheat+bread&sig=p9-3",
+      "https://source.unsplash.com/1200x900/?whole+wheat+bread&sig=p9-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Whole Wheat Bread photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Whole Wheat Bread photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Whole Wheat Bread photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Whole Wheat Bread photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p10",
+    "name": "Whole Wheat Bread",
+    "brand": "BakeHouse",
+    "product_key": "whole_wheat_bread",
+    "category": "Bakery",
+    "price": 72.0,
+    "stock": 24,
+    "image_url": "/static/images/products/p10.svg",
+    "mrp": 87.84,
+    "discount_pct": 18,
+    "shelf_life": "2-5 days (airtight)",
+    "unit": "1 loaf / 400 g",
+    "description": "Whole Wheat Bread by BakeHouse is sourced for reliable quality and value. Ideal for everyday bakery needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Baked in small batches",
+      "Soft texture",
+      "Ready to serve"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?whole+wheat+bread&sig=p10-1",
+      "https://source.unsplash.com/1200x900/?whole+wheat+bread&sig=p10-2",
+      "https://source.unsplash.com/1200x900/?whole+wheat+bread&sig=p10-3",
+      "https://source.unsplash.com/1200x900/?whole+wheat+bread&sig=p10-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Whole Wheat Bread photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Whole Wheat Bread photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Whole Wheat Bread photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Whole Wheat Bread photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p11",
+    "name": "Free Range Eggs",
+    "brand": "CountryHen",
+    "product_key": "eggs",
+    "category": "Dairy",
+    "price": 115.0,
+    "stock": 20,
+    "image_url": "/static/images/products/p11.svg",
+    "mrp": 140.3,
+    "discount_pct": 18,
+    "shelf_life": "5-10 days (keep refrigerated)",
+    "unit": "400-500 g pack",
+    "description": "Free Range Eggs by CountryHen is sourced for reliable quality and value. Ideal for everyday dairy needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Cold-chain maintained",
+      "Fresh lot dispatch",
+      "High protein value"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?eggs&sig=p11-1",
+      "https://source.unsplash.com/1200x900/?eggs&sig=p11-2",
+      "https://source.unsplash.com/1200x900/?eggs&sig=p11-3",
+      "https://source.unsplash.com/1200x900/?eggs&sig=p11-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Free Range Eggs photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Free Range Eggs photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Free Range Eggs photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Free Range Eggs photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p12",
+    "name": "Free Range Eggs",
+    "brand": "SunriseFarm",
+    "product_key": "eggs",
+    "category": "Dairy",
+    "price": 109.0,
+    "stock": 26,
+    "image_url": "/static/images/products/p12.svg",
+    "mrp": 132.98,
+    "discount_pct": 18,
+    "shelf_life": "5-10 days (keep refrigerated)",
+    "unit": "400-500 g pack",
+    "description": "Free Range Eggs by SunriseFarm is sourced for reliable quality and value. Ideal for everyday dairy needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Cold-chain maintained",
+      "Fresh lot dispatch",
+      "High protein value"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?eggs&sig=p12-1",
+      "https://source.unsplash.com/1200x900/?eggs&sig=p12-2",
+      "https://source.unsplash.com/1200x900/?eggs&sig=p12-3",
+      "https://source.unsplash.com/1200x900/?eggs&sig=p12-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Free Range Eggs photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Free Range Eggs photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Free Range Eggs photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Free Range Eggs photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p13",
+    "name": "Protein Bar",
+    "brand": "FitFuel",
+    "product_key": "protein_bar",
+    "category": "Snacks",
+    "price": 60.0,
+    "stock": 60,
+    "image_url": "/static/images/products/p13.svg",
+    "mrp": 73.2,
+    "discount_pct": 18,
+    "shelf_life": "4-6 months (cool and dry)",
+    "unit": "200 g pack",
+    "description": "Protein Bar by FitFuel is sourced for reliable quality and value. Ideal for everyday snacks needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Travel friendly",
+      "Sealed freshness",
+      "Great for quick hunger"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?protein+bar&sig=p13-1",
+      "https://source.unsplash.com/1200x900/?protein+bar&sig=p13-2",
+      "https://source.unsplash.com/1200x900/?protein+bar&sig=p13-3",
+      "https://source.unsplash.com/1200x900/?protein+bar&sig=p13-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Protein Bar photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Protein Bar photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Protein Bar photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Protein Bar photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p14",
+    "name": "Protein Bar",
+    "brand": "MuscleMint",
+    "product_key": "protein_bar",
+    "category": "Snacks",
+    "price": 66.0,
+    "stock": 48,
+    "image_url": "/static/images/products/p14.svg",
+    "mrp": 80.52,
+    "discount_pct": 18,
+    "shelf_life": "4-6 months (cool and dry)",
+    "unit": "200 g pack",
+    "description": "Protein Bar by MuscleMint is sourced for reliable quality and value. Ideal for everyday snacks needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Travel friendly",
+      "Sealed freshness",
+      "Great for quick hunger"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?protein+bar&sig=p14-1",
+      "https://source.unsplash.com/1200x900/?protein+bar&sig=p14-2",
+      "https://source.unsplash.com/1200x900/?protein+bar&sig=p14-3",
+      "https://source.unsplash.com/1200x900/?protein+bar&sig=p14-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Protein Bar photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Protein Bar photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Protein Bar photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Protein Bar photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p15",
+    "name": "Roasted Coffee",
+    "brand": "BeanCraft",
+    "product_key": "roasted_coffee",
+    "category": "Beverages",
+    "price": 320.0,
+    "stock": 20,
+    "image_url": "/static/images/products/p15.svg",
+    "mrp": 390.4,
+    "discount_pct": 18,
+    "shelf_life": "6-12 months (unopened)",
+    "unit": "250-500 g pack",
+    "description": "Roasted Coffee by BeanCraft is sourced for reliable quality and value. Ideal for everyday beverages needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Rich aroma",
+      "Premium blend",
+      "Easy preparation"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?coffee+beans&sig=p15-1",
+      "https://source.unsplash.com/1200x900/?coffee+beans&sig=p15-2",
+      "https://source.unsplash.com/1200x900/?coffee+beans&sig=p15-3",
+      "https://source.unsplash.com/1200x900/?coffee+beans&sig=p15-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Roasted Coffee photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Roasted Coffee photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Roasted Coffee photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Roasted Coffee photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p16",
+    "name": "Roasted Coffee",
+    "brand": "DarkRoast",
+    "product_key": "roasted_coffee",
+    "category": "Beverages",
+    "price": 305.0,
+    "stock": 27,
+    "image_url": "/static/images/products/p16.svg",
+    "mrp": 372.1,
+    "discount_pct": 18,
+    "shelf_life": "6-12 months (unopened)",
+    "unit": "250-500 g pack",
+    "description": "Roasted Coffee by DarkRoast is sourced for reliable quality and value. Ideal for everyday beverages needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Rich aroma",
+      "Premium blend",
+      "Easy preparation"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?coffee+beans&sig=p16-1",
+      "https://source.unsplash.com/1200x900/?coffee+beans&sig=p16-2",
+      "https://source.unsplash.com/1200x900/?coffee+beans&sig=p16-3",
+      "https://source.unsplash.com/1200x900/?coffee+beans&sig=p16-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Roasted Coffee photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Roasted Coffee photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Roasted Coffee photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Roasted Coffee photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p17",
+    "name": "Green Tea",
+    "brand": "LeafAura",
+    "product_key": "green_tea",
+    "category": "Beverages",
+    "price": 140.0,
+    "stock": 35,
+    "image_url": "/static/images/products/p17.svg",
+    "mrp": 170.8,
+    "discount_pct": 18,
+    "shelf_life": "6-12 months (unopened)",
+    "unit": "250-500 g pack",
+    "description": "Green Tea by LeafAura is sourced for reliable quality and value. Ideal for everyday beverages needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Rich aroma",
+      "Premium blend",
+      "Easy preparation"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?green+tea&sig=p17-1",
+      "https://source.unsplash.com/1200x900/?green+tea&sig=p17-2",
+      "https://source.unsplash.com/1200x900/?green+tea&sig=p17-3",
+      "https://source.unsplash.com/1200x900/?green+tea&sig=p17-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Green Tea photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Green Tea photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Green Tea photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Green Tea photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p18",
+    "name": "Green Tea",
+    "brand": "TeaValley",
+    "product_key": "green_tea",
+    "category": "Beverages",
+    "price": 132.0,
+    "stock": 29,
+    "image_url": "/static/images/products/p18.svg",
+    "mrp": 161.04,
+    "discount_pct": 18,
+    "shelf_life": "6-12 months (unopened)",
+    "unit": "250-500 g pack",
+    "description": "Green Tea by TeaValley is sourced for reliable quality and value. Ideal for everyday beverages needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Rich aroma",
+      "Premium blend",
+      "Easy preparation"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?green+tea&sig=p18-1",
+      "https://source.unsplash.com/1200x900/?green+tea&sig=p18-2",
+      "https://source.unsplash.com/1200x900/?green+tea&sig=p18-3",
+      "https://source.unsplash.com/1200x900/?green+tea&sig=p18-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Green Tea photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Green Tea photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Green Tea photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Green Tea photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p19",
+    "name": "Trail Mix",
+    "brand": "NutCrunch",
+    "product_key": "trail_mix",
+    "category": "Snacks",
+    "price": 180.0,
+    "stock": 42,
+    "image_url": "/static/images/products/p19.svg",
+    "mrp": 219.6,
+    "discount_pct": 18,
+    "shelf_life": "4-6 months (cool and dry)",
+    "unit": "200 g pack",
+    "description": "Trail Mix by NutCrunch is sourced for reliable quality and value. Ideal for everyday snacks needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Travel friendly",
+      "Sealed freshness",
+      "Great for quick hunger"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?trail+mix&sig=p19-1",
+      "https://source.unsplash.com/1200x900/?trail+mix&sig=p19-2",
+      "https://source.unsplash.com/1200x900/?trail+mix&sig=p19-3",
+      "https://source.unsplash.com/1200x900/?trail+mix&sig=p19-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Trail Mix photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Trail Mix photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Trail Mix photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Trail Mix photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p20",
+    "name": "Trail Mix",
+    "brand": "SnackRoot",
+    "product_key": "trail_mix",
+    "category": "Snacks",
+    "price": 172.0,
+    "stock": 38,
+    "image_url": "/static/images/products/p20.svg",
+    "mrp": 209.84,
+    "discount_pct": 18,
+    "shelf_life": "4-6 months (cool and dry)",
+    "unit": "200 g pack",
+    "description": "Trail Mix by SnackRoot is sourced for reliable quality and value. Ideal for everyday snacks needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Travel friendly",
+      "Sealed freshness",
+      "Great for quick hunger"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?trail+mix&sig=p20-1",
+      "https://source.unsplash.com/1200x900/?trail+mix&sig=p20-2",
+      "https://source.unsplash.com/1200x900/?trail+mix&sig=p20-3",
+      "https://source.unsplash.com/1200x900/?trail+mix&sig=p20-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Trail Mix photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Trail Mix photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Trail Mix photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Trail Mix photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p21",
+    "name": "Classic Oats",
+    "brand": "HealthyHarvest",
+    "product_key": "oats",
+    "category": "Breakfast",
+    "price": 85.0,
+    "stock": 50,
+    "image_url": "/static/images/products/p21.svg",
+    "mrp": 103.7,
+    "discount_pct": 18,
+    "shelf_life": "6-9 months (airtight)",
+    "unit": "500 g pack",
+    "description": "Classic Oats by HealthyHarvest is sourced for reliable quality and value. Ideal for everyday breakfast needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "High fiber",
+      "Quick breakfast option",
+      "Balanced nutrition"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?oats+bowl&sig=p21-1",
+      "https://source.unsplash.com/1200x900/?oats+bowl&sig=p21-2",
+      "https://source.unsplash.com/1200x900/?oats+bowl&sig=p21-3",
+      "https://source.unsplash.com/1200x900/?oats+bowl&sig=p21-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Classic Oats photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Classic Oats photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Classic Oats photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Classic Oats photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p22",
+    "name": "Classic Oats",
+    "brand": "GrainGold",
+    "product_key": "oats",
+    "category": "Breakfast",
+    "price": 79.0,
+    "stock": 43,
+    "image_url": "/static/images/products/p22.svg",
+    "mrp": 96.38,
+    "discount_pct": 18,
+    "shelf_life": "6-9 months (airtight)",
+    "unit": "500 g pack",
+    "description": "Classic Oats by GrainGold is sourced for reliable quality and value. Ideal for everyday breakfast needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "High fiber",
+      "Quick breakfast option",
+      "Balanced nutrition"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?oats+bowl&sig=p22-1",
+      "https://source.unsplash.com/1200x900/?oats+bowl&sig=p22-2",
+      "https://source.unsplash.com/1200x900/?oats+bowl&sig=p22-3",
+      "https://source.unsplash.com/1200x900/?oats+bowl&sig=p22-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Classic Oats photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Classic Oats photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Classic Oats photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Classic Oats photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p23",
+    "name": "Peanut Butter",
+    "brand": "NutHub",
+    "product_key": "peanut_butter",
+    "category": "Spreads",
+    "price": 210.0,
+    "stock": 34,
+    "image_url": "/static/images/products/p23.svg",
+    "mrp": 256.2,
+    "discount_pct": 18,
+    "shelf_life": "4-8 months (refrigerate after opening)",
+    "unit": "340 g jar",
+    "description": "Peanut Butter by NutHub is sourced for reliable quality and value. Ideal for everyday spreads needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Creamy texture",
+      "Protein rich",
+      "No trans fat"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?peanut+butter&sig=p23-1",
+      "https://source.unsplash.com/1200x900/?peanut+butter&sig=p23-2",
+      "https://source.unsplash.com/1200x900/?peanut+butter&sig=p23-3",
+      "https://source.unsplash.com/1200x900/?peanut+butter&sig=p23-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Peanut Butter photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Peanut Butter photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Peanut Butter photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Peanut Butter photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p24",
+    "name": "Peanut Butter",
+    "brand": "CreamNest",
+    "product_key": "peanut_butter",
+    "category": "Spreads",
+    "price": 198.0,
+    "stock": 29,
+    "image_url": "/static/images/products/p24.svg",
+    "mrp": 241.56,
+    "discount_pct": 18,
+    "shelf_life": "4-8 months (refrigerate after opening)",
+    "unit": "340 g jar",
+    "description": "Peanut Butter by CreamNest is sourced for reliable quality and value. Ideal for everyday spreads needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Creamy texture",
+      "Protein rich",
+      "No trans fat"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?peanut+butter&sig=p24-1",
+      "https://source.unsplash.com/1200x900/?peanut+butter&sig=p24-2",
+      "https://source.unsplash.com/1200x900/?peanut+butter&sig=p24-3",
+      "https://source.unsplash.com/1200x900/?peanut+butter&sig=p24-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Peanut Butter photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Peanut Butter photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Peanut Butter photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Peanut Butter photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p25",
+    "name": "Tomato",
+    "brand": "GreenHarvest",
+    "product_key": "tomato",
+    "category": "Vegetables",
+    "price": 38.0,
+    "stock": 80,
+    "image_url": "/static/images/products/p25.svg",
+    "mrp": 46.36,
+    "discount_pct": 18,
+    "shelf_life": "4-8 days (refrigerated)",
+    "unit": "500 g pack",
+    "description": "Tomato by GreenHarvest is sourced for reliable quality and value. Ideal for everyday vegetables needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Farm fresh produce",
+      "Sorted by quality",
+      "Daily stock rotation"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?tomato&sig=p25-1",
+      "https://source.unsplash.com/1200x900/?tomato&sig=p25-2",
+      "https://source.unsplash.com/1200x900/?tomato&sig=p25-3",
+      "https://source.unsplash.com/1200x900/?tomato&sig=p25-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Tomato photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Tomato photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Tomato photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Tomato photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p26",
+    "name": "Potato",
+    "brand": "FarmRoot",
+    "product_key": "potato",
+    "category": "Vegetables",
+    "price": 32.0,
+    "stock": 95,
+    "image_url": "/static/images/products/p26.svg",
+    "mrp": 39.04,
+    "discount_pct": 18,
+    "shelf_life": "4-8 days (refrigerated)",
+    "unit": "500 g pack",
+    "description": "Potato by FarmRoot is sourced for reliable quality and value. Ideal for everyday vegetables needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Farm fresh produce",
+      "Sorted by quality",
+      "Daily stock rotation"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?potato&sig=p26-1",
+      "https://source.unsplash.com/1200x900/?potato&sig=p26-2",
+      "https://source.unsplash.com/1200x900/?potato&sig=p26-3",
+      "https://source.unsplash.com/1200x900/?potato&sig=p26-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Potato photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Potato photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Potato photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Potato photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p27",
+    "name": "Onion",
+    "brand": "FreshPatch",
+    "product_key": "onion",
+    "category": "Vegetables",
+    "price": 42.0,
+    "stock": 78,
+    "image_url": "/static/images/products/p27.svg",
+    "mrp": 51.24,
+    "discount_pct": 18,
+    "shelf_life": "4-8 days (refrigerated)",
+    "unit": "500 g pack",
+    "description": "Onion by FreshPatch is sourced for reliable quality and value. Ideal for everyday vegetables needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Farm fresh produce",
+      "Sorted by quality",
+      "Daily stock rotation"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?onion&sig=p27-1",
+      "https://source.unsplash.com/1200x900/?onion&sig=p27-2",
+      "https://source.unsplash.com/1200x900/?onion&sig=p27-3",
+      "https://source.unsplash.com/1200x900/?onion&sig=p27-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Onion photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Onion photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Onion photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Onion photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p28",
+    "name": "Spinach",
+    "brand": "LeafyLane",
+    "product_key": "spinach",
+    "category": "Vegetables",
+    "price": 28.0,
+    "stock": 60,
+    "image_url": "/static/images/products/p28.svg",
+    "mrp": 34.16,
+    "discount_pct": 18,
+    "shelf_life": "4-8 days (refrigerated)",
+    "unit": "500 g pack",
+    "description": "Spinach by LeafyLane is sourced for reliable quality and value. Ideal for everyday vegetables needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Farm fresh produce",
+      "Sorted by quality",
+      "Daily stock rotation"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?spinach&sig=p28-1",
+      "https://source.unsplash.com/1200x900/?spinach&sig=p28-2",
+      "https://source.unsplash.com/1200x900/?spinach&sig=p28-3",
+      "https://source.unsplash.com/1200x900/?spinach&sig=p28-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Spinach photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Spinach photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Spinach photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Spinach photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p29",
+    "name": "Mango",
+    "brand": "SunOrchard",
+    "product_key": "mango",
+    "category": "Fruits",
+    "price": 149.0,
+    "stock": 33,
+    "image_url": "/static/images/products/p29.svg",
+    "mrp": 181.78,
+    "discount_pct": 18,
+    "shelf_life": "3-7 days (refrigerated after cutting)",
+    "unit": "500 g pack",
+    "description": "Mango by SunOrchard is sourced for reliable quality and value. Ideal for everyday fruits needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Freshly sourced",
+      "Handpicked quality",
+      "No artificial polish"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?mango&sig=p29-1",
+      "https://source.unsplash.com/1200x900/?mango&sig=p29-2",
+      "https://source.unsplash.com/1200x900/?mango&sig=p29-3",
+      "https://source.unsplash.com/1200x900/?mango&sig=p29-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Mango photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Mango photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Mango photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Mango photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p30",
+    "name": "Apple",
+    "brand": "HillFresh",
+    "product_key": "apple",
+    "category": "Fruits",
+    "price": 165.0,
+    "stock": 41,
+    "image_url": "/static/images/products/p30.svg",
+    "mrp": 201.3,
+    "discount_pct": 18,
+    "shelf_life": "3-7 days (refrigerated after cutting)",
+    "unit": "500 g pack",
+    "description": "Apple by HillFresh is sourced for reliable quality and value. Ideal for everyday fruits needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Freshly sourced",
+      "Handpicked quality",
+      "No artificial polish"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?apple+fruit&sig=p30-1",
+      "https://source.unsplash.com/1200x900/?apple+fruit&sig=p30-2",
+      "https://source.unsplash.com/1200x900/?apple+fruit&sig=p30-3",
+      "https://source.unsplash.com/1200x900/?apple+fruit&sig=p30-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Apple photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Apple photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Apple photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Apple photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p31",
+    "name": "Basmati Rice",
+    "brand": "GrainVale",
+    "product_key": "basmati_rice",
+    "category": "Grains",
+    "price": 125.0,
+    "stock": 55,
+    "image_url": "/static/images/products/p31.svg",
+    "mrp": 152.5,
+    "discount_pct": 18,
+    "shelf_life": "8-12 months (cool and dry)",
+    "unit": "1 kg pack",
+    "description": "Basmati Rice by GrainVale is sourced for reliable quality and value. Ideal for everyday grains needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Clean and sorted grains",
+      "Low impurity",
+      "Kitchen staple"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?basmati+rice&sig=p31-1",
+      "https://source.unsplash.com/1200x900/?basmati+rice&sig=p31-2",
+      "https://source.unsplash.com/1200x900/?basmati+rice&sig=p31-3",
+      "https://source.unsplash.com/1200x900/?basmati+rice&sig=p31-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Basmati Rice photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Basmati Rice photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Basmati Rice photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Basmati Rice photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p32",
+    "name": "Toor Dal",
+    "brand": "PulsePure",
+    "product_key": "toor_dal",
+    "category": "Grains",
+    "price": 138.0,
+    "stock": 49,
+    "image_url": "/static/images/products/p32.svg",
+    "mrp": 168.36,
+    "discount_pct": 18,
+    "shelf_life": "8-12 months (cool and dry)",
+    "unit": "1 kg pack",
+    "description": "Toor Dal by PulsePure is sourced for reliable quality and value. Ideal for everyday grains needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Clean and sorted grains",
+      "Low impurity",
+      "Kitchen staple"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?lentils&sig=p32-1",
+      "https://source.unsplash.com/1200x900/?lentils&sig=p32-2",
+      "https://source.unsplash.com/1200x900/?lentils&sig=p32-3",
+      "https://source.unsplash.com/1200x900/?lentils&sig=p32-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Toor Dal photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Toor Dal photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Toor Dal photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Toor Dal photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p33",
+    "name": "Quinoa",
+    "brand": "NutriGrain",
+    "product_key": "quinoa",
+    "category": "Grains",
+    "price": 220.0,
+    "stock": 32,
+    "image_url": "/static/images/products/p33.svg",
+    "mrp": 268.4,
+    "discount_pct": 18,
+    "shelf_life": "8-12 months (cool and dry)",
+    "unit": "1 kg pack",
+    "description": "Quinoa by NutriGrain is sourced for reliable quality and value. Ideal for everyday grains needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Clean and sorted grains",
+      "Low impurity",
+      "Kitchen staple"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?quinoa&sig=p33-1",
+      "https://source.unsplash.com/1200x900/?quinoa&sig=p33-2",
+      "https://source.unsplash.com/1200x900/?quinoa&sig=p33-3",
+      "https://source.unsplash.com/1200x900/?quinoa&sig=p33-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Quinoa photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Quinoa photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Quinoa photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Quinoa photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p34",
+    "name": "Dishwash Liquid",
+    "brand": "SparkleDrop",
+    "product_key": "dishwash_liquid",
+    "category": "Essentials",
+    "price": 95.0,
+    "stock": 52,
+    "image_url": "/static/images/products/p34.svg",
+    "mrp": 115.9,
+    "discount_pct": 18,
+    "shelf_life": "18-24 months",
+    "unit": "1 unit pack",
+    "description": "Dishwash Liquid by SparkleDrop is sourced for reliable quality and value. Ideal for everyday essentials needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Everyday use",
+      "Trusted quality",
+      "Value pack"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?dishwashing+liquid&sig=p34-1",
+      "https://source.unsplash.com/1200x900/?dishwashing+liquid&sig=p34-2",
+      "https://source.unsplash.com/1200x900/?dishwashing+liquid&sig=p34-3",
+      "https://source.unsplash.com/1200x900/?dishwashing+liquid&sig=p34-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Dishwash Liquid photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Dishwash Liquid photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Dishwash Liquid photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Dishwash Liquid photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p35",
+    "name": "Toilet Paper",
+    "brand": "SoftRoll",
+    "product_key": "toilet_paper",
+    "category": "Essentials",
+    "price": 180.0,
+    "stock": 46,
+    "image_url": "/static/images/products/p35.svg",
+    "mrp": 219.6,
+    "discount_pct": 18,
+    "shelf_life": "18-24 months",
+    "unit": "1 unit pack",
+    "description": "Toilet Paper by SoftRoll is sourced for reliable quality and value. Ideal for everyday essentials needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Everyday use",
+      "Trusted quality",
+      "Value pack"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?toilet+paper&sig=p35-1",
+      "https://source.unsplash.com/1200x900/?toilet+paper&sig=p35-2",
+      "https://source.unsplash.com/1200x900/?toilet+paper&sig=p35-3",
+      "https://source.unsplash.com/1200x900/?toilet+paper&sig=p35-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Toilet Paper photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Toilet Paper photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Toilet Paper photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Toilet Paper photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p36",
+    "name": "Toothpaste",
+    "brand": "SmileFresh",
+    "product_key": "toothpaste",
+    "category": "Daily Essentials",
+    "price": 110.0,
+    "stock": 64,
+    "image_url": "/static/images/products/p36.svg",
+    "mrp": 134.2,
+    "discount_pct": 18,
+    "shelf_life": "12-24 months",
+    "unit": "1 unit pack",
+    "description": "Toothpaste by SmileFresh is sourced for reliable quality and value. Ideal for everyday daily essentials needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Daily hygiene",
+      "Skin-safe formulation",
+      "Family use"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?toothpaste&sig=p36-1",
+      "https://source.unsplash.com/1200x900/?toothpaste&sig=p36-2",
+      "https://source.unsplash.com/1200x900/?toothpaste&sig=p36-3",
+      "https://source.unsplash.com/1200x900/?toothpaste&sig=p36-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Toothpaste photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Toothpaste photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Toothpaste photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Toothpaste photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p37",
+    "name": "Bath Soap",
+    "brand": "PureGlow",
+    "product_key": "bath_soap",
+    "category": "Daily Essentials",
+    "price": 72.0,
+    "stock": 70,
+    "image_url": "/static/images/products/p37.svg",
+    "mrp": 87.84,
+    "discount_pct": 18,
+    "shelf_life": "12-24 months",
+    "unit": "1 unit pack",
+    "description": "Bath Soap by PureGlow is sourced for reliable quality and value. Ideal for everyday daily essentials needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Daily hygiene",
+      "Skin-safe formulation",
+      "Family use"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?soap+bar&sig=p37-1",
+      "https://source.unsplash.com/1200x900/?soap+bar&sig=p37-2",
+      "https://source.unsplash.com/1200x900/?soap+bar&sig=p37-3",
+      "https://source.unsplash.com/1200x900/?soap+bar&sig=p37-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Bath Soap photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Bath Soap photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Bath Soap photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Bath Soap photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p38",
+    "name": "USB-C Cable",
+    "brand": "VoltLink",
+    "product_key": "usb_c_cable",
+    "category": "Electronics",
+    "price": 299.0,
+    "stock": 40,
+    "image_url": "/static/images/products/p38.svg",
+    "mrp": 364.78,
+    "discount_pct": 18,
+    "shelf_life": "12-month brand warranty",
+    "unit": "1 unit",
+    "description": "USB-C Cable by VoltLink is sourced for reliable quality and value. Ideal for everyday electronics needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Reliable build",
+      "Quality checked",
+      "Compact design"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?usb+c+cable&sig=p38-1",
+      "https://source.unsplash.com/1200x900/?usb+c+cable&sig=p38-2",
+      "https://source.unsplash.com/1200x900/?usb+c+cable&sig=p38-3",
+      "https://source.unsplash.com/1200x900/?usb+c+cable&sig=p38-4"
+    ],
+    "image_credits": [
+      {
+        "title": "USB-C Cable photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "USB-C Cable photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "USB-C Cable photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "USB-C Cable photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p39",
+    "name": "Power Bank",
+    "brand": "ChargePro",
+    "product_key": "power_bank",
+    "category": "Electronics",
+    "price": 1299.0,
+    "stock": 22,
+    "image_url": "/static/images/products/p39.svg",
+    "mrp": 1584.78,
+    "discount_pct": 18,
+    "shelf_life": "12-month brand warranty",
+    "unit": "1 unit",
+    "description": "Power Bank by ChargePro is sourced for reliable quality and value. Ideal for everyday electronics needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Reliable build",
+      "Quality checked",
+      "Compact design"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?power+bank&sig=p39-1",
+      "https://source.unsplash.com/1200x900/?power+bank&sig=p39-2",
+      "https://source.unsplash.com/1200x900/?power+bank&sig=p39-3",
+      "https://source.unsplash.com/1200x900/?power+bank&sig=p39-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Power Bank photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Power Bank photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Power Bank photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Power Bank photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p40",
+    "name": "Baby Diapers",
+    "brand": "TinyCare",
+    "product_key": "baby_diapers",
+    "category": "Kids",
+    "price": 560.0,
+    "stock": 36,
+    "image_url": "/static/images/products/p40.svg",
+    "mrp": 683.2,
+    "discount_pct": 18,
+    "shelf_life": "12-24 months",
+    "unit": "1 pack",
+    "description": "Baby Diapers by TinyCare is sourced for reliable quality and value. Ideal for everyday kids needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Baby-safe materials",
+      "Dermatologically tested",
+      "Gentle on skin"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?baby+diapers&sig=p40-1",
+      "https://source.unsplash.com/1200x900/?baby+diapers&sig=p40-2",
+      "https://source.unsplash.com/1200x900/?baby+diapers&sig=p40-3",
+      "https://source.unsplash.com/1200x900/?baby+diapers&sig=p40-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Baby Diapers photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Baby Diapers photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Baby Diapers photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Baby Diapers photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p41",
+    "name": "Baby Wipes",
+    "brand": "SoftBud",
+    "product_key": "baby_wipes",
+    "category": "Kids",
+    "price": 190.0,
+    "stock": 58,
+    "image_url": "/static/images/products/p41.svg",
+    "mrp": 231.8,
+    "discount_pct": 18,
+    "shelf_life": "12-24 months",
+    "unit": "1 pack",
+    "description": "Baby Wipes by SoftBud is sourced for reliable quality and value. Ideal for everyday kids needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Baby-safe materials",
+      "Dermatologically tested",
+      "Gentle on skin"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?baby+wipes&sig=p41-1",
+      "https://source.unsplash.com/1200x900/?baby+wipes&sig=p41-2",
+      "https://source.unsplash.com/1200x900/?baby+wipes&sig=p41-3",
+      "https://source.unsplash.com/1200x900/?baby+wipes&sig=p41-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Baby Wipes photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Baby Wipes photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Baby Wipes photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Baby Wipes photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p42",
+    "name": "Aluminum Foil",
+    "brand": "WrapMate",
+    "product_key": "aluminum_foil",
+    "category": "Others",
+    "price": 145.0,
+    "stock": 34,
+    "image_url": "/static/images/products/p42.svg",
+    "mrp": 176.9,
+    "discount_pct": 18,
+    "shelf_life": "12-18 months",
+    "unit": "1 unit pack",
+    "description": "Aluminum Foil by WrapMate is sourced for reliable quality and value. Ideal for everyday others needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Useful household item",
+      "Durable build",
+      "Practical everyday use"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?aluminum+foil&sig=p42-1",
+      "https://source.unsplash.com/1200x900/?aluminum+foil&sig=p42-2",
+      "https://source.unsplash.com/1200x900/?aluminum+foil&sig=p42-3",
+      "https://source.unsplash.com/1200x900/?aluminum+foil&sig=p42-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Aluminum Foil photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Aluminum Foil photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Aluminum Foil photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Aluminum Foil photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p43",
+    "name": "Garbage Bags",
+    "brand": "CleanNest",
+    "product_key": "garbage_bags",
+    "category": "Others",
+    "price": 130.0,
+    "stock": 47,
+    "image_url": "/static/images/products/p43.svg",
+    "mrp": 158.6,
+    "discount_pct": 18,
+    "shelf_life": "12-18 months",
+    "unit": "1 unit pack",
+    "description": "Garbage Bags by CleanNest is sourced for reliable quality and value. Ideal for everyday others needs with consistent freshness and safe packaging.",
+    "highlights": [
+      "Useful household item",
+      "Durable build",
+      "Practical everyday use"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?garbage+bags&sig=p43-1",
+      "https://source.unsplash.com/1200x900/?garbage+bags&sig=p43-2",
+      "https://source.unsplash.com/1200x900/?garbage+bags&sig=p43-3",
+      "https://source.unsplash.com/1200x900/?garbage+bags&sig=p43-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Garbage Bags photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Garbage Bags photo 2",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Garbage Bags photo 3",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      },
+      {
+        "title": "Garbage Bags photo 4",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  }
+]

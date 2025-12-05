@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickmart | Order Tracking</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <a href="/shop" class="logo" aria-label="Quickmart home">
+        <span class="logo-mark"></span>
+        <span class="logo-text">quickmart</span>
+      </a>
+      <p>Order {{ order_id }} | Live packing tracker</p>
+    </div>
+    <div class="top-actions">
+      <a href="/profile" class="ghost-link">Profile</a>
+      <a href="/shop" class="ghost-link">Back to shop</a>
+    </div>
+  </header>
+
+  <main class="order-wrap">
+    <section class="status-box" id="order-summary">
+      <h2>Order Confirmation</h2>
+      <p><strong>Order ID:</strong> <span id="summary-order-id">{{ order_id }}</span></p>
+      <p><strong>Total:</strong> <span id="summary-total">INR 0.00</span></p>
+      <div id="summary-items"></div>
+    </section>
+
+    <section class="status-box">
+      <h2 id="order-status" class="title-with-svg"><img src="/static/images/ui/tracking.svg" alt="" class="ui-svg xs" /> Loading...</h2>
+      <p id="eta">ETA: 30 minutes</p>
+      <p id="hold-timer" class="warn"></p>
+    </section>
+
+    <section class="status-box">
+      <h3>Items</h3>
+      <div id="order-items"></div>
+    </section>
+
+    <section class="status-box payment-details" id="payment-summary" style="display:none;">
+      <h3>Payment & delivery summary</h3>
+      <div class="payment-details-grid">
+        <div>
+          <span>Payment mode</span>
+          <strong id="order-payment-mode"></strong>
+        </div>
+        <div>
+          <span>Coupon discount</span>
+          <strong id="order-coupon-value"></strong>
+        </div>
+        <div>
+          <span>Payment rebate</span>
+          <strong id="order-payment-discount"></strong>
+        </div>
+        <div>
+          <span>Handling charge</span>
+          <strong id="order-handling"></strong>
+        </div>
+        <div>
+          <span>Delivery fee</span>
+          <strong id="order-delivery"></strong>
+        </div>
+        <div>
+          <span>Surge charge</span>
+          <strong id="order-surge"></strong>
+        </div>
+        <div>
+          <span>Final payment</span>
+          <strong id="order-final"></strong>
+        </div>
+      </div>
+      <p id="order-delivery-note" class="muted"></p>
+      <p id="order-surge-note" class="muted"></p>
+    </section>
+
+    <section class="status-box" id="issue-panel" style="display:none;">
+      <h3>Action Required</h3>
+      <p id="issue-text"></p>
+      <div class="actions">
+        <button id="continue-btn">Take remaining items</button>
+        <button id="cancel-btn" class="danger">Cancel whole order</button>
+      </div>
+      <h4>Alternative options</h4>
+      <div id="replacement-list"></div>
+      <button id="replace-selected-btn" class="checkout" disabled>Replace selected item</button>
+    </section>
+  </main>
+
+  <script>window.ORDER_ID = '{{ order_id }}';</script>
+  <script src="/static/js/order.js"></script>
+</body>
+</html>

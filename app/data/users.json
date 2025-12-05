@@ -1,0 +1,86 @@
+[
+  {
+    "id": "user_seed_1",
+    "email": "demo1@quickmart.app",
+    "phone": "9999999991",
+    "password": "demo123",
+    "age_group": "26-35",
+    "lifestyle": "Busy Professional",
+    "personality": "Planner",
+    "app_usage": "Daily",
+    "likes": [
+      "p2",
+      "p4",
+      "p8",
+      "p6",
+      "p9",
+      "p11",
+      "p13",
+      "p15",
+      "p20",
+      "p17",
+      "p3",
+      "p22",
+      "p30",
+      "p29",
+      "p34",
+      "p32",
+      "p40",
+      "p39",
+      "p33",
+      "p23"
+    ]
+  },
+  {
+    "id": "user_seed_2",
+    "email": "demo2@quickmart.app",
+    "phone": "9999999992",
+    "password": "demo123",
+    "age_group": "26-35",
+    "lifestyle": "Busy Professional",
+    "personality": "Planner",
+    "app_usage": "Weekly",
+    "likes": [
+      "p1",
+      "p2",
+      "p6"
+    ]
+  },
+  {
+    "id": "user_seed_3",
+    "email": "demo3@quickmart.app",
+    "phone": "9999999993",
+    "password": "demo123",
+    "age_group": "18-25",
+    "lifestyle": "Fitness",
+    "personality": "Spontaneous",
+    "app_usage": "Daily",
+    "likes": [
+      "p3",
+      "p5",
+      "p7"
+    ]
+  },
+  {
+    "id": "user_4",
+    "email": "abc@abc.com",
+    "phone": "9876543210",
+    "password": "acb",
+    "age_group": "18-25",
+    "lifestyle": "Fitness",
+    "personality": "Planner",
+    "app_usage": "Daily",
+    "likes": [
+      "p2",
+      "p7",
+      "p4",
+      "p6",
+      "p9",
+      "p5",
+      "p3",
+      "p8",
+      "p10",
+      "p17"
+    ]
+  }
+]

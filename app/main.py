@@ -1,0 +1,636 @@
+from datetime import datetime, timezone
+from pathlib import Path
+
+from fastapi import Cookie, FastAPI, Form, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
+from app.orders import ConnectionManager, OrderEngine
+from app.recommendation import recommend_from_similar_orders, recommend_products
+from app.repository import next_id, read_data, write_data
+
+BASE_DIR = Path(__file__).resolve().parent
+
+app = FastAPI(title="quickmart")
+app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
+
+manager = ConnectionManager()
+engine = OrderEngine(manager)
+
+HANDLING_FEE = 25
+DELIVERY_FEE_THRESHOLD = 299
+DELIVERY_FEE = 40
+SURGE_WAIVER_THRESHOLD = 499
+SURGE_CHARGES = {
+    "560001": 45,
+    "110001": 40,
+    "400001": 35,
+}
+
+COUPONS = {
+    "WELCOME50": {
+        "description": "Flat ₹50 off on orders above ₹200",
+        "type": "fixed",
+        "amount": 50,
+        "min_total": 200,
+    },
+    "FRESH15": {
+        "description": "15% off up to ₹120 on orders above ₹250",
+        "type": "percent",
+        "percent": 15,
+        "max_amount": 120,
+        "min_total": 250,
+    },
+    "HALFPRICE": {
+        "description": "₹150 off on orders ₹450 and up",
+        "type": "fixed",
+        "amount": 150,
+        "min_total": 450,
+    },
+}
+
+PAYMENT_METHOD_DISCOUNTS = {
+    "cod": {
+        "label": "Cash on Delivery",
+        "description": "Pay in cash when we arrive.",
+        "percent": 0,
+        "max_amount": 0,
+        "min_total": 0,
+    },
+    "amazon_pay": {
+        "label": "Amazon Pay",
+        "description": "5% instant discount up to ₹150.",
+        "percent": 5,
+        "max_amount": 150,
+        "min_total": 150,
+    },
+    "upi": {
+        "label": "UPI / Wallets",
+        "description": "3% cashback capped at ₹80.",
+        "percent": 3,
+        "max_amount": 80,
+        "min_total": 100,
+    },
+    "card": {
+        "label": "Debit / Credit Card",
+        "description": "2% off (max ₹100) on all cards.",
+        "percent": 2,
+        "max_amount": 100,
+        "min_total": 0,
+    },
+}
+
+
+def load_users():
+    return read_data("users", [])
+
+
+def save_users(users):
+    write_data("users", users)
+
+
+def load_products():
+    return read_data("products", [])
+
+
+def load_carts():
+    return read_data("carts", {})
+
+
+def save_carts(carts):
+    write_data("carts", carts)
+
+
+def load_orders():
+    return read_data("orders", [])
+
+
+def save_orders(orders):
+    write_data("orders", orders)
+
+
+def current_user(user_id: str | None):
+    if not user_id:
+        return None
+    users = load_users()
+    return next((u for u in users if u["id"] == user_id), None)
+
+
+def calculate_coupon_discount(base_total: float, coupon_code: str | None):
+    if not coupon_code:
+        return 0.0, None
+    normalized = coupon_code.strip().upper()
+    coupon = COUPONS.get(normalized)
+    if not coupon or base_total < coupon.get("min_total", 0):
+        return 0.0, None
+    if coupon["type"] == "fixed":
+        amount = min(coupon["amount"], base_total)
+    else:
+        amount = base_total * coupon["percent"] / 100
+        amount = min(amount, coupon.get("max_amount", amount))
+    return round(amount, 2), normalized
+
+
+def calculate_payment_discount(amount: float, payment_mode: str):
+    mode = PAYMENT_METHOD_DISCOUNTS.get(payment_mode, PAYMENT_METHOD_DISCOUNTS["cod"])
+    if amount < mode.get("min_total", 0) or mode.get("percent", 0) <= 0:
+        return 0.0, mode
+    discount = amount * mode["percent"] / 100
+    discount = min(discount, mode.get("max_amount", discount))
+    return round(discount, 2), mode
+
+
+def build_payment_summary(base_total: float, coupon_code: str | None, payment_mode: str, pin_code: str | None):
+    coupon_discount, normalized_coupon = calculate_coupon_discount(base_total, coupon_code)
+    after_coupon = max(0, base_total - coupon_discount)
+    payment_discount, payment_mode_data = calculate_payment_discount(after_coupon, payment_mode)
+    after_payment = max(0, after_coupon - payment_discount)
+
+    delivery_fee = 0 if after_payment >= DELIVERY_FEE_THRESHOLD else DELIVERY_FEE
+    surge_charge = 0
+    surge_note = ""
+    pin = (pin_code or "").strip()
+    if pin and pin in SURGE_CHARGES and after_payment <= SURGE_WAIVER_THRESHOLD:
+        surge_charge = SURGE_CHARGES[pin]
+        surge_note = f"High order volume at {pin} attracts a surge."
+
+    handling_fee = HANDLING_FEE
+    final_total = round(max(0, after_payment + handling_fee + delivery_fee + surge_charge), 2)
+
+    delivery_note = (
+        "Delivery fee waived for orders above ₹299."
+        if delivery_fee == 0
+        else f"Delivery fee ₹{DELIVERY_FEE} applies for orders under ₹{DELIVERY_FEE_THRESHOLD}."
+    )
+
+    return {
+        "base_total": round(base_total, 2),
+        "coupon_code": normalized_coupon,
+        "coupon_discount": coupon_discount,
+        "coupon_label": COUPONS.get(normalized_coupon, {}).get("description") if normalized_coupon else None,
+        "payment_mode": payment_mode if payment_mode in PAYMENT_METHOD_DISCOUNTS else "cod",
+        "payment_label": payment_mode_data["label"],
+        "payment_discount": payment_discount,
+        "payment_description": payment_mode_data["description"],
+        "handling_fee": handling_fee,
+        "delivery_fee": delivery_fee,
+        "surge_charge": surge_charge,
+        "pin_code": pin,
+        "surge_note": surge_note,
+        "delivery_note": delivery_note,
+        "final_total": final_total,
+    }
+
+
+def build_product_detail(product: dict, products: list[dict]) -> dict:
+    variants = [
+        {
+            "id": p["id"],
+            "name": p["name"],
+            "brand": p.get("brand", ""),
+            "price": p["price"],
+            "image_url": p.get("image_url", "/static/images/products/fallback.svg"),
+            "stock": p.get("stock", 0),
+        }
+        for p in products
+        if p.get("product_key") == product.get("product_key")
+    ]
+    variants.sort(key=lambda p: p["price"])
+
+    product_copy = dict(product)
+    product_copy["variants"] = variants
+    product_copy.setdefault("mrp", round(float(product_copy["price"]) * 1.22, 2))
+    product_copy.setdefault("discount_pct", int(round((product_copy["mrp"] - float(product_copy["price"])) / product_copy["mrp"] * 100)))
+    product_copy.setdefault("unit", "1 unit")
+    product_copy.setdefault("shelf_life", "12 months")
+    product_copy.setdefault("description", f"{product_copy['name']} by {product_copy.get('brand', 'Quickmart')}.")
+    product_copy.setdefault("highlights", ["Quality checked", "Value for money", "Daily use"])
+    product_copy.setdefault("gallery_images", [product_copy.get("image_url", "/static/images/products/fallback.svg")] * 4)
+    product_copy.setdefault("image_credits", [])
+    return product_copy
+
+
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request, user_id: str | None = Cookie(default=None)):
+    user = current_user(user_id)
+    if user:
+        return RedirectResponse(url="/shop", status_code=303)
+    return templates.TemplateResponse("login.html", {"request": request})
+
+
+@app.post("/signup")
+async def signup(email: str = Form(...), phone: str = Form(...), password: str = Form(...), age_group: str = Form(...), lifestyle: str = Form(...), personality: str = Form(...), app_usage: str = Form(...)):
+    users = load_users()
+    if any(u["email"] == email for u in users):
+        return JSONResponse({"error": "Email already exists"}, status_code=400)
+
+    user = {
+        "id": next_id("user", users),
+        "email": email,
+        "phone": phone,
+        "password": password,
+        "age_group": age_group,
+        "lifestyle": lifestyle,
+        "personality": personality,
+        "app_usage": app_usage,
+        "likes": [],
+    }
+    users.append(user)
+    save_users(users)
+
+    response = JSONResponse({"ok": True})
+    response.set_cookie("user_id", user["id"], httponly=True)
+    return response
+
+
+@app.post("/login")
+async def login(email: str = Form(...), password: str = Form(...)):
+    users = load_users()
+    user = next((u for u in users if u["email"] == email and u["password"] == password), None)
+    if not user:
+        return JSONResponse({"error": "Invalid credentials"}, status_code=401)
+
+    response = JSONResponse({"ok": True})
+    response.set_cookie("user_id", user["id"], httponly=True)
+    return response
+
+
+@app.post("/logout")
+async def logout():
+    response = RedirectResponse(url="/", status_code=303)
+    response.delete_cookie("user_id")
+    return response
+
+
+@app.get("/shop", response_class=HTMLResponse)
+async def shop(request: Request, user_id: str | None = Cookie(default=None)):
+    user = current_user(user_id)
+    if not user:
+        return RedirectResponse(url="/", status_code=303)
+
+    products = load_products()
+    categories = sorted({p["category"] for p in products})
+    carts = load_carts()
+    cart = carts.get(user["id"], [])
+    all_users = load_users()
+    all_orders = load_orders()
+    recommendations = recommend_products(user, all_users, products)
+    peer_recommendations = recommend_from_similar_orders(user, all_users, all_orders, products)
+    product_by_id = {p["id"]: p for p in products}
+
+    enriched_cart = []
+    for item in cart:
+        product = product_by_id.get(item["product_id"])
+        if product:
+            enriched_cart.append(
+                {
+                    "product_id": product["id"],
+                    "name": product["name"],
+                    "qty": item["qty"],
+                    "price": product["price"],
+                    "subtotal": round(product["price"] * item["qty"], 2),
+                }
+            )
+
+    return templates.TemplateResponse(
+        "shop.html",
+        {
+            "request": request,
+            "user": user,
+            "products": products,
+            "categories": categories,
+            "cart": enriched_cart,
+            "recommendations": recommendations,
+            "peer_recommendations": peer_recommendations,
+            "surge_info": SURGE_CHARGES,
+            "surge_waiver_threshold": SURGE_WAIVER_THRESHOLD,
+        },
+    )
+
+
+@app.get("/payment", response_class=HTMLResponse)
+async def payment_page(request: Request, user_id: str | None = Cookie(default=None)):
+    user = current_user(user_id)
+    if not user:
+        return RedirectResponse(url="/", status_code=303)
+
+    carts = load_carts()
+    cart = carts.get(user["id"], [])
+    if not cart:
+        return RedirectResponse(url="/shop", status_code=303)
+
+    products = load_products()
+    product_by_id = {p["id"]: p for p in products}
+    items = []
+    total = 0.0
+    for entry in cart:
+        product = product_by_id.get(entry["product_id"])
+        if not product:
+            continue
+        subtotal = round(product["price"] * entry["qty"], 2)
+        total += subtotal
+        items.append(
+            {
+                "id": product["id"],
+                "name": product["name"],
+                "brand": product.get("brand", "Quickmart"),
+                "qty": entry["qty"],
+                "price": product["price"],
+                "subtotal": subtotal,
+                "image_url": product.get("image_url", "/static/images/products/fallback.svg"),
+            }
+        )
+    total = round(total, 2)
+
+    payment_methods = []
+    for key, method in PAYMENT_METHOD_DISCOUNTS.items():
+        discount_text = (
+            f"{method['percent']}% off up to ₹{method['max_amount']}"
+            if method.get("percent", 0)
+            else "No extra discount"
+        )
+        payment_methods.append(
+            {
+                "id": key,
+                "label": method["label"],
+                "description": method["description"],
+                "discount_text": discount_text,
+            }
+        )
+
+    cart_payload = {"items": items, "base_total": total}
+    payment_payload = {
+        "base_total": total,
+        "handling_fee": HANDLING_FEE,
+        "delivery_fee": DELIVERY_FEE,
+        "delivery_fee_threshold": DELIVERY_FEE_THRESHOLD,
+        "surge_waiver_threshold": SURGE_WAIVER_THRESHOLD,
+        "surge_charges": SURGE_CHARGES,
+        "heavy_pincodes": list(SURGE_CHARGES.keys()),
+        "payment_methods": PAYMENT_METHOD_DISCOUNTS,
+        "coupons": COUPONS,
+    }
+
+    return templates.TemplateResponse(
+        "payment.html",
+        {
+            "request": request,
+            "user": user,
+            "cart_items": items,
+            "base_total": total,
+            "payment_methods": payment_methods,
+            "coupons": [{"code": code, "description": info["description"], "min_total": info["min_total"]} for code, info in COUPONS.items()],
+            "cart_payload": jsonable_encoder(cart_payload),
+            "payment_payload": jsonable_encoder(payment_payload),
+        },
+    )
+
+
+@app.get("/product/{product_id}", response_class=HTMLResponse)
+async def product_page(product_id: str, request: Request, user_id: str | None = Cookie(default=None)):
+    user = current_user(user_id)
+    if not user:
+        return RedirectResponse(url="/", status_code=303)
+
+    products = load_products()
+    product = next((p for p in products if p["id"] == product_id), None)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    detail_product = build_product_detail(product, products)
+    return templates.TemplateResponse(
+        "product.html",
+        {
+            "request": request,
+            "user": user,
+            "product": detail_product,
+        },
+    )
+
+
+@app.get("/api/products/suggestions")
+async def product_suggestions(
+    q: str = Query(default="", min_length=0, max_length=80),
+    limit: int = Query(default=6, ge=1, le=10),
+    user_id: str | None = Cookie(default=None),
+):
+    user = current_user(user_id)
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    query = q.strip().lower()
+    if not query:
+        return {"suggestions": []}
+
+    products = load_products()
+    scored = []
+    for p in products:
+        haystack = f"{p.get('name', '')} {p.get('brand', '')} {p.get('category', '')}".lower()
+        if query not in haystack:
+            continue
+        score = 0
+        if p.get("name", "").lower().startswith(query):
+            score += 3
+        if p.get("brand", "").lower().startswith(query):
+            score += 2
+        score += haystack.count(query)
+        scored.append((score, p))
+
+    scored.sort(key=lambda item: (-item[0], item[1].get("price", 0), item[1].get("name", "")))
+    suggestions = [
+        {
+            "id": p["id"],
+            "name": p["name"],
+            "brand": p.get("brand", ""),
+            "category": p.get("category", ""),
+            "price": p.get("price", 0),
+            "image_url": p.get("image_url", "/static/images/products/fallback.svg"),
+        }
+        for _, p in scored[:limit]
+    ]
+    return {"suggestions": suggestions}
+
+
+@app.get("/profile", response_class=HTMLResponse)
+async def profile_page(request: Request, user_id: str | None = Cookie(default=None)):
+    user = current_user(user_id)
+    if not user:
+        return RedirectResponse(url="/", status_code=303)
+
+    orders = load_orders()
+    user_orders = [o for o in orders if o["user_id"] == user["id"]]
+    user_orders.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+    return templates.TemplateResponse("profile.html", {"request": request, "user": user, "orders": user_orders})
+
+
+@app.get("/api/my-orders")
+async def my_orders(user_id: str | None = Cookie(default=None)):
+    user = current_user(user_id)
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    orders = load_orders()
+    user_orders = [o for o in orders if o["user_id"] == user["id"]]
+    user_orders.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+    return {"orders": user_orders}
+
+
+@app.get("/api/cart")
+async def get_cart(user_id: str | None = Cookie(default=None)):
+    user = current_user(user_id)
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    products = load_products()
+    product_by_id = {p["id"]: p for p in products}
+    carts = load_carts()
+    cart = carts.get(user["id"], [])
+    result = []
+    for item in cart:
+        p = product_by_id.get(item["product_id"])
+        if p:
+            result.append({"product_id": p["id"], "name": p["name"], "qty": item["qty"], "price": p["price"]})
+    return {"items": result, "total": round(sum(i["qty"] * i["price"] for i in result), 2)}
+
+
+@app.post("/cart/add")
+async def cart_add(product_id: str = Form(...), qty: int = Form(1), user_id: str | None = Cookie(default=None)):
+    user = current_user(user_id)
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    carts = load_carts()
+    cart = carts.setdefault(user["id"], [])
+
+    existing = next((i for i in cart if i["product_id"] == product_id), None)
+    if existing:
+        existing["qty"] += qty
+    else:
+        cart.append({"product_id": product_id, "qty": qty})
+
+    if product_id not in user["likes"]:
+        users = load_users()
+        for idx, each in enumerate(users):
+            if each["id"] == user["id"]:
+                users[idx]["likes"].append(product_id)
+                break
+        save_users(users)
+
+    save_carts(carts)
+    return {"ok": True}
+
+
+@app.post("/cart/update")
+async def cart_update(product_id: str = Form(...), qty: int = Form(...), user_id: str | None = Cookie(default=None)):
+    user = current_user(user_id)
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    carts = load_carts()
+    cart = carts.setdefault(user["id"], [])
+    cart[:] = [i for i in cart if i["product_id"] != product_id]
+    if qty > 0:
+        cart.append({"product_id": product_id, "qty": qty})
+    save_carts(carts)
+    return {"ok": True}
+
+
+@app.post("/checkout")
+async def checkout(
+    payment_mode: str = Form("cod"),
+    pin_code: str | None = Form(None),
+    coupon_code: str | None = Form(None),
+    user_id: str | None = Cookie(default=None),
+):
+    user = current_user(user_id)
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    carts = load_carts()
+    cart = carts.get(user["id"], [])
+    if not cart:
+        raise HTTPException(status_code=400, detail="Cart is empty")
+
+    products = load_products()
+    product_by_id = {p["id"]: p for p in products}
+
+    orders = load_orders()
+    order = {
+        "id": next_id("order", orders),
+        "user_id": user["id"],
+        "status": "created",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "eta_minutes": 30,
+        "active_issue": None,
+        "items": [],
+    }
+    base_total = 0.0
+    for idx, item in enumerate(cart, start=1):
+        p = product_by_id.get(item["product_id"])
+        if not p:
+            continue
+        subtotal = p["price"] * item["qty"]
+        base_total += subtotal
+        order["items"].append(
+            {
+                "id": f"item_{idx}",
+                "product_id": p["id"],
+                "name": p["name"],
+                "brand": p.get("brand", "Quickmart"),
+                "qty": item["qty"],
+                "unit_price": p["price"],
+                "state": "pending",
+            }
+        )
+
+    if not order["items"]:
+        raise HTTPException(status_code=400, detail="No valid items")
+
+    payment_summary = build_payment_summary(base_total, coupon_code, payment_mode, pin_code)
+    order["payment_summary"] = payment_summary
+    order["total"] = payment_summary["final_total"]
+    orders.append(order)
+    save_orders(orders)
+
+    carts[user["id"]] = []
+    save_carts(carts)
+
+    engine.start(order, orders, products, save_orders)
+
+    return {"ok": True, "order_id": order["id"], "order": order}
+
+
+@app.get("/order/{order_id}", response_class=HTMLResponse)
+async def order_page(order_id: str, request: Request, user_id: str | None = Cookie(default=None)):
+    user = current_user(user_id)
+    if not user:
+        return RedirectResponse(url="/", status_code=303)
+    return templates.TemplateResponse("order.html", {"request": request, "order_id": order_id, "user": user})
+
+
+@app.get("/api/orders/{order_id}")
+async def order_data(order_id: str, user_id: str | None = Cookie(default=None)):
+    user = current_user(user_id)
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    orders = load_orders()
+    order = next((o for o in orders if o["id"] == order_id and o["user_id"] == user["id"]), None)
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    return order
+
+
+@app.websocket("/ws/orders/{order_id}")
+async def order_ws(websocket: WebSocket, order_id: str):
+    await manager.connect(order_id, websocket)
+    try:
+        while True:
+            data = await websocket.receive_json()
+            if data.get("type") == "resolve_issue":
+                await engine.push_decision(order_id, data)
+    except WebSocketDisconnect:
+        manager.disconnect(order_id, websocket)
