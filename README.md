@@ -11,6 +11,7 @@ FastAPI demo app for 30-minute delivery ordering, AI-like recommendations, and l
 - **Profile + history** – `/profile` renders stored user details plus paginated order history and auto-refreshing live orders (polling every 4 seconds via `app/static/js/profile.js`).
 - **Product details powered by data layers** – `build_product_detail` in `app/main.py` aggregates variants, price/discount heuristics, highlights, and gallery thumbnails so every `/product/{product_id}` page feels rich.
 - **Realistic payment desk** – `/payment` introduces multi-tier payment modes (COD, Amazon Pay, UPI, card), coupon prompts, pin-based surge handling, delivery fee waivers above ₹299, and mirrors the breakdown in the order tracker (`app/templates/payment.html`, `app/static/js/payment.js`, `app/templates/order.html`).
+- **Instant support assistant** – a small chat widget backed by `/api/chat`, minimal JS/CSS assets, and a tiny intent matcher that answers FAQs about orders, cancellations, refunds, and escalation to a human if the question is outside the quickmart playbook.
 
 ## Structure
 

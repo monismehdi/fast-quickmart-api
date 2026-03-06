@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from pathlib import Path
 
-from fastapi import Cookie, FastAPI, Form, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
+from fastapi import Body, Cookie, FastAPI, Form, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -82,6 +82,77 @@ PAYMENT_METHOD_DISCOUNTS = {
         "min_total": 0,
     },
 }
+
+CHATBOT_CONTACT = {"email": "support@quickmart.example", "phone": "+91 22 5555 0199"}
+
+CHATBOT_INTENTS = [
+    {
+        "name": "greeting",
+        "keywords": ["hello", "hi", "hey", "good morning", "good afternoon", "good evening"],
+        "reply": "Hi there! I'm Quickmart's assistant. I can help you with order status, refunds, cancellations, or any quickmart FAQ.",
+        "suggestions": ["Track order", "Refund policy", "Talk to human"],
+    },
+    {
+        "name": "order_status",
+        "keywords": ["order status", "track order", "tracking", "where is my order", "order update"],
+        "reply": "Check your profile's Orders tab or paste your order ID into /order/<id> to see live updates (Picked, Packed, On the way). We refresh the tracker every few minutes.",
+        "suggestions": ["View my orders", "Order ETA", "Talk to human"],
+    },
+    {
+        "name": "order_updates",
+        "keywords": ["eta", "delivery time", "arrival", "when will", "update"],
+        "reply": "Delivery updates and ETA appear right on the order tracker. If you share your order ID I can point you to the right row, and we push a new status at each milestone.",
+        "suggestions": ["Latest ETA", "Delivery fee", "Talk to human"],
+    },
+    {
+        "name": "cancellation",
+        "keywords": ["cancel order", "cancellation", "stop order", "change order", "need to cancel"],
+        "reply": "Orders are cancellable before packing starts (usually within 10 minutes of placing it). Visit your order page and tap the cancel option, or contact support quickly so we can stop packing. After packing begins, email or call us to explore options.",
+        "suggestions": ["Cancel my order", "Replacement policy", "Talk to human"],
+        "human": True,
+        "contact": CHATBOT_CONTACT,
+    },
+    {
+        "name": "refund",
+        "keywords": ["refund", "return", "money back", "reimbursement"],
+        "reply": "Refunds are issued once we confirm the cancellation or a missing/damaged item. It typically takes 2–3 business days to land in your original payment channel, though some banks may take a little longer.",
+        "suggestions": ["Refund timeline", "Missing item", "Talk to human"],
+        "human": True,
+        "contact": CHATBOT_CONTACT,
+    },
+    {
+        "name": "faq",
+        "keywords": ["hours", "help", "support", "faq", "delivery fee", "payment", "contact", "store hours"],
+        "reply": "Quickmart delivers daily from 6:00 to 23:00. Delivery fee is ₹40 for carts below ₹299, and we waive it for higher totals. COD, Amazon Pay, UPI, and cards are accepted; coupons can be stacked where eligible.",
+        "suggestions": ["Delivery fee", "Payment options", "Talk to human"],
+    },
+]
+
+CHATBOT_DEFAULT = {
+    "name": "fallback",
+    "reply": "That one sounds new to me. Would you like me to connect you with a real teammate? Email support@quickmart.example, call +91 22 5555 0199, or tap 'Talk to human' below and we'll take over.",
+    "suggestions": ["Connect with human", "View FAQ", "Track order"],
+    "human": True,
+    "contact": CHATBOT_CONTACT,
+}
+
+
+def build_chatbot_response(message: str) -> dict:
+    normalized = message.lower()
+    for intent in CHATBOT_INTENTS:
+        if any(keyword in normalized for keyword in intent["keywords"]):
+            return {
+                "reply": intent["reply"],
+                "suggestions": intent.get("suggestions", []),
+                "human": bool(intent.get("human", False)),
+                "contact": intent.get("contact"),
+            }
+    return {
+        "reply": CHATBOT_DEFAULT["reply"],
+        "suggestions": CHATBOT_DEFAULT.get("suggestions", []),
+        "human": bool(CHATBOT_DEFAULT.get("human", False)),
+        "contact": CHATBOT_DEFAULT.get("contact"),
+    }
 
 
 def load_users():
@@ -622,6 +693,22 @@ async def order_data(order_id: str, user_id: str | None = Cookie(default=None)):
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
     return order
+
+
+@app.post("/api/chat")
+async def quickmart_chat(payload: dict = Body(...)):
+    message = (payload.get("message") or "").strip()
+    if not message:
+        raise HTTPException(status_code=400, detail="Message is required")
+    response = build_chatbot_response(message)
+    return JSONResponse(
+        {
+            "reply": response["reply"],
+            "suggestions": response.get("suggestions", []),
+            "human": bool(response.get("human", False)),
+            "contact": response.get("contact"),
+        }
+    )
 
 
 @app.websocket("/ws/orders/{order_id}")
