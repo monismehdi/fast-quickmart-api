@@ -119,6 +119,7 @@ button.danger { background: var(--danger); }
 .discount-badge { background: #ffe6b5; color: #6d4300; padding: 2px 8px; border-radius: 999px; }
 .bottom-recommendations { margin-top: 18px; padding-top: 12px; border-top: 1px solid #ececec; }
 .cart-panel { background: #fff; border-radius: 14px; padding: 16px; height: fit-content; position: sticky; top: 84px; }
+.cart-wrapper { display: flex; flex-direction: column; gap: 10px; }
 .cart-row { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
 .qty { display: flex; gap: 6px; align-items: center; }
 .qty button { padding: 4px 8px; }

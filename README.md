@@ -12,6 +12,7 @@ FastAPI demo app for 30-minute delivery ordering, AI-like recommendations, and l
 - **Product details powered by data layers** – `build_product_detail` in `app/main.py` aggregates variants, price/discount heuristics, highlights, and gallery thumbnails so every `/product/{product_id}` page feels rich.
 - **Realistic payment desk** – `/payment` introduces multi-tier payment modes (COD, Amazon Pay, UPI, card), coupon prompts, pin-based surge handling, delivery fee waivers above ₹299, and mirrors the breakdown in the order tracker (`app/templates/payment.html`, `app/static/js/payment.js`, `app/templates/order.html`).
 - **Instant support assistant** – a small chat widget backed by `/api/chat`, minimal JS/CSS assets, and a tiny intent matcher that answers FAQs about orders, cancellations, refunds, and escalation to a human if the question is outside the quickmart playbook.
+- **Emergency fulfillment** – a top-right “Emergency Mode” toggle limits the catalog to pre-approved essentials (diapers, baby care, pads, formula, milk, OTC medicines, thermometers, blood-pressure monitors), delivers within a 10–20 minute window, and adds a ₹15–30 surcharge for the nearby hub. If the nearest store is closed, Quickmart automatically routes the request to the next open depot while showing ETA/store hints in the checkout and order tracker.
 
 ## Structure
 

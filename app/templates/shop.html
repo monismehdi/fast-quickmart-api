@@ -27,11 +27,6 @@
   </header>
 
   <main class="layout">
-    <div id="emergency-banner" class="emergency-banner hidden">
-      <strong>Emergency delivery active</strong>
-      <span id="emergency-banner-copy"></span>
-      <small id="emergency-banner-note"></small>
-    </div>
     <section class="catalog">
       <div>
         <h2>Recommended for you</h2>
@@ -160,12 +155,19 @@
       </div>
     </section>
 
-    <aside class="cart-panel">
-      <h2 class="title-with-svg"><img src="/static/images/ui/cart.svg" alt="" class="ui-svg xs" /> Your Cart</h2>
-      <div id="cart-items"></div>
-      <p id="cart-total">Total: INR 0.00</p>
-      <button id="checkout-btn" class="checkout">Checkout</button>
-      <p class="meta">If any item is missing, your order pauses for 2 minutes so you can decide.</p>
+    <aside class="cart-wrapper">
+      <div id="emergency-banner" class="emergency-banner hidden">
+        <strong>Emergency delivery active</strong>
+        <span id="emergency-banner-copy"></span>
+        <small id="emergency-banner-note"></small>
+      </div>
+      <div class="cart-panel">
+        <h2 class="title-with-svg"><img src="/static/images/ui/cart.svg" alt="" class="ui-svg xs" /> Your Cart</h2>
+        <div id="cart-items"></div>
+        <p id="cart-total">Total: INR 0.00</p>
+        <button id="checkout-btn" class="checkout">Checkout</button>
+        <p class="meta">If any item is missing, your order pauses for 2 minutes so you can decide.</p>
+      </div>
     </aside>
   </main>
 

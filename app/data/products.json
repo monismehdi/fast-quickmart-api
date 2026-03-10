@@ -2546,5 +2546,75 @@
         "attribution_url": "https://unsplash.com/license"
       }
     ]
+  },
+  {
+    "id": "p48",
+    "name": "Digital Thermometer",
+    "brand": "HealthTrack",
+    "product_key": "thermometer",
+    "category": "Medical",
+    "price": 450.0,
+    "stock": 80,
+    "image_url": "/static/images/products/p48.svg",
+    "mrp": 539.0,
+    "discount_pct": 16,
+    "shelf_life": "36 months",
+    "unit": "1 unit",
+    "description": "Digital Thermometer by HealthTrack gives fast, accurate readings and can be sanitized between uses.",
+    "highlights": [
+      "One-second readout",
+      "Water-resistant probe",
+      "Fever alarm"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?thermometer&sig=p48-1",
+      "https://source.unsplash.com/1200x900/?thermometer&sig=p48-2",
+      "https://source.unsplash.com/1200x900/?thermometer&sig=p48-3",
+      "https://source.unsplash.com/1200x900/?thermometer&sig=p48-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Thermometer photo",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p49",
+    "name": "Upper Arm Blood Pressure Monitor",
+    "brand": "PulseCare",
+    "product_key": "blood_pressure_monitor",
+    "category": "Medical",
+    "price": 2399.0,
+    "stock": 20,
+    "image_url": "/static/images/products/p49.svg",
+    "mrp": 2880.0,
+    "discount_pct": 16,
+    "shelf_life": "24 months",
+    "unit": "1 device",
+    "description": "Upper Arm Blood Pressure Monitor by PulseCare fits most adults and stores multiple readings for on-the-go reference.",
+    "highlights": [
+      "Large backlit screen",
+      "Arrhythmia detection",
+      "Multi-user memory"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?blood+pressure+monitor&sig=p49-1",
+      "https://source.unsplash.com/1200x900/?blood+pressure+monitor&sig=p49-2",
+      "https://source.unsplash.com/1200x900/?blood+pressure+monitor&sig=p49-3",
+      "https://source.unsplash.com/1200x900/?blood+pressure+monitor&sig=p49-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Blood Pressure Monitor photo",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
   }
 ]

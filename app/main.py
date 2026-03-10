@@ -31,8 +31,8 @@ SURGE_CHARGES = {
     "400001": 35,
 }
 
-EMERGENCY_KEYWORDS = {"diaper", "formula", "baby", "medicine", "pad", "care", "milk", "sanitize", "sanitary"}
-EMERGENCY_CATEGORIES = {"Kids", "Daily Essentials", "Dairy"}
+EMERGENCY_KEYWORDS = {"diaper", "formula", "baby", "medicine", "medicines", "pad", "care", "milk", "sanitize", "sanitary", "thermometer", "blood", "pressure", "monitor"}
+EMERGENCY_CATEGORIES = {"Kids", "Daily Essentials", "Dairy", "Medical"}
 EMERGENCY_TIME_WINDOW = (10, 20)
 EMERGENCY_SCOPE = [
     "baby diapers",
@@ -41,6 +41,8 @@ EMERGENCY_SCOPE = [
     "medicines",
     "sanitary pads",
     "milk",
+    "thermometers",
+    "blood pressure monitors",
 ]
 EMERGENCY_FEE_RANGE = (15, 30)
 DEFAULT_STORE_KEY = "default"
