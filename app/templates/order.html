@@ -40,11 +40,30 @@
         <h3>Live delivery</h3>
         <span id="delivery-map-countdown">ETA updates in a moment</span>
       </div>
+      <div class="map-meta-grid">
+        <div class="map-pin-info">
+          <span>Store</span>
+          <strong id="map-store-name">Quickmart Central Hub</strong>
+          <small id="map-store-coords"></small>
+        </div>
+        <div class="map-pin-info">
+          <span>Your home</span>
+          <strong id="map-home-name">Your location</strong>
+          <small id="map-home-coords"></small>
+        </div>
+      </div>
+      <div class="map-stats">
+        <span id="map-distance-left">Distance left</span>
+        <span id="map-time-left">Time left</span>
+      </div>
       <div id="delivery-map" class="delivery-map">
         <div class="delivery-route" aria-hidden="true"></div>
         <div id="delivery-marker" class="delivery-marker">
           <span>Rider</span>
         </div>
+        <div id="delivery-store-pin" class="map-pin store-pin">Store</div>
+        <div id="delivery-home-pin" class="map-pin home-pin">You</div>
+        <div id="tracking-locked" class="tracking-overlay hidden">Tracking begins once your order is confirmed.</div>
       </div>
       <div class="agent-info">
         <div>

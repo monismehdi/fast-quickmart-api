@@ -125,6 +125,44 @@
     const input = form.querySelector("input");
     const footnote = root.querySelector(".chat-footnote");
 
+    const appendActionTable = (actions) => {
+      const existing = log.querySelector(".chat-table");
+      if (existing) {
+        existing.remove();
+      }
+      if (!actions || !actions.length) {
+        return;
+      }
+      const table = document.createElement("div");
+      table.className = "chat-table";
+      actions.forEach(({ label, value }) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = label;
+        button.addEventListener("click", () => {
+          sendMessage(input, log, suggestions, footnote, root, value || label);
+        });
+        table.append(button);
+      });
+      log.append(table);
+      log.scrollTop = log.scrollHeight;
+    };
+
+    const showActionTable = (actions, prompt = "Share a note with the delivery agent:") => {
+      if (!actions || !actions.length) {
+        return;
+      }
+      root.classList.add("open");
+      appendMessage(log, prompt, "bot");
+      appendActionTable(actions);
+      input.focus();
+    };
+
+    window.quickmartAssistant = {
+      showActionTable,
+      open: () => root.classList.add("open"),
+    };
+
     trigger.addEventListener("click", () => root.classList.toggle("open"));
     closeBtn.addEventListener("click", () => root.classList.remove("open"));
     form.addEventListener("submit", (event) => {

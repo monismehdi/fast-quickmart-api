@@ -29,11 +29,42 @@ const agentVehicleEl = document.getElementById('agent-vehicle');
 const agentCallEl = document.getElementById('agent-call');
 const agentChatBtn = document.getElementById('agent-chat');
 const instructionsEl = document.getElementById('delivery-instructions-note');
+const mapStoreNameEl = document.getElementById('map-store-name');
+const mapStoreCoordsEl = document.getElementById('map-store-coords');
+const mapHomeNameEl = document.getElementById('map-home-name');
+const mapHomeCoordsEl = document.getElementById('map-home-coords');
+const mapDistanceEl = document.getElementById('map-distance-left');
+const mapTimeLeftEl = document.getElementById('map-time-left');
+const storePin = document.getElementById('delivery-store-pin');
+const homePin = document.getElementById('delivery-home-pin');
+const trackingOverlay = document.getElementById('tracking-locked');
+const etaEl = document.getElementById('eta');
 const INR = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 });
 let countdownInterval = null;
 let routeInterval = null;
 let normalizedRoute = [];
 let routeIndex = 0;
+let currentBounds = null;
+let countdownSeconds = 0;
+let latestOrderDistance = 0;
+let latestStoreLocation = null;
+let latestCustomerLocation = null;
+let trackingActive = false;
+const TRACKING_READY_STATUSES = new Set(['driver_assigned', 'driver_at_store', 'out_for_delivery', 'confirmed']);
+const STATUS_INSTRUCTION_TEXT = {
+  packing: 'Your items are being packed at the Quickmart hub.',
+  driver_assigned: 'Driver has been assigned and is heading to the store for pickup.',
+  driver_at_store: 'Driver is collecting your items from the store.',
+  out_for_delivery: 'Driver is on the road with your essentials.',
+  confirmed: 'Driver is moments away from your doorstep.',
+  on_hold: 'Order paused while we resolve an item issue. Choose an option on the last panel.',
+  cancelled: 'Order has been cancelled.',
+};
+const TRACKING_OVERLAY_MESSAGES = {
+  packing: 'Tracking begins once a delivery agent is assigned.',
+  created: 'Tracking begins once a delivery agent is assigned.',
+  on_hold: 'Tracking will resume after you resolve the held item.',
+};
 
 let ws;
 let activeIssue;
@@ -41,20 +72,43 @@ let holdInterval = null;
 let selectedReplacementId = null;
 let finalPlacedNotified = false;
 
-function normalizeRoute(route) {
-  if (!route || !route.length) return [];
-  const lats = route.map((point) => point.lat ?? 0);
-  const lngs = route.map((point) => point.lng ?? 0);
+function buildBounds(route) {
+  const lats = route.map((point) => point?.lat ?? 0);
+  const lngs = route.map((point) => point?.lng ?? 0);
   const minLat = Math.min(...lats);
   const maxLat = Math.max(...lats);
   const minLng = Math.min(...lngs);
   const maxLng = Math.max(...lngs);
-  const latSpan = Math.max(0.0001, maxLat - minLat);
-  const lngSpan = Math.max(0.0001, maxLng - minLng);
-  return route.map((point) => ({
-    x: 10 + (((point.lng ?? 0) - minLng) / lngSpan) * 75,
-    y: 80 - (((point.lat ?? 0) - minLat) / latSpan) * 50,
-  }));
+  return {
+    minLat,
+    maxLat,
+    minLng,
+    maxLng,
+    latSpan: Math.max(0.0001, maxLat - minLat),
+    lngSpan: Math.max(0.0001, maxLng - minLng),
+  };
+}
+
+function normalizedPoint(point, bounds = currentBounds) {
+  if (!point || !bounds) return null;
+  const lat = typeof point.lat === 'number' ? point.lat : bounds.minLat;
+  const lng = typeof point.lng === 'number' ? point.lng : bounds.minLng;
+  const x = 10 + (((lng - bounds.minLng) / bounds.lngSpan) * 75);
+  const y = 80 - (((lat - bounds.minLat) / bounds.latSpan) * 50);
+  return {
+    x: Math.min(95, Math.max(5, x)),
+    y: Math.min(85, Math.max(15, y)),
+  };
+}
+
+function normalizeRoute(route) {
+  if (!route || !route.length) return [];
+  currentBounds = buildBounds(route);
+  return route.map((point) => normalizedPoint(point, currentBounds)).filter(Boolean);
+}
+
+function getNormalizedPosition(point) {
+  return normalizedPoint(point);
 }
 
 function updateMarkerPosition(point) {
@@ -65,16 +119,39 @@ function updateMarkerPosition(point) {
   mapMarker.style.top = `${y}%`;
 }
 
+function positionPin(pinEl, location) {
+  if (!pinEl) return;
+  const normalized = getNormalizedPosition(location);
+  if (!normalized) {
+    pinEl.style.display = 'none';
+    return;
+  }
+  pinEl.style.display = 'flex';
+  pinEl.style.left = `${normalized.x}%`;
+  pinEl.style.top = `${normalized.y}%`;
+}
+
+function isTrackingReady(order) {
+  return Boolean(order?.driver && TRACKING_READY_STATUSES.has(order.status));
+}
+
 function startRouteAnimation(route) {
   if (!mapMarker) return;
   clearInterval(routeInterval);
   normalizedRoute = normalizeRoute(route);
-  if (!normalizedRoute.length) return;
+  if (!normalizedRoute.length) {
+    trackingActive = false;
+    return;
+  }
   routeIndex = 0;
   updateMarkerPosition(normalizedRoute[0]);
+  updateMapPins();
+  updateMapStats();
+  trackingActive = true;
   routeInterval = setInterval(() => {
     routeIndex = (routeIndex + 1) % normalizedRoute.length;
     updateMarkerPosition(normalizedRoute[routeIndex]);
+    updateMapStats();
   }, 3200);
 }
 
@@ -85,16 +162,99 @@ function startCountdown(minutes) {
   const tick = () => {
     if (seconds <= 0) {
       countdownEl.textContent = 'Arriving shortly';
+      countdownSeconds = 0;
+      updateMapStats();
       clearInterval(countdownInterval);
       return;
     }
     const mm = Math.floor(seconds / 60);
     const ss = seconds % 60;
     countdownEl.textContent = `ETA ${mm}m ${ss.toString().padStart(2, '0')}s`;
+    countdownSeconds = seconds;
+    updateMapStats();
     seconds -= 1;
   };
   tick();
   countdownInterval = setInterval(tick, 1000);
+}
+
+function updateMapPins() {
+  if (latestStoreLocation) {
+    positionPin(storePin, latestStoreLocation);
+  }
+  if (latestCustomerLocation) {
+    positionPin(homePin, latestCustomerLocation);
+  }
+}
+
+function formatDistance(distance) {
+  if (!distance && distance !== 0) return '—';
+  return `${distance.toFixed(2)} km`;
+}
+
+function formatCoords(point) {
+  if (!point) return '—';
+  return `Lat ${point.lat.toFixed(4)}, Lng ${point.lng.toFixed(4)}`;
+}
+
+function formatETA(seconds) {
+  if (!Number.isFinite(seconds)) return '—';
+  const mm = Math.floor(seconds / 60);
+  const ss = seconds % 60;
+  return `${mm}m ${ss.toString().padStart(2, '0')}s`;
+}
+
+function updateMapStats() {
+  if (mapDistanceEl) {
+    const total = latestOrderDistance || 0;
+    if (normalizedRoute.length) {
+      const progress = normalizedRoute.length > 1 ? routeIndex / (normalizedRoute.length - 1) : 0;
+      const remaining = Math.max(0, 1 - progress);
+      mapDistanceEl.textContent = `Distance left ${formatDistance(total * remaining)}`;
+    } else {
+      mapDistanceEl.textContent = `Distance approx ${formatDistance(total)}`;
+    }
+  }
+  if (mapTimeLeftEl) {
+    mapTimeLeftEl.textContent = countdownSeconds > 0 ? `Time left ${formatETA(countdownSeconds)}` : 'Time left —';
+  }
+}
+
+function resetTrackingAnimation() {
+  if (countdownInterval) {
+    clearInterval(countdownInterval);
+    countdownInterval = null;
+  }
+  if (routeInterval) {
+    clearInterval(routeInterval);
+    routeInterval = null;
+  }
+  trackingActive = false;
+  normalizedRoute = [];
+  routeIndex = 0;
+  countdownSeconds = 0;
+  if (mapMarker) {
+    mapMarker.style.left = '';
+    mapMarker.style.top = '';
+  }
+  if (storePin) {
+    storePin.style.display = 'none';
+  }
+  if (homePin) {
+    homePin.style.display = 'none';
+  }
+  updateMapStats();
+}
+function updateTrackingOverlay(order) {
+  if (!trackingOverlay) return;
+  const ready = isTrackingReady(order);
+  if (ready) {
+    trackingOverlay.classList.add('hidden');
+    return;
+  }
+  const message = TRACKING_OVERLAY_MESSAGES[order?.status] || 'Tracking begins once your delivery agent is assigned.';
+  trackingOverlay.textContent = message;
+  trackingOverlay.classList.remove('hidden');
 }
 
 function updateInstructionText(text) {
@@ -103,29 +263,56 @@ function updateInstructionText(text) {
 }
 
 function setupDeliveryMap(order) {
-  const driver = order.driver || {};
+  const driver = order.driver;
   if (agentNameEl) {
-    agentNameEl.textContent = driver.name || 'Quickmart agent';
+    agentNameEl.textContent = driver?.name || 'Quickmart agent';
   }
   if (agentVehicleEl) {
-    agentVehicleEl.textContent = driver.vehicle || 'Quickmart delivery';
+    agentVehicleEl.textContent = driver?.vehicle || 'Quickmart delivery';
   }
   if (agentCallEl) {
-    agentCallEl.href = driver.phone ? `tel:${driver.phone}` : '#';
+    agentCallEl.href = driver?.phone ? `tel:${driver.phone}` : '#';
+  }
+  latestOrderDistance = order.distance_km || latestOrderDistance;
+  latestStoreLocation = order.store_location || latestStoreLocation;
+  latestCustomerLocation = order.customer_location || latestCustomerLocation;
+  if (mapStoreNameEl) {
+    mapStoreNameEl.textContent = order.store_assignment?.name || 'Quickmart hub';
+  }
+  if (mapStoreCoordsEl) {
+    mapStoreCoordsEl.textContent = formatCoords(latestStoreLocation);
+  }
+  if (mapHomeNameEl) {
+    mapHomeNameEl.textContent = 'Your location';
+  }
+  if (mapHomeCoordsEl) {
+    mapHomeCoordsEl.textContent = formatCoords(latestCustomerLocation);
+  }
+  if (etaEl) {
+    etaEl.textContent = order.eta_minutes ? `ETA: ${order.eta_minutes} minutes` : 'ETA: 30 minutes';
+  }
+  const instructionText =
+    STATUS_INSTRUCTION_TEXT[order.status] || 'Your order is being prepared. We will update the tracker shortly.';
+  updateInstructionText(instructionText);
+  updateTrackingOverlay(order);
+  const ready = isTrackingReady(order);
+  if (!ready) {
+    resetTrackingAnimation();
+    return;
   }
   startCountdown(order.eta_minutes || 0);
-  startRouteAnimation(driver.route || []);
+  startRouteAnimation(order.tracking_route || driver.route || []);
 }
 
 if (agentChatBtn) {
   agentChatBtn.addEventListener('click', () => {
-    const note = prompt('Send a special instruction to the delivery agent:');
-    if (note === null) return;
-    const trimmed = note.trim();
-    if (trimmed) {
-      updateInstructionText(`Instruction sent: “${trimmed}”`);
-    } else {
-      updateInstructionText('No instruction was sent.');
+    const quickNotes = [
+      { label: 'Leave at door', value: 'Please leave the package at the door if no one answers.' },
+      { label: 'Call before arrival', value: 'Call me before you reach the gate; I may be on a call.' },
+      { label: 'Ring twice', value: 'Ring the doorbell twice and wait a moment before knocking.' },
+    ];
+    if (window.quickmartAssistant?.showActionTable) {
+      window.quickmartAssistant.showActionTable(quickNotes, 'What should I tell the rider?');
     }
   });
 }

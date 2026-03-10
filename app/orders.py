@@ -7,6 +7,11 @@ from fastapi import WebSocket
 
 from app.recommendation import replacement_suggestions
 
+AGENT_ASSIGN_DELAY = 4
+STORE_PICKUP_DELAY = 3
+OUT_FOR_DELIVERY_DELAY = 3
+CONFIRMATION_DELAY = 3
+
 
 class ConnectionManager:
     def __init__(self) -> None:
@@ -44,6 +49,16 @@ class OrderEngine:
             self._simulate(order, orders_store, products, save_orders)
         )
 
+    def _build_driver_profile(self, order: dict[str, Any]) -> dict[str, Any]:
+        route = order.get("tracking_route") or []
+        return {
+            "name": "Ravi Kumar",
+            "phone": "+919845011223",
+            "vehicle": "Quickmart Bike · AQ-7799",
+            "route": route,
+            "assigned_at": datetime.now(timezone.utc).isoformat(),
+        }
+
     async def push_decision(self, order_id: str, decision: dict[str, Any]) -> None:
         queue = self.decision_queues.get(order_id)
         if queue:
@@ -59,7 +74,6 @@ class OrderEngine:
                 if order["status"] == "cancelled":
                     break
 
-                await asyncio.sleep(2)
                 product = next((p for p in products if p["id"] == item["product_id"]), None)
                 issue_random = random.random()
 
@@ -121,6 +135,28 @@ class OrderEngine:
                     await self._persist_and_notify(order, orders_store, save_orders)
 
             if order["status"] != "cancelled":
+                await asyncio.sleep(AGENT_ASSIGN_DELAY)
+                if order["status"] == "cancelled":
+                    return
+                order["driver"] = self._build_driver_profile(order)
+                order["status"] = "driver_assigned"
+                await self._persist_and_notify(order, orders_store, save_orders)
+
+                await asyncio.sleep(STORE_PICKUP_DELAY)
+                if order["status"] == "cancelled":
+                    return
+                order["status"] = "driver_at_store"
+                await self._persist_and_notify(order, orders_store, save_orders)
+
+                await asyncio.sleep(OUT_FOR_DELIVERY_DELAY)
+                if order["status"] == "cancelled":
+                    return
+                order["status"] = "out_for_delivery"
+                await self._persist_and_notify(order, orders_store, save_orders)
+
+                await asyncio.sleep(CONFIRMATION_DELAY)
+                if order["status"] == "cancelled":
+                    return
                 order["status"] = "confirmed"
                 await self._persist_and_notify(order, orders_store, save_orders)
         finally:

@@ -156,17 +156,26 @@
     </section>
 
     <aside class="cart-wrapper">
-      <div id="emergency-banner" class="emergency-banner hidden">
-        <strong>Emergency delivery active</strong>
-        <span id="emergency-banner-copy"></span>
-        <small id="emergency-banner-note"></small>
-      </div>
-      <div class="cart-panel">
-        <h2 class="title-with-svg"><img src="/static/images/ui/cart.svg" alt="" class="ui-svg xs" /> Your Cart</h2>
-        <div id="cart-items"></div>
-        <p id="cart-total">Total: INR 0.00</p>
-        <button id="checkout-btn" class="checkout">Checkout</button>
-        <p class="meta">If any item is missing, your order pauses for 2 minutes so you can decide.</p>
+      <div class="emergency-cart-shell">
+        <div id="emergency-banner" class="emergency-banner hidden">
+          <div class="emergency-banner-head">
+            <strong>Emergency delivery active</strong>
+            <span id="emergency-banner-state"></span>
+          </div>
+          <span id="emergency-banner-copy"></span>
+          <small id="emergency-banner-note"></small>
+          <div class="emergency-banner-meta">
+            <p><strong>Essentials:</strong> <span id="emergency-banner-scope"></span></p>
+            <p><strong>Speed:</strong> <span id="emergency-banner-time"></span></p>
+          </div>
+        </div>
+        <div class="cart-panel">
+          <h2 class="title-with-svg"><img src="/static/images/ui/cart.svg" alt="" class="ui-svg xs" /> Your Cart</h2>
+          <div id="cart-items"></div>
+          <p id="cart-total">Total: INR 0.00</p>
+          <button id="checkout-btn" class="checkout">Checkout</button>
+          <p class="meta">If any item is missing, your order pauses for 2 minutes so you can decide.</p>
+        </div>
       </div>
     </aside>
   </main>

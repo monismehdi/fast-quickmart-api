@@ -1,5 +1,7 @@
 from datetime import datetime, timezone
 from pathlib import Path
+import math
+import random
 from typing import Any
 
 from fastapi import Body, Cookie, FastAPI, Form, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
@@ -31,7 +33,7 @@ SURGE_CHARGES = {
     "400001": 35,
 }
 
-EMERGENCY_KEYWORDS = {"diaper", "formula", "baby", "medicine", "medicines", "pad", "care", "milk", "sanitize", "sanitary", "thermometer", "blood", "pressure", "monitor"}
+EMERGENCY_KEYWORDS = {"diaper", "formula", "baby", "medicine", "medicines", "pad", "care", "milk", "sanitize", "sanitary", "thermometer", "blood", "pressure", "monitor", "first aid", "wipe"}
 EMERGENCY_CATEGORIES = {"Kids", "Daily Essentials", "Dairy", "Medical"}
 EMERGENCY_TIME_WINDOW = (10, 20)
 EMERGENCY_SCOPE = [
@@ -43,6 +45,9 @@ EMERGENCY_SCOPE = [
     "milk",
     "thermometers",
     "blood pressure monitors",
+    "baby wipes",
+    "first aid kits",
+    "medical equipment",
 ]
 EMERGENCY_FEE_RANGE = (15, 30)
 DEFAULT_STORE_KEY = "default"
@@ -55,6 +60,8 @@ STORE_NETWORK = {
             "eta_modifier": 0,
             "emergency_fee": 20,
             "open": True,
+            "lat": 12.9716,
+            "lng": 77.5946,
             "status_note": "Serving from your neighbourhood hub.",
         },
         {
@@ -64,6 +71,8 @@ STORE_NETWORK = {
             "eta_modifier": 8,
             "emergency_fee": 18,
             "open": True,
+            "lat": 12.9821,
+            "lng": 77.6085,
             "status_note": "Shifted to the east block if the central hub is busy.",
         },
     ],
@@ -75,6 +84,8 @@ STORE_NETWORK = {
             "eta_modifier": 0,
             "emergency_fee": 22,
             "open": False,
+            "lat": 12.9716,
+            "lng": 77.5946,
             "status_note": "Central hub is re-stocking its emergency essentials.",
         },
         {
@@ -84,6 +95,8 @@ STORE_NETWORK = {
             "eta_modifier": 10,
             "emergency_fee": 19,
             "open": True,
+            "lat": 12.9552,
+            "lng": 77.5999,
             "status_note": "Serving now from the south point depot.",
         },
         {
@@ -93,6 +106,8 @@ STORE_NETWORK = {
             "eta_modifier": 15,
             "emergency_fee": 16,
             "open": True,
+            "lat": 12.9614,
+            "lng": 77.6499,
             "status_note": "Fallback from the outer ring because the nearest hubs were paused.",
         },
     ],
@@ -104,6 +119,8 @@ STORE_NETWORK = {
             "eta_modifier": 0,
             "emergency_fee": 18,
             "open": True,
+            "lat": 12.9716,
+            "lng": 77.5946,
             "status_note": "Central hub is taking this order.",
         },
         {
@@ -113,10 +130,20 @@ STORE_NETWORK = {
             "eta_modifier": 12,
             "emergency_fee": 17,
             "open": True,
+            "lat": 13.0048,
+            "lng": 77.5973,
             "status_note": "North annex handles overflow and farther pins.",
         },
     ],
 }
+PIN_COORDINATES = {
+    "560001": {"lat": 12.9718, "lng": 77.5945},
+    "560002": {"lat": 12.9765, "lng": 77.5991},
+    "560003": {"lat": 12.9790, "lng": 77.6050},
+}
+DEFAULT_CUSTOMER_LOCATION = {"lat": 12.9736, "lng": 77.5991}
+DEFAULT_STORE_LOCATION = {"lat": 12.9716, "lng": 77.5946}
+TRACKING_SEGMENTS = 5
 
 COUPONS = {
     "WELCOME50": {
@@ -281,9 +308,42 @@ def resolve_store_assignment(pin_code: str | None) -> tuple[dict[str, Any], str]
         "eta_modifier": selected.get("eta_modifier", 0),
         "emergency_fee": selected.get("emergency_fee", 0),
         "status_note": fallback_note or selected.get("status_note", ""),
+        "lat": selected.get("lat"),
+        "lng": selected.get("lng"),
     }
     return sanitized, fallback_note
 
+
+def resolve_customer_location(pin_code: str | None) -> dict[str, float]:
+    pin = (pin_code or "").strip()
+    coords = PIN_COORDINATES.get(pin)
+    if coords:
+        return {"lat": coords["lat"], "lng": coords["lng"]}
+    return {"lat": DEFAULT_CUSTOMER_LOCATION["lat"], "lng": DEFAULT_CUSTOMER_LOCATION["lng"]}
+
+
+def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    if any(v is None for v in (lat1, lon1, lat2, lon2)):
+        return 0.0
+    r = 6371.0
+    phi1 = math.radians(lat1)
+    phi2 = math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlambda = math.radians(lon2 - lon1)
+    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
+    return round(r * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a)) if a < 1 else r * math.pi, 2)
+
+
+def build_delivery_path(start: dict[str, float], end: dict[str, float], segments: int = TRACKING_SEGMENTS) -> list[dict[str, float]]:
+    if not start or not end:
+        return []
+    steps = max(2, segments)
+    lat_step = (end["lat"] - start["lat"]) / (steps - 1)
+    lng_step = (end["lng"] - start["lng"]) / (steps - 1)
+    return [
+        {"lat": start["lat"] + lat_step * idx, "lng": start["lng"] + lng_step * idx}
+        for idx in range(steps)
+    ]
 
 def load_users():
     return read_data("users", [])
@@ -600,7 +660,7 @@ async def payment_page(request: Request, user_id: str | None = Cookie(default=No
             "scope": EMERGENCY_SCOPE,
             "window": list(EMERGENCY_TIME_WINDOW),
             "fee_range": EMERGENCY_FEE_RANGE,
-            "description": "Emergency mode delivers within 10-20 minutes for basic essentials (diapers, formula, medicines, pads, milk).",
+            "description": "Emergency mode delivers within 10-20 minutes for diapers, formula, medicines, pads, medical equipment, and baby essentials.",
         },
     }
 
@@ -852,18 +912,16 @@ async def checkout(
         order["store_assignment"]["status_note"] = fallback_note
     emergency_fee = store_assignment.get("emergency_fee", 0) if emergency_active else 0
 
-    driver_route = [
-        {"lat": 12.9716, "lng": 77.5946},
-        {"lat": 12.9750, "lng": 77.6005},
-        {"lat": 12.9787, "lng": 77.6052},
-        {"lat": 12.9822, "lng": 77.6101},
-    ]
-    order["driver"] = {
-        "name": "Ravi Kumar",
-        "phone": "+919845011223",
-        "vehicle": "Quickmart Bike · AQ-7799",
-        "route": driver_route,
+    store_location = {
+        "lat": store_assignment.get("lat") if store_assignment.get("lat") is not None else DEFAULT_STORE_LOCATION["lat"],
+        "lng": store_assignment.get("lng") if store_assignment.get("lng") is not None else DEFAULT_STORE_LOCATION["lng"],
     }
+    customer_location = resolve_customer_location(pin_code)
+    order["store_location"] = store_location
+    order["customer_location"] = customer_location
+    order["distance_km"] = haversine(store_location["lat"], store_location["lng"], customer_location["lat"], customer_location["lng"])
+    order["tracking_route"] = build_delivery_path(store_location, customer_location)
+    order["driver"] = None
     payment_summary = build_payment_summary(
         base_total,
         coupon_code,

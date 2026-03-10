@@ -26,6 +26,9 @@ const emergencyToggleState = document.getElementById('emergency-toggle-state');
 const emergencyBanner = document.getElementById('emergency-banner');
 const emergencyBannerCopy = document.getElementById('emergency-banner-copy');
 const emergencyBannerNote = document.getElementById('emergency-banner-note');
+const emergencyBannerState = document.getElementById('emergency-banner-state');
+const emergencyBannerScope = document.getElementById('emergency-banner-scope');
+const emergencyBannerTime = document.getElementById('emergency-banner-time');
 
 async function postForm(url, payload) {
   const fd = new FormData();
@@ -220,6 +223,7 @@ function updateEmergencyBannerState() {
   if (!emergencyBanner || !emergencyBannerCopy) return;
   if (!state.emergencyMode) {
     emergencyBanner.classList.add('hidden');
+    if (emergencyBannerState) emergencyBannerState.textContent = '';
     return;
   }
   const info = getEmergencyInfo();
@@ -230,6 +234,15 @@ function updateEmergencyBannerState() {
     info.description || `Superfast ${windowRange[0]}-${windowRange[1]} minute delivery for ${scope}.`;
   if (emergencyBannerNote) {
     emergencyBannerNote.textContent = `Only ${scope} are available while emergency mode is on.`;
+  }
+  if (emergencyBannerScope) {
+    emergencyBannerScope.textContent = scope;
+  }
+  if (emergencyBannerTime) {
+    emergencyBannerTime.textContent = `${windowRange[0]}-${windowRange[1]} min delivery`;
+  }
+  if (emergencyBannerState) {
+    emergencyBannerState.textContent = 'Superfast';
   }
 }
 

@@ -48,6 +48,15 @@ button.danger { background: var(--danger); }
   color: #fff;
   border-color: transparent;
 }
+.emergency-cart-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #ffffffcc;
+  padding: 12px;
+  border-radius: 16px;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+}
 .emergency-banner {
   padding: 12px 14px;
   border-radius: 12px;
@@ -55,12 +64,29 @@ button.danger { background: var(--danger); }
   border: 1px solid #f4b5b0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-bottom: 10px;
+  gap: 6px;
 }
 .emergency-banner small {
   color: #8f2d1c;
   font-size: 0.85rem;
+}
+.emergency-banner-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.emergency-banner-state {
+  font-size: 0.8rem;
+  color: #c0392b;
+  font-weight: 600;
+}
+.emergency-banner-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.85rem;
+  color: #4f2b1a;
 }
 .product-card.emergency-restricted {
   opacity: 0.4;
@@ -176,6 +202,16 @@ input, select { padding: 10px; border-radius: 10px; border: 1px solid #ccc; }
 .agent-contacts .ghost-link { font-size: 0.85rem; text-transform: none; }
 .agent-contacts a { text-decoration: none; }
 .payment-details-grid { margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.map-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 10px; }
+.map-pin-info { border: 1px solid #e0e6ec; border-radius: 10px; padding: 10px; background: #fefefe; }
+.map-pin-info span { color: #444; font-size: 0.85rem; }
+.map-pin-info strong { display: block; margin-top: 4px; font-size: 1rem; }
+.map-pin-info small { color: #666; font-size: 0.8rem; }
+.map-stats { display: flex; justify-content: space-between; gap: 12px; font-size: 0.9rem; color: #2b5e89; margin-bottom: 6px; }
+.map-pin { position: absolute; width: 42px; height: 42px; border-radius: 50%; background: #fff; border: 2px solid var(--accent); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; box-shadow: 0 6px 16px rgba(15,138,95,0.35); transform: translate(-50%, -50%); }
+.map-pin.store-pin { border-color: #0f8a5f; background: #dcf5e6; }
+.map-pin.home-pin { border-color: #0b6e4f; background: #f0f5f0; color: #0b6e4f; }
+.tracking-overlay { position: absolute; inset: 0; border-radius: 16px; background: rgba(255, 255, 255, 0.85); display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 700; color: #0f8a5f; pointer-events: none; }
 .payment-details-grid div { border: 1px solid #e6f4ea; border-radius: 10px; padding: 10px; background: #f9fdf9; }
 .payment-details-grid span { color: #666; font-size: 0.85rem; }
 .payment-details-grid strong { margin-top: 4px; display: block; font-size: 1rem; }
@@ -379,6 +415,29 @@ input, select { padding: 10px; border-radius: 10px; border: 1px solid #ccc; }
   font-size: 0.8rem;
   cursor: pointer;
   color: var(--ink);
+}
+
+.chat-table {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.chat-table button {
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  padding: 8px;
+  background: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+
+.chat-table button:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
 }
 
 .chat-form {

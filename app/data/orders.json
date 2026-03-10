@@ -1330,5 +1330,384 @@
       "store_note": "Serving from your neighbourhood hub."
     },
     "total": 2789.0
+  },
+  {
+    "id": "order_26",
+    "user_id": "user_seed_1",
+    "status": "confirmed",
+    "created_at": "2026-03-10T02:23:03.670550+00:00",
+    "updated_at": "2026-03-10T02:23:14.181151+00:00",
+    "eta_minutes": 30,
+    "active_issue": null,
+    "items": [
+      {
+        "id": "item_1",
+        "product_id": "p3",
+        "name": "Avocado",
+        "brand": "GreenValley",
+        "qty": 2,
+        "unit_price": 129.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_2",
+        "product_id": "p7",
+        "name": "Almond Milk",
+        "brand": "NutriSip",
+        "qty": 1,
+        "unit_price": 240.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_3",
+        "product_id": "p2",
+        "name": "Organic Bananas",
+        "brand": "NatureNest",
+        "qty": 1,
+        "unit_price": 54.0,
+        "state": "skipped"
+      }
+    ],
+    "store_assignment": {
+      "id": "qm_central",
+      "name": "Quickmart Central Hub",
+      "distance_label": "1.2 km",
+      "eta_modifier": 0,
+      "emergency_fee": 20,
+      "status_note": "Serving from your neighbourhood hub."
+    },
+    "emergency_mode": false,
+    "driver": {
+      "name": "Ravi Kumar",
+      "phone": "+919845011223",
+      "vehicle": "Quickmart Bike \u00b7 AQ-7799",
+      "route": [
+        {
+          "lat": 12.9716,
+          "lng": 77.5946
+        },
+        {
+          "lat": 12.975,
+          "lng": 77.6005
+        },
+        {
+          "lat": 12.9787,
+          "lng": 77.6052
+        },
+        {
+          "lat": 12.9822,
+          "lng": 77.6101
+        }
+      ]
+    },
+    "payment_summary": {
+      "base_total": 552.0,
+      "coupon_code": null,
+      "coupon_discount": 0.0,
+      "coupon_label": null,
+      "payment_mode": "cod",
+      "payment_label": "Cash on Delivery",
+      "payment_discount": 0.0,
+      "payment_description": "Pay in cash when we arrive.",
+      "handling_fee": 25,
+      "delivery_fee": 0,
+      "surge_charge": 0,
+      "pin_code": "",
+      "surge_note": "",
+      "delivery_note": "Delivery fee waived for orders above \u20b9299.",
+      "final_total": 577.0,
+      "emergency_mode": false,
+      "emergency_fee": 0.0,
+      "store_name": "Quickmart Central Hub",
+      "store_distance": "1.2 km",
+      "store_note": "Serving from your neighbourhood hub."
+    },
+    "total": 577.0
+  },
+  {
+    "id": "order_27",
+    "user_id": "user_seed_1",
+    "status": "on_hold",
+    "created_at": "2026-03-10T02:35:23.718780+00:00",
+    "updated_at": "2026-03-10T02:40:04.763267+00:00",
+    "eta_minutes": 30,
+    "active_issue": {
+      "item_id": "item_4",
+      "reason": "damaged",
+      "hold_until": "2026-03-10T02:42:04.763158+00:00",
+      "suggestion_mode": "similar_items",
+      "suggestions": [
+        {
+          "id": "p5",
+          "name": "Greek Yogurt",
+          "brand": "MilkyWay",
+          "category": "Dairy",
+          "price": 95.0
+        },
+        {
+          "id": "p12",
+          "name": "Free Range Eggs",
+          "brand": "SunriseFarm",
+          "category": "Dairy",
+          "price": 109.0
+        },
+        {
+          "id": "p11",
+          "name": "Free Range Eggs",
+          "brand": "CountryHen",
+          "category": "Dairy",
+          "price": 115.0
+        },
+        {
+          "id": "p47",
+          "name": "FarmFresh Full Cream Milk",
+          "brand": "FarmFresh",
+          "category": "Dairy",
+          "price": 120.0
+        },
+        {
+          "id": "p8",
+          "name": "Almond Milk",
+          "brand": "PureNut",
+          "category": "Dairy",
+          "price": 228.0
+        }
+      ]
+    },
+    "items": [
+      {
+        "id": "item_1",
+        "product_id": "p3",
+        "name": "Avocado",
+        "brand": "GreenValley",
+        "qty": 1,
+        "unit_price": 129.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_2",
+        "product_id": "p14",
+        "name": "Protein Bar",
+        "brand": "MuscleMint",
+        "qty": 1,
+        "unit_price": 66.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_3",
+        "product_id": "p2",
+        "name": "Organic Bananas",
+        "brand": "NatureNest",
+        "qty": 1,
+        "unit_price": 54.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_4",
+        "product_id": "p6",
+        "name": "Greek Yogurt",
+        "brand": "DailyDairy",
+        "qty": 1,
+        "unit_price": 89.0,
+        "state": "damaged"
+      }
+    ],
+    "store_assignment": {
+      "id": "qm_central",
+      "name": "Quickmart Central Hub",
+      "distance_label": "1.2 km",
+      "eta_modifier": 0,
+      "emergency_fee": 20,
+      "status_note": "Serving from your neighbourhood hub.",
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "emergency_mode": false,
+    "store_location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "customer_location": {
+      "lat": 12.9736,
+      "lng": 77.5991
+    },
+    "distance_km": 0.54,
+    "tracking_route": [
+      {
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      {
+        "lat": 12.972100000000001,
+        "lng": 77.595725
+      },
+      {
+        "lat": 12.9726,
+        "lng": 77.59685
+      },
+      {
+        "lat": 12.973099999999999,
+        "lng": 77.597975
+      },
+      {
+        "lat": 12.9736,
+        "lng": 77.5991
+      }
+    ],
+    "driver": null,
+    "payment_summary": {
+      "base_total": 338.0,
+      "coupon_code": null,
+      "coupon_discount": 0.0,
+      "coupon_label": null,
+      "payment_mode": "amazon_pay",
+      "payment_label": "Amazon Pay",
+      "payment_discount": 16.9,
+      "payment_description": "5% instant discount up to \u20b9150.",
+      "handling_fee": 25,
+      "delivery_fee": 0,
+      "surge_charge": 0,
+      "pin_code": "",
+      "surge_note": "",
+      "delivery_note": "Delivery fee waived for orders above \u20b9299.",
+      "final_total": 346.1,
+      "emergency_mode": false,
+      "emergency_fee": 0.0,
+      "store_name": "Quickmart Central Hub",
+      "store_distance": "1.2 km",
+      "store_note": "Serving from your neighbourhood hub."
+    },
+    "total": 346.1
+  },
+  {
+    "id": "order_28",
+    "user_id": "user_seed_1",
+    "status": "confirmed",
+    "created_at": "2026-03-10T02:48:40.150457+00:00",
+    "updated_at": "2026-03-10T02:49:04.096051+00:00",
+    "eta_minutes": 30,
+    "active_issue": null,
+    "items": [
+      {
+        "id": "item_1",
+        "product_id": "p8",
+        "name": "Almond Milk",
+        "brand": "PureNut",
+        "qty": 1,
+        "unit_price": 228.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_2",
+        "product_id": "p2",
+        "name": "Organic Bananas",
+        "brand": "NatureNest",
+        "qty": 1,
+        "unit_price": 54.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_3",
+        "product_id": "p5",
+        "name": "Greek Yogurt",
+        "brand": "MilkyWay",
+        "qty": 1,
+        "unit_price": 95.0,
+        "state": "replaced"
+      }
+    ],
+    "store_assignment": {
+      "id": "qm_central",
+      "name": "Quickmart Central Hub",
+      "distance_label": "1.2 km",
+      "eta_modifier": 0,
+      "emergency_fee": 20,
+      "status_note": "Serving from your neighbourhood hub.",
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "emergency_mode": false,
+    "store_location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "customer_location": {
+      "lat": 12.9736,
+      "lng": 77.5991
+    },
+    "distance_km": 0.54,
+    "tracking_route": [
+      {
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      {
+        "lat": 12.972100000000001,
+        "lng": 77.595725
+      },
+      {
+        "lat": 12.9726,
+        "lng": 77.59685
+      },
+      {
+        "lat": 12.973099999999999,
+        "lng": 77.597975
+      },
+      {
+        "lat": 12.9736,
+        "lng": 77.5991
+      }
+    ],
+    "driver": {
+      "name": "Ravi Kumar",
+      "phone": "+919845011223",
+      "vehicle": "Quickmart Bike \u00b7 AQ-7799",
+      "route": [
+        {
+          "lat": 12.9716,
+          "lng": 77.5946
+        },
+        {
+          "lat": 12.972100000000001,
+          "lng": 77.595725
+        },
+        {
+          "lat": 12.9726,
+          "lng": 77.59685
+        },
+        {
+          "lat": 12.973099999999999,
+          "lng": 77.597975
+        },
+        {
+          "lat": 12.9736,
+          "lng": 77.5991
+        }
+      ],
+      "assigned_at": "2026-03-10T02:48:55.081459+00:00"
+    },
+    "payment_summary": {
+      "base_total": 371.0,
+      "coupon_code": null,
+      "coupon_discount": 0.0,
+      "coupon_label": null,
+      "payment_mode": "cod",
+      "payment_label": "Cash on Delivery",
+      "payment_discount": 0.0,
+      "payment_description": "Pay in cash when we arrive.",
+      "handling_fee": 25,
+      "delivery_fee": 0,
+      "surge_charge": 0,
+      "pin_code": "",
+      "surge_note": "",
+      "delivery_note": "Delivery fee waived for orders above \u20b9299.",
+      "final_total": 396.0,
+      "emergency_mode": false,
+      "emergency_fee": 0.0,
+      "store_name": "Quickmart Central Hub",
+      "store_distance": "1.2 km",
+      "store_note": "Serving from your neighbourhood hub."
+    },
+    "total": 396.0
   }
 ]
