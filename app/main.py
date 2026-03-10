@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
 from fastapi import Body, Cookie, FastAPI, Form, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
 from fastapi.encoders import jsonable_encoder
@@ -28,6 +29,91 @@ SURGE_CHARGES = {
     "560001": 45,
     "110001": 40,
     "400001": 35,
+}
+
+EMERGENCY_KEYWORDS = {"diaper", "formula", "baby", "medicine", "pad", "care", "milk", "sanitize", "sanitary"}
+EMERGENCY_CATEGORIES = {"Kids", "Daily Essentials", "Dairy"}
+EMERGENCY_TIME_WINDOW = (10, 20)
+EMERGENCY_SCOPE = [
+    "baby diapers",
+    "baby child care",
+    "baby formula",
+    "medicines",
+    "sanitary pads",
+    "milk",
+]
+EMERGENCY_FEE_RANGE = (15, 30)
+DEFAULT_STORE_KEY = "default"
+STORE_NETWORK = {
+    DEFAULT_STORE_KEY: [
+        {
+            "id": "qm_central",
+            "name": "Quickmart Central Hub",
+            "distance_label": "1.2 km",
+            "eta_modifier": 0,
+            "emergency_fee": 20,
+            "open": True,
+            "status_note": "Serving from your neighbourhood hub.",
+        },
+        {
+            "id": "qm_east",
+            "name": "Quickmart East Block",
+            "distance_label": "4.3 km",
+            "eta_modifier": 8,
+            "emergency_fee": 18,
+            "open": True,
+            "status_note": "Shifted to the east block if the central hub is busy.",
+        },
+    ],
+    "560001": [
+        {
+            "id": "qm_central",
+            "name": "Quickmart Central Hub",
+            "distance_label": "1.2 km",
+            "eta_modifier": 0,
+            "emergency_fee": 22,
+            "open": False,
+            "status_note": "Central hub is re-stocking its emergency essentials.",
+        },
+        {
+            "id": "qm_south",
+            "name": "Quickmart South Point",
+            "distance_label": "3.9 km",
+            "eta_modifier": 10,
+            "emergency_fee": 19,
+            "open": True,
+            "status_note": "Serving now from the south point depot.",
+        },
+        {
+            "id": "qm_outer",
+            "name": "Quickmart Outer Ring Depot",
+            "distance_label": "6.5 km",
+            "eta_modifier": 15,
+            "emergency_fee": 16,
+            "open": True,
+            "status_note": "Fallback from the outer ring because the nearest hubs were paused.",
+        },
+    ],
+    "560002": [
+        {
+            "id": "qm_central",
+            "name": "Quickmart Central Hub",
+            "distance_label": "1.5 km",
+            "eta_modifier": 0,
+            "emergency_fee": 18,
+            "open": True,
+            "status_note": "Central hub is taking this order.",
+        },
+        {
+            "id": "qm_north",
+            "name": "Quickmart North Annex",
+            "distance_label": "4.8 km",
+            "eta_modifier": 12,
+            "emergency_fee": 17,
+            "open": True,
+            "status_note": "North annex handles overflow and farther pins.",
+        },
+    ],
 }
 
 COUPONS = {
@@ -155,6 +241,48 @@ def build_chatbot_response(message: str) -> dict:
     }
 
 
+def is_emergency_product(product: dict[str, Any]) -> bool:
+    category = product.get("category")
+    if category not in EMERGENCY_CATEGORIES:
+        return False
+    name = (product.get("name") or "").lower()
+    key = (product.get("product_key") or "").lower()
+    haystack = f"{name} {key}"
+    return any(keyword in haystack for keyword in EMERGENCY_KEYWORDS)
+
+
+def resolve_store_assignment(pin_code: str | None) -> tuple[dict[str, Any], str]:
+    pin = (pin_code or "").strip()
+    candidates = STORE_NETWORK.get(pin) or STORE_NETWORK.get(DEFAULT_STORE_KEY, [])
+    if not candidates:
+        candidates = STORE_NETWORK.get(DEFAULT_STORE_KEY, [])
+    first = candidates[0] if candidates else None
+    selected = next((store for store in candidates if store.get("open", True)), None)
+    if not selected and candidates:
+        selected = candidates[-1]
+    if not selected:
+        selected = {
+            "id": "qm_regional",
+            "name": "Quickmart Regional Hub",
+            "distance_label": "approx 5 km",
+            "eta_modifier": 5,
+            "emergency_fee": 20,
+            "status_note": "Routed to the nearest available depot.",
+        }
+    fallback_note = ""
+    if first and selected["id"] != first["id"]:
+        fallback_note = first.get("status_note") or f"{first['name']} is temporarily paused; routing from {selected['name']}."
+    sanitized = {
+        "id": selected["id"],
+        "name": selected["name"],
+        "distance_label": selected.get("distance_label"),
+        "eta_modifier": selected.get("eta_modifier", 0),
+        "emergency_fee": selected.get("emergency_fee", 0),
+        "status_note": fallback_note or selected.get("status_note", ""),
+    }
+    return sanitized, fallback_note
+
+
 def load_users():
     return read_data("users", [])
 
@@ -214,7 +342,15 @@ def calculate_payment_discount(amount: float, payment_mode: str):
     return round(discount, 2), mode
 
 
-def build_payment_summary(base_total: float, coupon_code: str | None, payment_mode: str, pin_code: str | None):
+def build_payment_summary(
+    base_total: float,
+    coupon_code: str | None,
+    payment_mode: str,
+    pin_code: str | None,
+    emergency_mode: bool = False,
+    emergency_fee: float = 0.0,
+    store_assignment: dict[str, Any] | None = None,
+):
     coupon_discount, normalized_coupon = calculate_coupon_discount(base_total, coupon_code)
     after_coupon = max(0, base_total - coupon_discount)
     payment_discount, payment_mode_data = calculate_payment_discount(after_coupon, payment_mode)
@@ -229,7 +365,8 @@ def build_payment_summary(base_total: float, coupon_code: str | None, payment_mo
         surge_note = f"High order volume at {pin} attracts a surge."
 
     handling_fee = HANDLING_FEE
-    final_total = round(max(0, after_payment + handling_fee + delivery_fee + surge_charge), 2)
+    emergency_addon = round(emergency_fee, 2) if emergency_mode else 0.0
+    final_total = round(max(0, after_payment + handling_fee + delivery_fee + surge_charge + emergency_addon), 2)
 
     delivery_note = (
         "Delivery fee waived for orders above ₹299."
@@ -253,6 +390,11 @@ def build_payment_summary(base_total: float, coupon_code: str | None, payment_mo
         "surge_note": surge_note,
         "delivery_note": delivery_note,
         "final_total": final_total,
+        "emergency_mode": emergency_mode,
+        "emergency_fee": emergency_addon,
+        "store_name": store_assignment.get("name") if store_assignment else None,
+        "store_distance": store_assignment.get("distance_label") if store_assignment else None,
+        "store_note": store_assignment.get("status_note") if store_assignment else None,
     }
 
 
@@ -343,6 +485,8 @@ async def shop(request: Request, user_id: str | None = Cookie(default=None)):
         return RedirectResponse(url="/", status_code=303)
 
     products = load_products()
+    for product in products:
+        product["emergency_ok"] = is_emergency_product(product)
     categories = sorted({p["category"] for p in products})
     carts = load_carts()
     cart = carts.get(user["id"], [])
@@ -378,6 +522,11 @@ async def shop(request: Request, user_id: str | None = Cookie(default=None)):
             "peer_recommendations": peer_recommendations,
             "surge_info": SURGE_CHARGES,
             "surge_waiver_threshold": SURGE_WAIVER_THRESHOLD,
+            "emergency_info": {
+                "scope": EMERGENCY_SCOPE,
+                "window": EMERGENCY_TIME_WINDOW,
+                "fee_range": EMERGENCY_FEE_RANGE,
+            },
         },
     )
 
@@ -443,6 +592,14 @@ async def payment_page(request: Request, user_id: str | None = Cookie(default=No
         "heavy_pincodes": list(SURGE_CHARGES.keys()),
         "payment_methods": PAYMENT_METHOD_DISCOUNTS,
         "coupons": COUPONS,
+        "store_network": STORE_NETWORK,
+        "store_network_default": DEFAULT_STORE_KEY,
+        "emergency_info": {
+            "scope": EMERGENCY_SCOPE,
+            "window": list(EMERGENCY_TIME_WINDOW),
+            "fee_range": EMERGENCY_FEE_RANGE,
+            "description": "Emergency mode delivers within 10-20 minutes for basic essentials (diapers, formula, medicines, pads, milk).",
+        },
     }
 
     return templates.TemplateResponse(
@@ -613,6 +770,7 @@ async def checkout(
     payment_mode: str = Form("cod"),
     pin_code: str | None = Form(None),
     coupon_code: str | None = Form(None),
+    emergency_mode: str | None = Form(None),
     user_id: str | None = Cookie(default=None),
 ):
     user = current_user(user_id)
@@ -626,6 +784,23 @@ async def checkout(
 
     products = load_products()
     product_by_id = {p["id"]: p for p in products}
+    emergency_active = str(emergency_mode or "").lower() in {"1", "true", "on", "yes"}
+    if emergency_active:
+        allowed_emergency_ids = {p["id"] for p in products if is_emergency_product(p)}
+        invalid_names = []
+        for entry in cart:
+            if entry["product_id"] not in allowed_emergency_ids:
+                product = product_by_id.get(entry["product_id"])
+                if product:
+                    invalid_names.append(product["name"])
+                else:
+                    invalid_names.append(entry["product_id"])
+        if invalid_names:
+            unique_invalid = sorted(set(invalid_names))
+            raise HTTPException(
+                status_code=400,
+                detail=f"Emergency mode only supports {', '.join(EMERGENCY_SCOPE)}. Remove {', '.join(unique_invalid)} or disable emergency mode.",
+            )
 
     orders = load_orders()
     order = {
@@ -660,7 +835,29 @@ async def checkout(
     if not order["items"]:
         raise HTTPException(status_code=400, detail="No valid items")
 
-    payment_summary = build_payment_summary(base_total, coupon_code, payment_mode, pin_code)
+    store_assignment, fallback_note = resolve_store_assignment(pin_code)
+    store_assignment = dict(store_assignment)
+    eta_modifier = store_assignment.get("eta_modifier", 0)
+    if emergency_active:
+        eta = EMERGENCY_TIME_WINDOW[0] + eta_modifier
+        eta = min(max(eta, EMERGENCY_TIME_WINDOW[0]), EMERGENCY_TIME_WINDOW[1])
+    else:
+        eta = 30 + eta_modifier
+    order["eta_minutes"] = eta
+    order["store_assignment"] = store_assignment
+    order["emergency_mode"] = emergency_active
+    if fallback_note:
+        order["store_assignment"]["status_note"] = fallback_note
+    emergency_fee = store_assignment.get("emergency_fee", 0) if emergency_active else 0
+    payment_summary = build_payment_summary(
+        base_total,
+        coupon_code,
+        payment_mode,
+        pin_code,
+        emergency_mode=emergency_active,
+        emergency_fee=emergency_fee,
+        store_assignment=store_assignment,
+    )
     order["payment_summary"] = payment_summary
     order["total"] = payment_summary["final_total"]
     orders.append(order)

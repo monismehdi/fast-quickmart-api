@@ -47,6 +47,7 @@
           <button type="button" class="ghost" id="apply-coupon">Apply</button>
         </div>
         <input type="hidden" id="payment-pin" name="pin_code" />
+        <input type="hidden" id="emergency-mode-input" name="emergency_mode" value="0" />
         <p id="pin-helper" class="muted"></p>
         <p id="coupon-message" class="muted"></p>
 
@@ -75,11 +76,17 @@
             <span>Surge charge</span>
             <strong id="summary-surge">INR 0.00</strong>
           </div>
+          <div class="summary-item">
+            <span>Emergency fee</span>
+            <strong id="summary-emergency">INR 0.00</strong>
+          </div>
           <div class="summary-item total">
             <span>Final payment</span>
             <strong id="final-amount">INR 0.00</strong>
           </div>
         </div>
+        <p id="store-hint" class="muted store-hint"></p>
+        <p id="emergency-preview" class="muted emergency-preview hidden"></p>
         <p id="delivery-note" class="muted"></p>
         <p id="surge-note" class="muted"></p>
         <button type="submit" class="checkout" id="confirm-payment">Confirm payment</button>

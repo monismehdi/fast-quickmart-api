@@ -28,6 +28,55 @@ button.danger { background: var(--danger); }
 }
 .top-actions { display: flex; gap: 12px; align-items: center; }
 .profile-pill { background: #fff; padding: 8px 10px; border-radius: 100px; border: 1px solid #ddd; }
+.top-actions .emergency-pill {
+  border-radius: 999px;
+  padding: 8px 14px;
+  border: 1px solid #c0392b;
+  background: #fff1f0;
+  color: #c0392b;
+  font-weight: 700;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+.top-actions .emergency-pill span {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.top-actions .emergency-pill-active {
+  background: #c0392b;
+  color: #fff;
+  border-color: transparent;
+}
+.emergency-banner {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #fff4f0;
+  border: 1px solid #f4b5b0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.emergency-banner small {
+  color: #8f2d1c;
+  font-size: 0.85rem;
+}
+.product-card.emergency-restricted {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.store-hint,
+.emergency-preview {
+  font-size: 0.9rem;
+  margin-top: 8px;
+  color: #555;
+}
+.store-info small {
+  display: block;
+  color: #777;
+  font-size: 0.78rem;
+}
 .layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; padding: 20px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin-bottom: 16px; }
 .grid.compact { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }

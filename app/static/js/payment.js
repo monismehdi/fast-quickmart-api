@@ -24,16 +24,26 @@ const summary = {
 const pinHelper = document.getElementById('pin-helper');
 const couponMessage = document.getElementById('coupon-message');
 const confirmButton = document.getElementById('confirm-payment');
+const emergencyInput = document.getElementById('emergency-mode-input');
+const storeHint = document.getElementById('store-hint');
+const emergencyPreview = document.getElementById('emergency-preview');
+const EMERGENCY_STORAGE_KEY = 'quickmart_emergency_mode';
+const emergencyInfo = config.emergency_info || {};
 
 const sanitizePin = (val) => (val || '').replace(/\D/g, '').slice(0, 6);
 const storedPin = window.localStorage?.getItem(PIN_STORAGE_KEY) || '';
+const storedEmergencyMode = window.localStorage?.getItem(EMERGENCY_STORAGE_KEY) === '1';
 const state = {
   coupon: '',
   paymentMode: document.querySelector('input[name="payment_mode"]:checked')?.value || 'cod',
   pin: sanitizePin(storedPin),
+  emergencyMode: storedEmergencyMode,
 };
 if (hiddenPinInput) {
   hiddenPinInput.value = state.pin;
+}
+if (emergencyInput) {
+  emergencyInput.value = state.emergencyMode ? '1' : '0';
 }
 
 function formatCurrency(value) {
@@ -77,6 +87,51 @@ function getPaymentMethodInfo(amountAfterCoupon) {
   return { amount: Math.round(discount * 100) / 100, label: method.label, description: method.description };
 }
 
+function resolveStoreForPin(pin) {
+  const networks = config.store_network || {};
+  const defaultKey = config.store_network_default || 'default';
+  const chosenKey = pin && networks[pin] ? pin : defaultKey;
+  const candidates = networks[chosenKey] || networks[defaultKey] || [];
+  if (!candidates.length) return null;
+  const primary = candidates[0];
+  const selected = candidates.find((store) => store.open !== false) || candidates[candidates.length - 1];
+  const fallbackNote =
+    primary && selected.id !== primary.id
+      ? primary.status_note || `${primary.name} is temporarily paused; routing from ${selected.name}.`
+      : '';
+  return {
+    ...selected,
+    status_note: fallbackNote || selected.status_note || '',
+  };
+}
+
+function updateStoreHint(store) {
+  if (!storeHint) return;
+  if (!store) {
+    storeHint.textContent = '';
+    return;
+  }
+  const distance = store.distance_label ? ` (${store.distance_label})` : '';
+  const note = store.status_note ? ` ${store.status_note}` : '';
+  storeHint.textContent = `Routing from ${store.name}${distance}.${note}`;
+}
+
+function updateEmergencyPreview() {
+  if (!emergencyPreview) return;
+  if (state.emergencyMode === false) {
+    emergencyPreview.classList.add('hidden');
+    return;
+  }
+  const windowRange = emergencyInfo.window || [];
+  const rangeText = windowRange.length ? `${windowRange[0]}-${windowRange[1]} min` : 'superfast';
+  const scopeText = (emergencyInfo.scope || []).join(', ');
+  const description =
+    emergencyInfo.description ||
+    `Emergency mode guarantees ${rangeText} delivery for ${scopeText}.`;
+  emergencyPreview.textContent = description;
+  emergencyPreview.classList.remove('hidden');
+}
+
 function updatePinMessage(pin, surgeCharge) {
   if (!pin) {
     pinHelper.textContent = 'PIN is set on the shop page; set one there to see surge pricing.';
@@ -110,7 +165,9 @@ function renderSummary() {
     state.pin && surgeRate && afterPayment <= (config.surge_waiver_threshold ?? Infinity)
       ? surgeRate
       : 0;
-  const finalAmount = Math.max(0, afterPayment + handlingFee + deliveryFee + surgeCharge);
+  const storeAssignment = resolveStoreForPin(state.pin);
+  const emergencyFee = state.emergencyMode && storeAssignment ? Number(storeAssignment.emergency_fee || 0) : 0;
+  const finalAmount = Math.max(0, afterPayment + handlingFee + deliveryFee + surgeCharge + emergencyFee);
 
   summary.subtotal.textContent = formatCurrency(baseTotal);
   summary.coupon.textContent = couponData.amount ? `- ${formatCurrency(couponData.amount)}` : '-INR 0.00';
@@ -118,6 +175,7 @@ function renderSummary() {
   summary.handling.textContent = formatCurrency(handlingFee);
   summary.delivery.textContent = formatCurrency(deliveryFee);
   summary.surge.textContent = formatCurrency(surgeCharge);
+  summary.emergency.textContent = formatCurrency(emergencyFee);
   summary.final.textContent = formatCurrency(finalAmount);
   summary.deliveryNote.textContent =
     deliveryFee === 0
@@ -126,6 +184,7 @@ function renderSummary() {
 
   confirmButton.textContent = `Confirm payment • ${formatCurrency(finalAmount)}`;
   syncHiddenPin();
+  if (emergencyInput) emergencyInput.value = state.emergencyMode ? '1' : '0';
 
   if (couponData.valid) {
     couponMessage.textContent = `Coupon ${couponData.normalized} applied (${couponData.description}).`;
@@ -138,6 +197,8 @@ function renderSummary() {
   }
 
   updatePinMessage(state.pin, surgeCharge);
+  updateStoreHint(storeAssignment);
+  updateEmergencyPreview();
 }
 
 document.querySelectorAll('input[name="payment_mode"]').forEach((el) => {

@@ -9,7 +9,8 @@ const state = {
   query: '',
   sort: 'relevance',
   inStockOnly: false,
-  brand: 'all'
+  brand: 'all',
+  emergencyMode: false,
 };
 const LOAD_CHUNK = 10;
 let visibleLimit = LOAD_CHUNK;
@@ -19,6 +20,12 @@ const surgeThreshold = window.SURGE_WAIVER_THRESHOLD || 499;
 const pinInput = document.getElementById('home-pin');
 const pinFeedback = document.getElementById('pin-feedback');
 const loadMoreBtn = document.getElementById('load-more');
+const EMERGENCY_STORAGE_KEY = 'quickmart_emergency_mode';
+const emergencyToggle = document.getElementById('emergency-toggle');
+const emergencyToggleState = document.getElementById('emergency-toggle-state');
+const emergencyBanner = document.getElementById('emergency-banner');
+const emergencyBannerCopy = document.getElementById('emergency-banner-copy');
+const emergencyBannerNote = document.getElementById('emergency-banner-note');
 
 async function postForm(url, payload) {
   const fd = new FormData();
@@ -63,6 +70,14 @@ async function loadCart() {
 }
 
 async function addToCart(productId) {
+  if (state.emergencyMode) {
+    const targetCard = document.querySelector(`[data-product-id="${productId}"]`);
+    if (!isEmergencyEligibleCard(targetCard)) {
+    const scope = emergencyScopeText() || 'emergency essentials';
+      alert(`Emergency mode only covers ${scope}. Disable emergency mode to add this product.`);
+      return;
+    }
+  }
   await postForm('/cart/add', { product_id: productId, qty: 1 });
   await loadCart();
 }
@@ -119,6 +134,11 @@ function applyProductView() {
   cards.sort(compareCards);
   const matching = [];
   cards.forEach((card) => {
+    const eligibleForEmergency = !state.emergencyMode || isEmergencyEligibleCard(card);
+    if (!eligibleForEmergency) {
+      card.style.display = 'none';
+      return;
+    }
     const categoryOk = state.category === 'all' || card.dataset.category === state.category;
     const queryTarget = `${card.dataset.name || ''} ${card.dataset.brand || ''} ${card.dataset.category || ''}`.toLowerCase();
     const queryOk = !state.query || queryTarget.includes(state.query);
@@ -137,6 +157,7 @@ function applyProductView() {
 
   matching.forEach((card) => grid.appendChild(card));
   updateLoadMore(matching.length);
+  refreshEmergencyCardStyles();
 }
 
 function updateLoadMore(totalMatches) {
@@ -184,6 +205,81 @@ function storePin(value) {
   if (pinInput) {
     pinInput.value = normalized;
   }
+}
+
+function getEmergencyInfo() {
+  return window.EMERGENCY_INFO || {};
+}
+
+function emergencyScopeText() {
+  const info = getEmergencyInfo();
+  return (info.scope || []).join(', ');
+}
+
+function updateEmergencyBannerState() {
+  if (!emergencyBanner || !emergencyBannerCopy) return;
+  if (!state.emergencyMode) {
+    emergencyBanner.classList.add('hidden');
+    return;
+  }
+  const info = getEmergencyInfo();
+  const windowRange = info.window || [10, 20];
+  const scope = emergencyScopeText() || 'emergency essentials';
+  emergencyBanner.classList.remove('hidden');
+  emergencyBannerCopy.textContent =
+    info.description || `Superfast ${windowRange[0]}-${windowRange[1]} minute delivery for ${scope}.`;
+  if (emergencyBannerNote) {
+    emergencyBannerNote.textContent = `Only ${scope} are available while emergency mode is on.`;
+  }
+}
+
+function updateEmergencyButtonState() {
+  if (!emergencyToggle) return;
+  const span = emergencyToggleState;
+  const active = state.emergencyMode;
+  emergencyToggle.setAttribute('aria-pressed', active ? 'true' : 'false');
+  emergencyToggle.classList.toggle('emergency-pill-active', active);
+  if (span) {
+    span.textContent = active ? 'On' : 'Off';
+  }
+}
+
+function persistEmergencyMode(value) {
+  if (!window.localStorage) return;
+  if (value) {
+    localStorage.setItem(EMERGENCY_STORAGE_KEY, '1');
+  } else {
+    localStorage.removeItem(EMERGENCY_STORAGE_KEY);
+  }
+}
+
+function loadStoredEmergencyMode() {
+  if (!window.localStorage) return;
+  const stored = localStorage.getItem(EMERGENCY_STORAGE_KEY);
+  state.emergencyMode = stored === '1';
+  updateEmergencyButtonState();
+  updateEmergencyBannerState();
+}
+
+function isEmergencyEligibleCard(card) {
+  return (card?.dataset?.emergency || '').toLowerCase() === 'true';
+}
+
+function toggleEmergencyMode() {
+  state.emergencyMode = !state.emergencyMode;
+  persistEmergencyMode(state.emergencyMode);
+  updateEmergencyButtonState();
+  updateEmergencyBannerState();
+  resetVisibleLimit();
+  applyProductView();
+}
+
+function refreshEmergencyCardStyles() {
+  const cards = Array.from(document.querySelectorAll('.product-card'));
+  cards.forEach((card) => {
+    const restricted = state.emergencyMode && !isEmergencyEligibleCard(card);
+    card.classList.toggle('emergency-restricted', restricted);
+  });
 }
 
 function loadStoredPin() {
@@ -311,6 +407,10 @@ if (loadMoreBtn) {
   });
 }
 
+if (emergencyToggle) {
+  emergencyToggle.addEventListener('click', toggleEmergencyMode);
+}
+
 if (pinInput) {
   pinInput.addEventListener('input', (e) => {
     storePin(e.target.value);
@@ -327,6 +427,7 @@ document.addEventListener('click', (e) => {
 });
 
 loadStoredPin();
+loadStoredEmergencyMode();
 applyProductView();
 buildBrandFilter();
 loadCart();

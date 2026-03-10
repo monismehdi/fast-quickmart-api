@@ -42,11 +42,11 @@
 
     <section class="status-box payment-details" id="payment-summary" style="display:none;">
       <h3>Payment & delivery summary</h3>
-      <div class="payment-details-grid">
-        <div>
-          <span>Payment mode</span>
-          <strong id="order-payment-mode"></strong>
-        </div>
+        <div class="payment-details-grid">
+          <div>
+            <span>Payment mode</span>
+            <strong id="order-payment-mode"></strong>
+          </div>
         <div>
           <span>Coupon discount</span>
           <strong id="order-coupon-value"></strong>
@@ -59,19 +59,29 @@
           <span>Handling charge</span>
           <strong id="order-handling"></strong>
         </div>
-        <div>
-          <span>Delivery fee</span>
-          <strong id="order-delivery"></strong>
+          <div>
+            <span>Delivery fee</span>
+            <strong id="order-delivery"></strong>
+          </div>
+          <div>
+            <span>Surge charge</span>
+            <strong id="order-surge"></strong>
+          </div>
+          <div>
+            <span>Emergency fee</span>
+            <strong id="order-emergency-fee"></strong>
+          </div>
+          <div class="store-info">
+            <span>Fulfilled by</span>
+            <strong id="order-store-name"></strong>
+            <small id="order-store-distance"></small>
+          </div>
+          <div>
+            <span>Final payment</span>
+            <strong id="order-final"></strong>
+          </div>
         </div>
-        <div>
-          <span>Surge charge</span>
-          <strong id="order-surge"></strong>
-        </div>
-        <div>
-          <span>Final payment</span>
-          <strong id="order-final"></strong>
-        </div>
-      </div>
+      <p id="order-store-note" class="muted"></p>
       <p id="order-delivery-note" class="muted"></p>
       <p id="order-surge-note" class="muted"></p>
     </section>

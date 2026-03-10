@@ -18,6 +18,10 @@ const surgeEl = document.getElementById('order-surge');
 const finalEl = document.getElementById('order-final');
 const deliveryNoteEl = document.getElementById('order-delivery-note');
 const surgeNoteEl = document.getElementById('order-surge-note');
+const emergencyFeeEl = document.getElementById('order-emergency-fee');
+const storeNameEl = document.getElementById('order-store-name');
+const storeDistanceEl = document.getElementById('order-store-distance');
+const storeNoteEl = document.getElementById('order-store-note');
 const INR = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 });
 
 let ws;
@@ -85,6 +89,18 @@ function render(order) {
     handlingEl.textContent = payment.handling_fee ? INR.format(payment.handling_fee) : INR.format(0);
     deliveryEl.textContent = payment.delivery_fee ? INR.format(payment.delivery_fee) : INR.format(0);
     surgeEl.textContent = payment.surge_charge ? INR.format(payment.surge_charge) : INR.format(0);
+    if (emergencyFeeEl) {
+      emergencyFeeEl.textContent = payment.emergency_fee ? INR.format(payment.emergency_fee) : INR.format(0);
+    }
+    if (storeNameEl) {
+      storeNameEl.textContent = payment.store_name || order.store_assignment?.name || '';
+    }
+    if (storeDistanceEl) {
+      storeDistanceEl.textContent = payment.store_distance ? ` ${payment.store_distance}` : '';
+    }
+    if (storeNoteEl) {
+      storeNoteEl.textContent = payment.store_note || order.store_assignment?.status_note || '';
+    }
     finalEl.textContent = INR.format(payment.final_total || order.total);
     deliveryNoteEl.textContent = payment.delivery_note || '';
     surgeNoteEl.textContent = payment.surge_note || '';

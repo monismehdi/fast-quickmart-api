@@ -16,6 +16,10 @@
       <p>Delivery in 30 minutes</p>
     </div>
     <div class="top-actions">
+      <button id="emergency-toggle" class="emergency-pill" type="button" aria-pressed="false">
+        Emergency Mode
+        <span id="emergency-toggle-state">Off</span>
+      </button>
       <span class="profile-pill">{{ user.email }}</span>
       <a href="/profile" class="ghost-link">Profile</a>
       <form action="/logout" method="post"><button type="submit" class="ghost">Logout</button></form>
@@ -23,6 +27,11 @@
   </header>
 
   <main class="layout">
+    <div id="emergency-banner" class="emergency-banner hidden">
+      <strong>Emergency delivery active</strong>
+      <span id="emergency-banner-copy"></span>
+      <small id="emergency-banner-note"></small>
+    </div>
     <section class="catalog">
       <div>
         <h2>Recommended for you</h2>
@@ -97,7 +106,7 @@
       <h2>All Products</h2>
       <div class="grid" id="product-grid">
         {% for p in products %}
-        <article class="card product-card" data-category="{{ p.category }}" data-name="{{ p.name|lower }}" data-brand="{{ p.brand|lower }}" data-brand-name="{{ p.brand }}" data-price="{{ p.price }}" data-stock="{{ p.stock }}" data-discount="{{ p.discount_pct or 0 }}">
+        <article class="card product-card" data-product-id="{{ p.id }}" data-category="{{ p.category }}" data-name="{{ p.name|lower }}" data-brand="{{ p.brand|lower }}" data-brand-name="{{ p.brand }}" data-price="{{ p.price }}" data-stock="{{ p.stock }}" data-discount="{{ p.discount_pct or 0 }}" data-emergency="{{ 'true' if p.emergency_ok else 'false' }}">
           <div class="product-media">
             <a href="/product/{{ p.id }}" class="product-link-overlay" aria-label="View {{ p.name }} details"></a>
             <img src="{{ p.image_url }}" alt="{{ p.name }}" class="product-image" loading="lazy" onload="handleImageLoad(this)" onerror="handleImageError(this)" />
@@ -163,6 +172,7 @@
   <script>
     window.SURGE_INFO = {{ surge_info | tojson }};
     window.SURGE_WAIVER_THRESHOLD = {{ surge_waiver_threshold }};
+    window.EMERGENCY_INFO = {{ emergency_info | tojson }};
   </script>
   <script src="/static/js/shop.js"></script>
   <script src="/static/js/chatbot.js"></script>

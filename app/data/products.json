@@ -2406,5 +2406,145 @@
         "attribution_url": "https://unsplash.com/license"
       }
     ]
+  },
+  {
+    "id": "p44",
+    "name": "Baby Formula Stage 1",
+    "brand": "NurtureMil",
+    "product_key": "baby_formula",
+    "category": "Kids",
+    "price": 1099.0,
+    "stock": 25,
+    "image_url": "/static/images/products/p44.svg",
+    "mrp": 1299.0,
+    "discount_pct": 15,
+    "shelf_life": "12 months",
+    "unit": "1 kg tin",
+    "description": "Baby Formula Stage 1 by NurtureMil is crafted for newborns with nutrition that feels like home.",
+    "highlights": [
+      "Pediatrician recommended blend",
+      "Iron fortified",
+      "Gentle on tummies"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?baby+formula&sig=p44-1",
+      "https://source.unsplash.com/1200x900/?baby+formula&sig=p44-2",
+      "https://source.unsplash.com/1200x900/?baby+formula&sig=p44-3",
+      "https://source.unsplash.com/1200x900/?baby+formula&sig=p44-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Formula photo 1",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p45",
+    "name": "Sanitary Pads UltraThins",
+    "brand": "FlowEase",
+    "product_key": "sanitary_pads",
+    "category": "Daily Essentials",
+    "price": 219.0,
+    "stock": 120,
+    "image_url": "/static/images/products/p45.svg",
+    "mrp": 259.0,
+    "discount_pct": 15,
+    "shelf_life": "36 months",
+    "unit": "10 pack",
+    "description": "Sanitary Pads UltraThins by FlowEase offer breathable comfort for on-the-go needs.",
+    "highlights": [
+      "Leak guard tech",
+      "Dermatologically tested",
+      "Odor lock"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?sanitary+pads&sig=p45-1",
+      "https://source.unsplash.com/1200x900/?sanitary+pads&sig=p45-2",
+      "https://source.unsplash.com/1200x900/?sanitary+pads&sig=p45-3",
+      "https://source.unsplash.com/1200x900/?sanitary+pads&sig=p45-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Sanitary Pads photo",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p46",
+    "name": "First Aid Medicine Kit",
+    "brand": "MedMate",
+    "product_key": "medicine_kit",
+    "category": "Daily Essentials",
+    "price": 799.0,
+    "stock": 30,
+    "image_url": "/static/images/products/p46.svg",
+    "mrp": 959.0,
+    "discount_pct": 16,
+    "shelf_life": "24 months",
+    "unit": "1 kit",
+    "description": "Compact First Aid Kit by MedMate with pain relief, antiseptic, and fever management essentials.",
+    "highlights": [
+      "Prescription-free items",
+      "Travel-ready pouch",
+      "Replenishable"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?first+aid+kit&sig=p46-1",
+      "https://source.unsplash.com/1200x900/?first+aid+kit&sig=p46-2",
+      "https://source.unsplash.com/1200x900/?first+aid+kit&sig=p46-3",
+      "https://source.unsplash.com/1200x900/?first+aid+kit&sig=p46-4"
+    ],
+    "image_credits": [
+      {
+        "title": "First Aid Kit photo",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
+  },
+  {
+    "id": "p47",
+    "name": "FarmFresh Full Cream Milk",
+    "brand": "FarmFresh",
+    "product_key": "full_cream_milk",
+    "category": "Dairy",
+    "price": 120.0,
+    "stock": 60,
+    "image_url": "/static/images/products/p47.svg",
+    "mrp": 149.0,
+    "discount_pct": 19,
+    "shelf_life": "7 days refrigerated",
+    "unit": "1 liter",
+    "description": "Full Cream Milk by FarmFresh, pasteurized and chilled for daily glass of nourishment.",
+    "highlights": [
+      "Farm-to-door freshness",
+      "Calcium rich",
+      "No preservatives"
+    ],
+    "gallery_images": [
+      "https://source.unsplash.com/1200x900/?milk&sig=p47-1",
+      "https://source.unsplash.com/1200x900/?milk&sig=p47-2",
+      "https://source.unsplash.com/1200x900/?milk&sig=p47-3",
+      "https://source.unsplash.com/1200x900/?milk&sig=p47-4"
+    ],
+    "image_credits": [
+      {
+        "title": "Milk photo",
+        "creator": "Unsplash contributors",
+        "license": "Unsplash License",
+        "source": "unsplash",
+        "attribution_url": "https://unsplash.com/license"
+      }
+    ]
   }
 ]
