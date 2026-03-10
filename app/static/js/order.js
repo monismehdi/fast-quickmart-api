@@ -304,19 +304,6 @@ function setupDeliveryMap(order) {
   startRouteAnimation(order.tracking_route || driver.route || []);
 }
 
-if (agentChatBtn) {
-  agentChatBtn.addEventListener('click', () => {
-    const quickNotes = [
-      { label: 'Leave at door', value: 'Please leave the package at the door if no one answers.' },
-      { label: 'Call before arrival', value: 'Call me before you reach the gate; I may be on a call.' },
-      { label: 'Ring twice', value: 'Ring the doorbell twice and wait a moment before knocking.' },
-    ];
-    if (window.quickmartAssistant?.showActionTable) {
-      window.quickmartAssistant.showActionTable(quickNotes, 'What should I tell the rider?');
-    }
-  });
-}
-
 function render(order) {
   statusEl.textContent = `Status: ${order.status}`;
   summaryOrderId.textContent = order.id;

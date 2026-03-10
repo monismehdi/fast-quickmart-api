@@ -107,7 +107,7 @@
     }
   };
 
-  document.addEventListener("DOMContentLoaded", () => {
+  const initWidget = () => {
     if (document.getElementById(WIDGET_ID)) {
       return;
     }
@@ -158,10 +158,25 @@
       input.focus();
     };
 
+    const openWidget = () => {
+      root.classList.add("open");
+      input.focus();
+    };
+
+    const promptAgentChat = (text) => {
+      openWidget();
+      if (text) {
+        appendMessage(log, text, "bot");
+      }
+    };
+
     window.quickmartAssistant = {
       showActionTable,
-      open: () => root.classList.add("open"),
+      open: openWidget,
+      invite: promptAgentChat,
+      openWidget,
     };
+    window.dispatchEvent(new CustomEvent("quickmartAssistantReady"));
 
     trigger.addEventListener("click", () => root.classList.toggle("open"));
     closeBtn.addEventListener("click", () => root.classList.remove("open"));
@@ -176,5 +191,11 @@
       root.classList.add("open");
     });
     updateFootnote(footnote, {});
-  });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initWidget);
+  } else {
+    initWidget();
+  }
 })();

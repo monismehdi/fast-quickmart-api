@@ -165,10 +165,10 @@ class OrderEngine:
 
     async def _persist_and_notify(self, order: dict[str, Any], orders_store: list[dict[str, Any]], save_orders) -> None:
         order["updated_at"] = datetime.now(timezone.utc).isoformat()
-        summary_total = order.get("payment_summary", {}).get("final_total")
-        if summary_total is None:
-            summary_total = round(sum(i["qty"] * i["unit_price"] for i in order["items"] if i["state"] != "skipped"), 2)
+        summary_total = round(sum(i["qty"] * i["unit_price"] for i in order["items"] if i["state"] != "skipped"), 2)
         order["total"] = summary_total
+        if order.get("payment_summary"):
+            order["payment_summary"]["final_total"] = summary_total
 
         for idx, existing in enumerate(orders_store):
             if existing["id"] == order["id"]:
