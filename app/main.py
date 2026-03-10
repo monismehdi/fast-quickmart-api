@@ -851,6 +851,19 @@ async def checkout(
     if fallback_note:
         order["store_assignment"]["status_note"] = fallback_note
     emergency_fee = store_assignment.get("emergency_fee", 0) if emergency_active else 0
+
+    driver_route = [
+        {"lat": 12.9716, "lng": 77.5946},
+        {"lat": 12.9750, "lng": 77.6005},
+        {"lat": 12.9787, "lng": 77.6052},
+        {"lat": 12.9822, "lng": 77.6101},
+    ]
+    order["driver"] = {
+        "name": "Ravi Kumar",
+        "phone": "+919845011223",
+        "vehicle": "Quickmart Bike · AQ-7799",
+        "route": driver_route,
+    }
     payment_summary = build_payment_summary(
         base_total,
         coupon_code,

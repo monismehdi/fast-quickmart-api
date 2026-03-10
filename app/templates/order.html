@@ -35,6 +35,30 @@
       <p id="hold-timer" class="warn"></p>
     </section>
 
+    <section class="status-box map-card" id="map-panel">
+      <div class="map-header">
+        <h3>Live delivery</h3>
+        <span id="delivery-map-countdown">ETA updates in a moment</span>
+      </div>
+      <div id="delivery-map" class="delivery-map">
+        <div class="delivery-route" aria-hidden="true"></div>
+        <div id="delivery-marker" class="delivery-marker">
+          <span>Rider</span>
+        </div>
+      </div>
+      <div class="agent-info">
+        <div>
+          <strong id="agent-name">Ravi Kumar</strong>
+          <p id="agent-vehicle" class="muted">Quickmart Bike · AQ-7799</p>
+        </div>
+        <div class="agent-contacts">
+          <button id="agent-chat" type="button" class="ghost">Chat with agent</button>
+          <a id="agent-call" class="ghost-link" href="tel:+919845011223">Call agent</a>
+        </div>
+      </div>
+      <p id="delivery-instructions-note" class="muted">Share any delivery notes before the rider arrives.</p>
+    </section>
+
     <section class="status-box">
       <h3>Items</h3>
       <div id="order-items"></div>

@@ -164,6 +164,17 @@ input, select { padding: 10px; border-radius: 10px; border: 1px solid #ccc; }
 .error { color: var(--danger); min-height: 20px; }
 .order-wrap { display: grid; gap: 14px; padding: 20px; max-width: 900px; margin: 0 auto; }
 .status-box { background: #fff; border-radius: 14px; padding: 16px; box-shadow: 0 8px 22px rgba(0,0,0,0.08); }
+.map-card { display: flex; flex-direction: column; gap: 10px; }
+.map-header { display: flex; justify-content: space-between; align-items: baseline; }
+.map-header h3 { margin: 0; }
+.delivery-map { position: relative; border-radius: 16px; height: 220px; overflow: hidden; border: 1px solid #e5e5e5; background: linear-gradient(135deg, #dff0ff, #eef6ff); }
+.delivery-route { position: absolute; inset: 16px; border: 2px dashed rgba(255,255,255,0.7); border-radius: 50px; }
+.delivery-marker { position: absolute; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; transform: translate(-50%, -50%); box-shadow: 0 6px 14px rgba(15,138,95,0.45); }
+.agent-info { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.agent-contacts { display: flex; gap: 10px; align-items: center; }
+.agent-contacts .ghost { padding: 8px 14px; font-size: 0.85rem; }
+.agent-contacts .ghost-link { font-size: 0.85rem; text-transform: none; }
+.agent-contacts a { text-decoration: none; }
 .payment-details-grid { margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
 .payment-details-grid div { border: 1px solid #e6f4ea; border-radius: 10px; padding: 10px; background: #f9fdf9; }
 .payment-details-grid span { color: #666; font-size: 0.85rem; }

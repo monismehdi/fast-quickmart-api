@@ -22,13 +22,113 @@ const emergencyFeeEl = document.getElementById('order-emergency-fee');
 const storeNameEl = document.getElementById('order-store-name');
 const storeDistanceEl = document.getElementById('order-store-distance');
 const storeNoteEl = document.getElementById('order-store-note');
+const countdownEl = document.getElementById('delivery-map-countdown');
+const mapMarker = document.getElementById('delivery-marker');
+const agentNameEl = document.getElementById('agent-name');
+const agentVehicleEl = document.getElementById('agent-vehicle');
+const agentCallEl = document.getElementById('agent-call');
+const agentChatBtn = document.getElementById('agent-chat');
+const instructionsEl = document.getElementById('delivery-instructions-note');
 const INR = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 });
+let countdownInterval = null;
+let routeInterval = null;
+let normalizedRoute = [];
+let routeIndex = 0;
 
 let ws;
 let activeIssue;
 let holdInterval = null;
 let selectedReplacementId = null;
 let finalPlacedNotified = false;
+
+function normalizeRoute(route) {
+  if (!route || !route.length) return [];
+  const lats = route.map((point) => point.lat ?? 0);
+  const lngs = route.map((point) => point.lng ?? 0);
+  const minLat = Math.min(...lats);
+  const maxLat = Math.max(...lats);
+  const minLng = Math.min(...lngs);
+  const maxLng = Math.max(...lngs);
+  const latSpan = Math.max(0.0001, maxLat - minLat);
+  const lngSpan = Math.max(0.0001, maxLng - minLng);
+  return route.map((point) => ({
+    x: 10 + (((point.lng ?? 0) - minLng) / lngSpan) * 75,
+    y: 80 - (((point.lat ?? 0) - minLat) / latSpan) * 50,
+  }));
+}
+
+function updateMarkerPosition(point) {
+  if (!mapMarker || !point) return;
+  const x = Math.min(95, Math.max(5, point.x));
+  const y = Math.min(85, Math.max(15, point.y));
+  mapMarker.style.left = `${x}%`;
+  mapMarker.style.top = `${y}%`;
+}
+
+function startRouteAnimation(route) {
+  if (!mapMarker) return;
+  clearInterval(routeInterval);
+  normalizedRoute = normalizeRoute(route);
+  if (!normalizedRoute.length) return;
+  routeIndex = 0;
+  updateMarkerPosition(normalizedRoute[0]);
+  routeInterval = setInterval(() => {
+    routeIndex = (routeIndex + 1) % normalizedRoute.length;
+    updateMarkerPosition(normalizedRoute[routeIndex]);
+  }, 3200);
+}
+
+function startCountdown(minutes) {
+  if (!countdownEl) return;
+  clearInterval(countdownInterval);
+  let seconds = Math.max(0, Math.round((minutes || 0) * 60));
+  const tick = () => {
+    if (seconds <= 0) {
+      countdownEl.textContent = 'Arriving shortly';
+      clearInterval(countdownInterval);
+      return;
+    }
+    const mm = Math.floor(seconds / 60);
+    const ss = seconds % 60;
+    countdownEl.textContent = `ETA ${mm}m ${ss.toString().padStart(2, '0')}s`;
+    seconds -= 1;
+  };
+  tick();
+  countdownInterval = setInterval(tick, 1000);
+}
+
+function updateInstructionText(text) {
+  if (!instructionsEl) return;
+  instructionsEl.textContent = text;
+}
+
+function setupDeliveryMap(order) {
+  const driver = order.driver || {};
+  if (agentNameEl) {
+    agentNameEl.textContent = driver.name || 'Quickmart agent';
+  }
+  if (agentVehicleEl) {
+    agentVehicleEl.textContent = driver.vehicle || 'Quickmart delivery';
+  }
+  if (agentCallEl) {
+    agentCallEl.href = driver.phone ? `tel:${driver.phone}` : '#';
+  }
+  startCountdown(order.eta_minutes || 0);
+  startRouteAnimation(driver.route || []);
+}
+
+if (agentChatBtn) {
+  agentChatBtn.addEventListener('click', () => {
+    const note = prompt('Send a special instruction to the delivery agent:');
+    if (note === null) return;
+    const trimmed = note.trim();
+    if (trimmed) {
+      updateInstructionText(`Instruction sent: “${trimmed}”`);
+    } else {
+      updateInstructionText('No instruction was sent.');
+    }
+  });
+}
 
 function render(order) {
   statusEl.textContent = `Status: ${order.status}`;
@@ -107,6 +207,7 @@ function render(order) {
   } else if (paymentSummarySection) {
     paymentSummarySection.style.display = 'none';
   }
+  setupDeliveryMap(order);
 }
 
 function startHoldTimer(iso) {
