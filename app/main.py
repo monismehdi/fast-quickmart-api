@@ -561,8 +561,10 @@ async def shop(request: Request, user_id: str | None = Cookie(default=None)):
     all_orders = load_orders()
     learned_recommendations = recommend_hybrid_products(user, all_users, all_orders, products, limit=12)
     grouped_recommendations = {
-        "Daily": [product for product in learned_recommendations if product.get("recommendation_pattern") == "daily"],
-        "Weekly": [product for product in learned_recommendations if product.get("recommendation_pattern") == "weekly"],
+        "Soon to Reorder": [
+            product for product in learned_recommendations
+            if product.get("recommendation_pattern") in {"daily", "weekly"}
+        ],
         "Monthly": [product for product in learned_recommendations if product.get("recommendation_pattern") == "monthly"],
     }
     fallback_recommendations = recommend_products(user, all_users, products, limit=12)
