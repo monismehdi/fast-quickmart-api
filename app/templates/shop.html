@@ -32,9 +32,50 @@
         <h2>Recommended for you</h2>
         {% if learned_recommendation_count %}
         <p class="muted">Learned from your repeat order history across daily, weekly, and monthly buying patterns.</p>
+        <div class="recommendation-groups">
+          {% for cadence, items in grouped_recommendations.items() %}
+          <section class="recommendation-group">
+            <div class="recommendation-group-head">
+              <h3>{{ cadence }}</h3>
+              <span class="group-pill">{{ items|length }} pick{{ '' if items|length == 1 else 's' }}</span>
+            </div>
+            <div class="grid compact">
+              {% for p in items %}
+              <article class="card rec">
+                <div class="product-media">
+                  <a href="/product/{{ p.id }}" class="product-link-overlay" aria-label="View {{ p.name }} details"></a>
+                  <img src="{{ p.image_url }}" alt="{{ p.name }}" class="product-image" loading="lazy" onload="handleImageLoad(this)" onerror="handleImageError(this)" />
+                  <div class="product-fallback">
+                    <strong>{{ p.name }}</strong>
+                    <span>{{ p.brand }}</span>
+                  </div>
+                </div>
+                <h3>{{ p.name }}</h3>
+                <p class="muted">{{ p.brand }}</p>
+                {% if p.recommendation_badge %}
+                <p><small class="discount-badge">{{ p.recommendation_badge }}</small></p>
+                {% endif %}
+                {% if p.recommendation_reason %}
+                <p class="muted">{{ p.recommendation_reason }}</p>
+                {% endif %}
+                <p>INR {{ '%.2f'|format(p.price) }}</p>
+                <div class="card-actions">
+                  <a href="/product/{{ p.id }}" class="ghost-link">Details</a>
+                  <button onclick="addToCart('{{ p.id }}')">Add</button>
+                </div>
+              </article>
+              {% else %}
+              <article class="card rec empty-pattern-card">
+                <h3>No {{ cadence.lower() }} pattern yet</h3>
+                <p class="muted">Keep ordering your regular items and we will add {{ cadence.lower() }} habit picks here.</p>
+              </article>
+              {% endfor %}
+            </div>
+          </section>
+          {% endfor %}
+        </div>
         {% else %}
         <p class="muted">We’ll learn your repeat buying patterns here as your order history grows.</p>
-        {% endif %}
         <div class="grid compact">
           {% for p in recommendations %}
           <article class="card rec">
@@ -62,6 +103,7 @@
           </article>
           {% endfor %}
         </div>
+        {% endif %}
       </div>
 
       <div class="search-filter-bar">

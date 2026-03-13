@@ -559,6 +559,11 @@ async def shop(request: Request, user_id: str | None = Cookie(default=None)):
     all_users = load_users()
     all_orders = load_orders()
     learned_recommendations = recommend_from_order_patterns(user, all_orders, products)
+    grouped_recommendations = {
+        "Daily": [product for product in learned_recommendations if product.get("recommendation_pattern") == "daily"],
+        "Weekly": [product for product in learned_recommendations if product.get("recommendation_pattern") == "weekly"],
+        "Monthly": [product for product in learned_recommendations if product.get("recommendation_pattern") == "monthly"],
+    }
     fallback_recommendations = recommend_products(user, all_users, products, limit=12)
     seen_recommendation_ids = {product["id"] for product in learned_recommendations}
     recommendations = list(learned_recommendations)
@@ -595,6 +600,7 @@ async def shop(request: Request, user_id: str | None = Cookie(default=None)):
             "categories": categories,
             "cart": enriched_cart,
             "recommendations": recommendations,
+            "grouped_recommendations": grouped_recommendations,
             "learned_recommendation_count": len(learned_recommendations),
             "peer_recommendations": peer_recommendations,
             "surge_info": SURGE_CHARGES,

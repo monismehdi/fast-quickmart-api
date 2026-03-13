@@ -108,6 +108,12 @@ button.danger { background: var(--danger); }
 .grid.compact { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 .card { background: var(--card); border-radius: 14px; padding: 14px; box-shadow: 0 8px 22px rgba(0,0,0,0.08); }
 .card.rec { border: 2px solid var(--accent-2); }
+.recommendation-groups { display: grid; gap: 16px; margin-bottom: 18px; }
+.recommendation-group { display: grid; gap: 10px; }
+.recommendation-group-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.recommendation-group-head h3 { margin: 0; font-size: 1.05rem; }
+.group-pill { display: inline-flex; align-items: center; justify-content: center; padding: 4px 10px; border-radius: 999px; background: #eef8ef; color: #215a31; font-size: 0.82rem; font-weight: 600; }
+.empty-pattern-card { min-height: 180px; display: grid; align-content: center; }
 .other-user-rec { border-color: #8fbc8f; }
 .catalog { min-width: 0; }
 .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 14px; align-items: center; }
