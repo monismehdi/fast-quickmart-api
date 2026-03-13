@@ -108,6 +108,186 @@
     ]
   },
   {
+    "id": "order_12",
+    "user_id": "user_4",
+    "status": "confirmed",
+    "created_at": "2026-02-12T07:40:00+00:00",
+    "updated_at": "2026-02-12T08:02:00+00:00",
+    "eta_minutes": 30,
+    "active_issue": null,
+    "items": [
+      {
+        "id": "item_1",
+        "product_id": "p8",
+        "name": "Roasted Coffee",
+        "qty": 1,
+        "unit_price": 320.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_2",
+        "product_id": "p4",
+        "name": "Avocado",
+        "qty": 1,
+        "unit_price": 124.0,
+        "state": "placed"
+      }
+    ],
+    "total": 444.0
+  },
+  {
+    "id": "order_13",
+    "user_id": "user_4",
+    "status": "confirmed",
+    "created_at": "2026-02-20T06:55:00+00:00",
+    "updated_at": "2026-02-20T07:18:00+00:00",
+    "eta_minutes": 30,
+    "active_issue": null,
+    "items": [
+      {
+        "id": "item_1",
+        "product_id": "p6",
+        "name": "Free Range Eggs",
+        "qty": 1,
+        "unit_price": 115.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_2",
+        "product_id": "p7",
+        "name": "Protein Bar",
+        "qty": 2,
+        "unit_price": 60.0,
+        "state": "placed"
+      }
+    ],
+    "total": 235.0
+  },
+  {
+    "id": "order_14",
+    "user_id": "user_4",
+    "status": "confirmed",
+    "created_at": "2026-02-27T06:50:00+00:00",
+    "updated_at": "2026-02-27T07:12:00+00:00",
+    "eta_minutes": 30,
+    "active_issue": null,
+    "items": [
+      {
+        "id": "item_1",
+        "product_id": "p6",
+        "name": "Free Range Eggs",
+        "qty": 1,
+        "unit_price": 115.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_2",
+        "product_id": "p7",
+        "name": "Protein Bar",
+        "qty": 1,
+        "unit_price": 60.0,
+        "state": "placed"
+      }
+    ],
+    "total": 175.0
+  },
+  {
+    "id": "order_15",
+    "user_id": "user_4",
+    "status": "confirmed",
+    "created_at": "2026-03-06T07:05:00+00:00",
+    "updated_at": "2026-03-06T07:27:00+00:00",
+    "eta_minutes": 30,
+    "active_issue": null,
+    "items": [
+      {
+        "id": "item_1",
+        "product_id": "p6",
+        "name": "Free Range Eggs",
+        "qty": 1,
+        "unit_price": 115.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_2",
+        "product_id": "p7",
+        "name": "Protein Bar",
+        "qty": 1,
+        "unit_price": 60.0,
+        "state": "placed"
+      }
+    ],
+    "total": 175.0
+  },
+  {
+    "id": "order_16",
+    "user_id": "user_4",
+    "status": "confirmed",
+    "created_at": "2026-03-10T08:00:00+00:00",
+    "updated_at": "2026-03-10T08:17:00+00:00",
+    "eta_minutes": 30,
+    "active_issue": null,
+    "items": [
+      {
+        "id": "item_1",
+        "product_id": "p1",
+        "name": "Organic Bananas",
+        "qty": 1,
+        "unit_price": 49.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_2",
+        "product_id": "p5",
+        "name": "Greek Yogurt",
+        "qty": 1,
+        "unit_price": 95.0,
+        "state": "placed"
+      }
+    ],
+    "total": 144.0
+  },
+  {
+    "id": "order_17",
+    "user_id": "user_4",
+    "status": "confirmed",
+    "created_at": "2026-03-11T08:05:00+00:00",
+    "updated_at": "2026-03-11T08:20:00+00:00",
+    "eta_minutes": 30,
+    "active_issue": null,
+    "items": [
+      {
+        "id": "item_1",
+        "product_id": "p1",
+        "name": "Organic Bananas",
+        "qty": 1,
+        "unit_price": 49.0,
+        "state": "placed"
+      }
+    ],
+    "total": 49.0
+  },
+  {
+    "id": "order_18",
+    "user_id": "user_4",
+    "status": "confirmed",
+    "created_at": "2026-03-12T08:10:00+00:00",
+    "updated_at": "2026-03-12T08:24:00+00:00",
+    "eta_minutes": 30,
+    "active_issue": null,
+    "items": [
+      {
+        "id": "item_1",
+        "product_id": "p1",
+        "name": "Organic Bananas",
+        "qty": 2,
+        "unit_price": 49.0,
+        "state": "placed"
+      }
+    ],
+    "total": 98.0
+  },
+  {
     "id": "order_4",
     "user_id": "user_4",
     "status": "confirmed",

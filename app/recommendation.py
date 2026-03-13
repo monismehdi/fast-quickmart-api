@@ -1,4 +1,5 @@
-from collections import Counter
+from collections import Counter, defaultdict
+from datetime import datetime, timezone
 from typing import Any
 
 
@@ -72,6 +73,96 @@ def recommend_from_similar_orders(
             ranked.append((count, product_by_id[product_id]))
     ranked.sort(key=lambda x: (-x[0], x[1]["name"]))
     return [item[1] for item in ranked[:limit]]
+
+
+def _parse_order_timestamp(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        parsed = datetime.fromisoformat(value)
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        return parsed.replace(tzinfo=timezone.utc)
+    return parsed
+
+
+def _pattern_bucket(days: list[int]) -> tuple[str, int] | None:
+    if not days:
+        return None
+
+    avg_gap = sum(days) / len(days)
+    recent_gaps = days[-2:] if len(days) >= 2 else days
+    if recent_gaps and max(recent_gaps) <= 2 and avg_gap <= 4:
+        return "Daily", 1
+    if avg_gap <= 10 and len(days) >= 2:
+        return "Weekly", 7
+    if avg_gap <= 45:
+        return "Monthly", 30
+    return None
+
+
+def recommend_from_order_patterns(
+    user: dict[str, Any],
+    orders: list[dict[str, Any]],
+    products: list[dict[str, Any]],
+    limit: int = 6,
+) -> list[dict[str, Any]]:
+    now = datetime.now(timezone.utc)
+    product_by_id = {p["id"]: p for p in products if p.get("stock", 0) > 0}
+    item_dates: dict[str, list[datetime]] = defaultdict(list)
+    item_qty: Counter[str] = Counter()
+
+    for order in orders:
+        if order.get("user_id") != user["id"]:
+            continue
+        if order.get("status") == "cancelled":
+            continue
+
+        created_at = _parse_order_timestamp(order.get("created_at"))
+        if not created_at:
+            continue
+
+        for item in order.get("items", []):
+            if item.get("state") in {"skipped", "damaged", "missing", "out_of_stock"}:
+                continue
+            product_id = item.get("product_id")
+            if product_id not in product_by_id:
+                continue
+            item_dates[product_id].append(created_at)
+            item_qty[product_id] += int(item.get("qty", 1))
+
+    ranked: list[tuple[float, dict[str, Any]]] = []
+    for product_id, timestamps in item_dates.items():
+        unique_dates = sorted({ts.date() for ts in timestamps})
+        if len(unique_dates) < 2:
+            continue
+
+        gaps = [
+            max((current - previous).days, 1)
+            for previous, current in zip(unique_dates, unique_dates[1:])
+        ]
+        pattern = _pattern_bucket(gaps)
+        if not pattern:
+            continue
+
+        label, target_gap = pattern
+        days_since_last = max((now.date() - unique_dates[-1]).days, 0)
+        timing_fit = 1 - min(abs(days_since_last - target_gap) / max(target_gap, 1), 1)
+        frequency_score = len(unique_dates) * 2 + item_qty[product_id] * 0.35
+        score = round(frequency_score + (timing_fit * 4), 3)
+
+        product = dict(product_by_id[product_id])
+        product["recommendation_badge"] = f"{label} pick"
+        product["recommendation_reason"] = (
+            f"You usually reorder this {label.lower()} and it looks close to your next cycle."
+        )
+        product["recommendation_pattern"] = label.lower()
+        product["recommendation_score"] = score
+        ranked.append((score, product))
+
+    ranked.sort(key=lambda entry: (-entry[0], entry[1]["name"]))
+    return [product for _, product in ranked[:limit]]
 
 
 def replacement_suggestions(

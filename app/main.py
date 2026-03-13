@@ -11,7 +11,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from app.orders import ConnectionManager, OrderEngine
-from app.recommendation import recommend_from_similar_orders, recommend_products
+from app.recommendation import (
+    recommend_from_order_patterns,
+    recommend_from_similar_orders,
+    recommend_products,
+)
 from app.repository import next_id, read_data, write_data
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -554,7 +558,17 @@ async def shop(request: Request, user_id: str | None = Cookie(default=None)):
     cart = carts.get(user["id"], [])
     all_users = load_users()
     all_orders = load_orders()
-    recommendations = recommend_products(user, all_users, products)
+    learned_recommendations = recommend_from_order_patterns(user, all_orders, products)
+    fallback_recommendations = recommend_products(user, all_users, products, limit=12)
+    seen_recommendation_ids = {product["id"] for product in learned_recommendations}
+    recommendations = list(learned_recommendations)
+    for product in fallback_recommendations:
+        if product["id"] in seen_recommendation_ids:
+            continue
+        recommendations.append(product)
+        seen_recommendation_ids.add(product["id"])
+        if len(recommendations) >= 6:
+            break
     peer_recommendations = recommend_from_similar_orders(user, all_users, all_orders, products)
     product_by_id = {p["id"]: p for p in products}
 
@@ -581,6 +595,7 @@ async def shop(request: Request, user_id: str | None = Cookie(default=None)):
             "categories": categories,
             "cart": enriched_cart,
             "recommendations": recommendations,
+            "learned_recommendation_count": len(learned_recommendations),
             "peer_recommendations": peer_recommendations,
             "surge_info": SURGE_CHARGES,
             "surge_waiver_threshold": SURGE_WAIVER_THRESHOLD,
