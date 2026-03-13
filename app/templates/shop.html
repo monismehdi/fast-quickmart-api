@@ -55,6 +55,18 @@
                 {% if p.recommendation_badge %}
                 <p><small class="discount-badge">{{ p.recommendation_badge }}</small></p>
                 {% endif %}
+                {% if p.recommendation_confidence %}
+                <div class="confidence-meter" aria-label="Recommendation confidence {{ p.recommendation_confidence }} percent">
+                  <span class="confidence-fill" style="width: {{ p.recommendation_confidence }}%"></span>
+                </div>
+                {% endif %}
+                {% if p.recommendation_reasons %}
+                <div class="reason-chips">
+                  {% for reason in p.recommendation_reasons %}
+                  <span class="reason-chip">{{ reason }}</span>
+                  {% endfor %}
+                </div>
+                {% endif %}
                 {% if p.recommendation_reason %}
                 <p class="muted">{{ p.recommendation_reason }}</p>
                 {% endif %}
@@ -91,6 +103,18 @@
             <p class="muted">{{ p.brand }}</p>
             {% if p.recommendation_badge %}
             <p><small class="discount-badge">{{ p.recommendation_badge }}</small></p>
+            {% endif %}
+            {% if p.recommendation_confidence %}
+            <div class="confidence-meter" aria-label="Recommendation confidence {{ p.recommendation_confidence }} percent">
+              <span class="confidence-fill" style="width: {{ p.recommendation_confidence }}%"></span>
+            </div>
+            {% endif %}
+            {% if p.recommendation_reasons %}
+            <div class="reason-chips">
+              {% for reason in p.recommendation_reasons %}
+              <span class="reason-chip">{{ reason }}</span>
+              {% endfor %}
+            </div>
             {% endif %}
             {% if p.recommendation_reason %}
             <p class="muted">{{ p.recommendation_reason }}</p>

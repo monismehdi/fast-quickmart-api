@@ -114,6 +114,10 @@ button.danger { background: var(--danger); }
 .recommendation-group-head h3 { margin: 0; font-size: 1.05rem; }
 .group-pill { display: inline-flex; align-items: center; justify-content: center; padding: 4px 10px; border-radius: 999px; background: #eef8ef; color: #215a31; font-size: 0.82rem; font-weight: 600; }
 .empty-pattern-card { min-height: 180px; display: grid; align-content: center; }
+.confidence-meter { margin: 8px 0 6px; height: 7px; border-radius: 999px; background: #e8efe8; overflow: hidden; }
+.confidence-fill { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #93d17d, #2f9e44); }
+.reason-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+.reason-chip { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 999px; background: #f2f7ef; color: #446338; font-size: 0.76rem; }
 .other-user-rec { border-color: #8fbc8f; }
 .catalog { min-width: 0; }
 .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 14px; align-items: center; }

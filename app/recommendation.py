@@ -165,6 +165,108 @@ def recommend_from_order_patterns(
     return [product for _, product in ranked[:limit]]
 
 
+def recommend_hybrid_products(
+    user: dict[str, Any],
+    all_users: list[dict[str, Any]],
+    orders: list[dict[str, Any]],
+    products: list[dict[str, Any]],
+    limit: int = 12,
+) -> list[dict[str, Any]]:
+    now = datetime.now(timezone.utc)
+    liked = set(user.get("likes", []))
+    similar_users = _similar_users(user, all_users)
+    similar_user_ids = {candidate["id"] for candidate in similar_users}
+    product_by_id = {product["id"]: product for product in products if product.get("stock", 0) > 0}
+    pattern_products = {
+        product["id"]: product for product in recommend_from_order_patterns(user, orders, products, limit=max(limit, 12))
+    }
+
+    personal_counts: Counter[str] = Counter()
+    recent_counts: Counter[str] = Counter()
+    similar_likes: Counter[str] = Counter()
+    similar_orders: Counter[str] = Counter()
+
+    for candidate in similar_users:
+        similar_likes.update(candidate.get("likes", []))
+
+    for order in orders:
+        created_at = _parse_order_timestamp(order.get("created_at"))
+        if not created_at:
+            continue
+
+        if order.get("user_id") == user["id"] and order.get("status") != "cancelled":
+            age_days = max((now - created_at).days, 0)
+            recency_weight = 3 if age_days <= 7 else 2 if age_days <= 21 else 1
+            for item in order.get("items", []):
+                if item.get("state") in {"skipped", "damaged", "missing", "out_of_stock"}:
+                    continue
+                product_id = item.get("product_id")
+                if product_id not in product_by_id:
+                    continue
+                qty = int(item.get("qty", 1))
+                personal_counts[product_id] += qty
+                recent_counts[product_id] += qty * recency_weight
+
+        if order.get("user_id") in similar_user_ids:
+            for item in order.get("items", []):
+                if item.get("state") == "skipped":
+                    continue
+                product_id = item.get("product_id")
+                if product_id in product_by_id:
+                    similar_orders[product_id] += int(item.get("qty", 1))
+
+    ranked: list[tuple[float, dict[str, Any]]] = []
+    for product in product_by_id.values():
+        product_id = product["id"]
+        score = 0.0
+        reasons: list[str] = []
+
+        if product_id in pattern_products:
+            pattern_product = pattern_products[product_id]
+            score += float(pattern_product.get("recommendation_score", 0)) + 12
+            reasons.append(pattern_product.get("recommendation_badge", "Repeat pick"))
+        if personal_counts.get(product_id):
+            score += min(personal_counts[product_id] * 2.4, 14)
+            reasons.append("You reorder this")
+        if recent_counts.get(product_id):
+            score += min(recent_counts[product_id] * 1.3, 12)
+            reasons.append("Recently bought")
+        if product_id in liked:
+            score += 6
+            reasons.append("In your likes")
+        if similar_likes.get(product_id):
+            score += min(similar_likes[product_id] * 1.4, 7)
+            reasons.append("People like you save this")
+        if similar_orders.get(product_id):
+            score += min(similar_orders[product_id] * 0.9, 8)
+            reasons.append("People like you order this")
+
+        if score <= 0:
+            continue
+
+        enriched = dict(product)
+        if product_id in pattern_products:
+            enriched.update({
+                "recommendation_badge": pattern_products[product_id].get("recommendation_badge"),
+                "recommendation_pattern": pattern_products[product_id].get("recommendation_pattern"),
+                "recommendation_reason": pattern_products[product_id].get("recommendation_reason"),
+            })
+        else:
+            enriched["recommendation_badge"] = "Smart pick"
+            primary_reason = reasons[0].lower() if reasons else "your shopping style"
+            enriched["recommendation_reason"] = f"Suggested from {primary_reason} and nearby shopping habits."
+
+        unique_reasons = list(dict.fromkeys(reasons))
+        confidence = max(32, min(int(score * 4), 98))
+        enriched["recommendation_reasons"] = unique_reasons[:3]
+        enriched["recommendation_score"] = round(score, 3)
+        enriched["recommendation_confidence"] = confidence
+        ranked.append((score, enriched))
+
+    ranked.sort(key=lambda entry: (-entry[0], entry[1]["name"]))
+    return [product for _, product in ranked[:limit]]
+
+
 def replacement_suggestions(
     missing_product: dict[str, Any],
     products: list[dict[str, Any]],

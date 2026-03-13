@@ -12,6 +12,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.orders import ConnectionManager, OrderEngine
 from app.recommendation import (
+    recommend_hybrid_products,
     recommend_from_order_patterns,
     recommend_from_similar_orders,
     recommend_products,
@@ -558,7 +559,7 @@ async def shop(request: Request, user_id: str | None = Cookie(default=None)):
     cart = carts.get(user["id"], [])
     all_users = load_users()
     all_orders = load_orders()
-    learned_recommendations = recommend_from_order_patterns(user, all_orders, products)
+    learned_recommendations = recommend_hybrid_products(user, all_users, all_orders, products, limit=12)
     grouped_recommendations = {
         "Daily": [product for product in learned_recommendations if product.get("recommendation_pattern") == "daily"],
         "Weekly": [product for product in learned_recommendations if product.get("recommendation_pattern") == "weekly"],
