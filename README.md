@@ -2,10 +2,18 @@
 
 FastAPI demo app for 30-minute delivery ordering, AI-like recommendations, and live order packing tracking with WebSockets.
 
+## Tech Stack
+
+- `FastAPI` for the web app and API routes
+- `Jinja2` for server-rendered templates
+- `WebSockets` for live order tracking updates
+- `scikit-learn` for the user-item `NearestNeighbors` recommendation model
+- JSON-backed local storage in `app/data/*.json` for demo-friendly persistence
+
 ## Highlights
 
 - **Persona-aware onboarding** – signup captures `age_group`, `lifestyle`, `personality`, and `app_usage`, stores likes, and keeps credentials in `app/data/users.json` so each user arrives with a profile.
-- **Personalized shop** – `/shop` now blends a hybrid recommendation layer built from repeat-order cadence, recency, reorder frequency, likes, and similar-user behavior. The top of the page groups learned suggestions into `Daily`, `Weekly`, and `Monthly` blocks with confidence bars and “why this” chips, while still keeping a searchable/sortable catalog, in-stock filtering, floating carts driven by `app/static/js/shop.js`, load-more controls, and a home-page PIN widget that previews surge zones (`app/templates/shop.html`, `app/static/js/shop.js`, `app/static/css/style.css`, `app/recommendation.py`).
+- **Personalized shop** – `/shop` now uses a `scikit-learn` `NearestNeighbors` recommender trained from `app/data/orders.json` to score products from similar shoppers with a user-item similarity model. The recommendation area keeps the grouped UI by showing `Soon to Reorder` and `Monthly` blocks, confidence bars, and “why this” chips, while gracefully falling back to the earlier hybrid heuristic layer when ML data is sparse or unavailable. The rest of the shopping flow still includes a searchable/sortable catalog, in-stock filtering, floating carts driven by `app/static/js/shop.js`, load-more controls, and a home-page PIN widget that previews surge zones (`app/templates/shop.html`, `app/static/js/shop.js`, `app/static/css/style.css`, `app/recommendation.py`).
 - **Cart, checkout, and simulated packing** – REST endpoints under `/cart/*`, `/checkout`, and `/api/orders/*` save state via `app/repository.py` to JSON files; `OrderEngine` in `app/orders.py` simulates packing/issue handling and publishes updates over WebSockets (`/ws/orders/{order_id}`).
 - **Actionable order tracking** – `/order/{order_id}` shows live status, ETA, hold timer, issue resolution (continue, replace, cancel), and replacement suggestions fetched when items are missing/damaged.
 - **Profile + history** – `/profile` renders stored user details plus paginated order history and auto-refreshing live orders (polling every 4 seconds via `app/static/js/profile.js`).
@@ -18,15 +26,15 @@ FastAPI demo app for 30-minute delivery ordering, AI-like recommendations, and l
 ## Structure
 
 - `app/main.py` orchestrates templated views, cart/order APIs, search suggestion endpoints, and WebSocket routing for order decisions.
-- `app/recommendation.py` powers the hybrid recommendation scoring layer, repeat-order cadence detection, collaborative likes rankings, and replacement suggestions used by the shop and order engine.
+- `app/recommendation.py` now powers both the `scikit-learn` ML recommender and the hybrid fallback layer, along with repeat-order cadence detection, collaborative ranking helpers, and replacement suggestions used by the shop and order engine.
 - `app/orders.py` keeps the `ConnectionManager` and `OrderEngine` that queue decisions, simulate packing delays, handle missing/damaged products, and trigger recommendation-based replacements.
 - Static assets in `app/templates` (login, shop, profile, product, order) pair with `app/static/js` logic to render the front-end behaviors described above.
 
 ## Future Updates
 
-- [ ] Add a real ML recommender using `scikit-learn` as the next recommendation engine upgrade, starting with a simple user-item similarity or `NearestNeighbors` model trained from `app/data/orders.json`.
-- [ ] Compare the current hybrid heuristic recommender against the ML version and keep graceful fallback behavior when order data is sparse.
-- [ ] Add light evaluation/debug tooling so recommendation reasons, confidence, and ranking changes are easier to inspect during development.
+- [ ] Compare the current `scikit-learn` recommender against the hybrid fallback layer and tune when each one should take over.
+- [ ] Add light evaluation/debug tooling so recommendation reasons, confidence, neighbor matches, and ranking changes are easier to inspect during development.
+- [ ] Explore a stronger ML variant such as item-item similarity, basket association rules, or a retraining-friendly offline pipeline.
 
 ## Run
 
