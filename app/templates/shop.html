@@ -32,6 +32,7 @@
         <h2>Recommended for you</h2>
         {% if learned_recommendation_count %}
         <p class="muted">Learned from your repeat order history across daily, weekly, and monthly buying patterns.</p>
+        <p class="muted">Engine: {{ recommendation_engine }}</p>
         <div class="recommendation-groups">
           {% for cadence, items in grouped_recommendations.items() %}
           <section class="recommendation-group">
@@ -88,6 +89,7 @@
         </div>
         {% else %}
         <p class="muted">We’ll learn your repeat buying patterns here as your order history grows.</p>
+        <p class="muted">Engine: {{ recommendation_engine }}</p>
         <div class="grid compact">
           {% for p in recommendations %}
           <article class="card rec">

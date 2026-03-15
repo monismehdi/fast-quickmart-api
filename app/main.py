@@ -12,6 +12,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.orders import ConnectionManager, OrderEngine
 from app.recommendation import (
+    recommend_ml_products,
     recommend_hybrid_products,
     recommend_from_order_patterns,
     recommend_from_similar_orders,
@@ -559,7 +560,9 @@ async def shop(request: Request, user_id: str | None = Cookie(default=None)):
     cart = carts.get(user["id"], [])
     all_users = load_users()
     all_orders = load_orders()
-    learned_recommendations = recommend_hybrid_products(user, all_users, all_orders, products, limit=12)
+    ml_recommendations = recommend_ml_products(user, all_users, all_orders, products, limit=12)
+    learned_recommendations = ml_recommendations or recommend_hybrid_products(user, all_users, all_orders, products, limit=12)
+    recommendation_engine = "scikit-learn nearest neighbors" if ml_recommendations else "hybrid fallback"
     grouped_recommendations = {
         "Soon to Reorder": [
             product for product in learned_recommendations
@@ -605,6 +608,7 @@ async def shop(request: Request, user_id: str | None = Cookie(default=None)):
             "recommendations": recommendations,
             "grouped_recommendations": grouped_recommendations,
             "learned_recommendation_count": len(learned_recommendations),
+            "recommendation_engine": recommendation_engine,
             "peer_recommendations": peer_recommendations,
             "surge_info": SURGE_CHARGES,
             "surge_waiver_threshold": SURGE_WAIVER_THRESHOLD,

@@ -2,6 +2,13 @@ from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from typing import Any
 
+try:
+    import numpy as np
+    from sklearn.neighbors import NearestNeighbors
+except ImportError:  # pragma: no cover - graceful fallback when sklearn is unavailable
+    np = None
+    NearestNeighbors = None
+
 
 def _similar_users(user: dict[str, Any], all_users: list[dict[str, Any]]) -> list[dict[str, Any]]:
     similar_users = []
@@ -262,6 +269,140 @@ def recommend_hybrid_products(
         enriched["recommendation_score"] = round(score, 3)
         enriched["recommendation_confidence"] = confidence
         ranked.append((score, enriched))
+
+    ranked.sort(key=lambda entry: (-entry[0], entry[1]["name"]))
+    return [product for _, product in ranked[:limit]]
+
+
+def recommend_ml_products(
+    user: dict[str, Any],
+    all_users: list[dict[str, Any]],
+    orders: list[dict[str, Any]],
+    products: list[dict[str, Any]],
+    limit: int = 12,
+    neighbors: int = 4,
+) -> list[dict[str, Any]]:
+    if np is None or NearestNeighbors is None:
+        return []
+
+    product_by_id = {product["id"]: product for product in products if product.get("stock", 0) > 0}
+    if len(product_by_id) < 2:
+        return []
+
+    user_ids = [candidate["id"] for candidate in all_users]
+    product_ids = sorted(product_by_id.keys())
+    user_index = {user_id: idx for idx, user_id in enumerate(user_ids)}
+    product_index = {product_id: idx for idx, product_id in enumerate(product_ids)}
+    matrix = np.zeros((len(user_ids), len(product_ids)), dtype=float)
+    purchase_history: dict[str, Counter[str]] = defaultdict(Counter)
+
+    for order in orders:
+        order_user_id = order.get("user_id")
+        row = user_index.get(order_user_id)
+        if row is None or order.get("status") == "cancelled":
+            continue
+        for item in order.get("items", []):
+            if item.get("state") in {"skipped", "damaged", "missing", "out_of_stock"}:
+                continue
+            product_id = item.get("product_id")
+            column = product_index.get(product_id)
+            if column is None:
+                continue
+            qty = float(int(item.get("qty", 1)))
+            matrix[row, column] += qty
+            purchase_history[order_user_id][product_id] += int(qty)
+
+    active_rows = [idx for idx, values in enumerate(matrix) if float(values.sum()) > 0]
+    if len(active_rows) < 2:
+        return []
+
+    target_row = user_index.get(user["id"])
+    if target_row is None or float(matrix[target_row].sum()) <= 0:
+        return []
+
+    active_matrix = matrix[active_rows]
+    active_user_ids = [user_ids[idx] for idx in active_rows]
+    active_lookup = {user_id: idx for idx, user_id in enumerate(active_user_ids)}
+    target_active_row = active_lookup.get(user["id"])
+    if target_active_row is None:
+        return []
+
+    n_neighbors = min(max(neighbors, 2), len(active_user_ids))
+    model = NearestNeighbors(metric="cosine", algorithm="brute", n_neighbors=n_neighbors)
+    model.fit(active_matrix)
+    distances, indices = model.kneighbors(active_matrix[target_active_row].reshape(1, -1))
+
+    neighbor_contrib = np.zeros(len(product_ids), dtype=float)
+    reasons_by_product: dict[str, list[str]] = defaultdict(list)
+    for distance, active_idx in zip(distances[0], indices[0]):
+        neighbor_id = active_user_ids[int(active_idx)]
+        if neighbor_id == user["id"]:
+            continue
+        weight = max(1.0 - float(distance), 0.0)
+        if weight <= 0:
+            continue
+        neighbor_vector = active_matrix[int(active_idx)]
+        neighbor_contrib += neighbor_vector * weight
+        top_neighbor_products = np.argsort(neighbor_vector)[::-1][:3]
+        for product_idx in top_neighbor_products:
+            value = neighbor_vector[int(product_idx)]
+            if value <= 0:
+                continue
+            product_id = product_ids[int(product_idx)]
+            reasons_by_product[product_id].append("ML similar shoppers")
+
+    if float(neighbor_contrib.sum()) <= 0:
+        return []
+
+    own_vector = active_matrix[target_active_row]
+    pattern_products = {
+        product["id"]: product for product in recommend_from_order_patterns(user, orders, products, limit=max(limit, 12))
+    }
+    similar_order_products = {
+        product["id"] for product in recommend_from_similar_orders(user, all_users, orders, products, limit=max(limit, 12))
+    }
+    liked = set(user.get("likes", []))
+
+    ranked: list[tuple[float, dict[str, Any]]] = []
+    for idx, product_id in enumerate(product_ids):
+        base_score = float(neighbor_contrib[idx])
+        if base_score <= 0:
+            continue
+
+        score = base_score
+        reasons = list(dict.fromkeys(reasons_by_product.get(product_id, [])))
+        if float(own_vector[idx]) > 0:
+            score += min(float(own_vector[idx]) * 0.8, 4.5)
+            reasons.append("You buy this too")
+        if product_id in pattern_products:
+            score += 6.0
+            reasons.append(pattern_products[product_id].get("recommendation_badge", "Repeat pick"))
+        if product_id in liked:
+            score += 2.0
+            reasons.append("In your likes")
+        if product_id in similar_order_products:
+            score += 2.5
+            reasons.append("Strong neighbor match")
+
+        product = dict(product_by_id[product_id])
+        if product_id in pattern_products:
+            product.update({
+                "recommendation_badge": pattern_products[product_id].get("recommendation_badge"),
+                "recommendation_pattern": pattern_products[product_id].get("recommendation_pattern"),
+                "recommendation_reason": pattern_products[product_id].get("recommendation_reason"),
+            })
+        else:
+            product["recommendation_badge"] = "ML pick"
+            product["recommendation_pattern"] = "weekly"
+            product["recommendation_reason"] = "Suggested by a scikit-learn nearest-neighbors model trained on similar shopping baskets."
+
+        unique_reasons = list(dict.fromkeys(reasons))
+        confidence = max(35, min(int(score * 12), 98))
+        product["recommendation_reasons"] = unique_reasons[:3] or ["ML similar shoppers"]
+        product["recommendation_confidence"] = confidence
+        product["recommendation_score"] = round(score, 3)
+        product["recommendation_model"] = "scikit-nearest-neighbors"
+        ranked.append((score, product))
 
     ranked.sort(key=lambda entry: (-entry[0], entry[1]["name"]))
     return [product for _, product in ranked[:limit]]

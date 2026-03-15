@@ -2621,5 +2621,145 @@
       "store_note": "Serving from your neighbourhood hub."
     },
     "total": 214.0
+  },
+  {
+    "id": "order_35",
+    "user_id": "user_seed_1",
+    "status": "confirmed",
+    "created_at": "2026-03-15T10:20:03.089716+00:00",
+    "updated_at": "2026-03-15T10:21:10.904473+00:00",
+    "eta_minutes": 30,
+    "active_issue": null,
+    "items": [
+      {
+        "id": "item_1",
+        "product_id": "p7",
+        "name": "Almond Milk",
+        "brand": "NutriSip",
+        "qty": 1,
+        "unit_price": 240.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_2",
+        "product_id": "p30",
+        "name": "Apple",
+        "brand": "HillFresh",
+        "qty": 1,
+        "unit_price": 165.0,
+        "state": "placed"
+      },
+      {
+        "id": "item_3",
+        "product_id": "p31",
+        "name": "Basmati Rice",
+        "brand": "GrainVale",
+        "qty": 1,
+        "unit_price": 125.0,
+        "state": "skipped"
+      },
+      {
+        "id": "item_4",
+        "product_id": "p32",
+        "name": "Toor Dal",
+        "brand": "PulsePure",
+        "qty": 1,
+        "unit_price": 138.0,
+        "state": "placed"
+      }
+    ],
+    "store_assignment": {
+      "id": "qm_central",
+      "name": "Quickmart Central Hub",
+      "distance_label": "1.2 km",
+      "eta_modifier": 0,
+      "emergency_fee": 20,
+      "status_note": "Serving from your neighbourhood hub.",
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "emergency_mode": false,
+    "store_location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "customer_location": {
+      "lat": 12.9736,
+      "lng": 77.5991
+    },
+    "distance_km": 0.54,
+    "tracking_route": [
+      {
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      {
+        "lat": 12.972100000000001,
+        "lng": 77.595725
+      },
+      {
+        "lat": 12.9726,
+        "lng": 77.59685
+      },
+      {
+        "lat": 12.973099999999999,
+        "lng": 77.597975
+      },
+      {
+        "lat": 12.9736,
+        "lng": 77.5991
+      }
+    ],
+    "driver": {
+      "name": "Ravi Kumar",
+      "phone": "+919845011223",
+      "vehicle": "Quickmart Bike \u00b7 AQ-7799",
+      "route": [
+        {
+          "lat": 12.9716,
+          "lng": 77.5946
+        },
+        {
+          "lat": 12.972100000000001,
+          "lng": 77.595725
+        },
+        {
+          "lat": 12.9726,
+          "lng": 77.59685
+        },
+        {
+          "lat": 12.973099999999999,
+          "lng": 77.597975
+        },
+        {
+          "lat": 12.9736,
+          "lng": 77.5991
+        }
+      ],
+      "assigned_at": "2026-03-15T10:21:01.890296+00:00"
+    },
+    "payment_summary": {
+      "base_total": 668.0,
+      "coupon_code": null,
+      "coupon_discount": 0.0,
+      "coupon_label": null,
+      "payment_mode": "cod",
+      "payment_label": "Cash on Delivery",
+      "payment_discount": 0.0,
+      "payment_description": "Pay in cash when we arrive.",
+      "handling_fee": 25,
+      "delivery_fee": 0,
+      "surge_charge": 0,
+      "pin_code": "",
+      "surge_note": "",
+      "delivery_note": "Delivery fee waived for orders above \u20b9299.",
+      "final_total": 543.0,
+      "emergency_mode": false,
+      "emergency_fee": 0.0,
+      "store_name": "Quickmart Central Hub",
+      "store_distance": "1.2 km",
+      "store_note": "Serving from your neighbourhood hub."
+    },
+    "total": 543.0
   }
 ]
